@@ -5,6 +5,7 @@
       <configuration>
         <option name="connectionName" value="margophoneshop@lwc.org" />
         <option name="connectionType" value="OAUTH" />
+        <option name="defaultSourceRootUrl" value="file://$MODULE_DIR$/force-app/main/default" />
       </configuration>
     </facet>
   </component>
@@ -14,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/force-app/main/default" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/config" type="java-resource" />
     </content>
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (PhoneShop/margophoneshop@lwc.org)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
