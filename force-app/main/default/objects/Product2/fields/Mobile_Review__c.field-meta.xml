@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Mobile Review</label>
-    <referenceTo>MobileReview__c</referenceTo>
+    <referenceTo>Mobile_Review__c</referenceTo>
     <relationshipLabel>Products</relationshipLabel>
     <relationshipName>Products</relationshipName>
     <required>false</required>
