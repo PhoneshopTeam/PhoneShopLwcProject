@@ -1,0 +1,65 @@
+<template>
+  <lightning-card title="Personal office" icon-name="standard:avatar">
+    <lightning-record-edit-form record-id={contactId} object-api-name="Contact">
+      <lightning-messages> </lightning-messages>
+      <lightning-input-field field-name="FirstName"> </lightning-input-field>
+      <lightning-input-field field-name="LastName"> </lightning-input-field>
+      <lightning-input-field field-name="Phone"> </lightning-input-field>
+      <lightning-input-field field-name="Email"> </lightning-input-field>
+      <lightning-button
+        class="slds-m-top_small"
+        variant="brand"
+        type="submit"
+        name="update"
+        label="Update"
+      >
+      </lightning-button>
+    </lightning-record-edit-form>
+    <div class="slds-button-group" role="group">
+      <lightning-button
+        class="slds-m-top_small"
+        variant="neutral"
+        type="submit"
+        name={labelOfOrderButton}
+        label={labelOfOrderButton}
+        onclick={handleViewOrders}
+      >
+      </lightning-button>
+      <lightning-button
+        class="slds-m-top_small"
+        variant="neutral"
+        type="submit"
+        name="View all my cases"
+        label={labelOfCaseButton}
+        onclick={handleViewCases}
+      >
+      </lightning-button>
+    </div>
+    <template if:true={isHideOrders}>
+      <lightning-card title="Orders" icon-name="standard:orders">
+        <lightning-datatable
+          key-field="Id"
+          data={orders}
+          columns={columnsForOrders}
+          hide-checkbox-column="false"
+          onrowaction={navigateToOrderRecord}
+        >
+          >
+        </lightning-datatable>
+      </lightning-card>
+    </template>
+    <template if:true={isHideCases}>
+      <lightning-card title="Cases" icon-name="standard:case">
+        <lightning-datatable
+          key-field="Id"
+          data={cases}
+          columns={columnsForCases}
+          hide-checkbox-column="false"
+          onrowaction={navigateToCaseRecord}
+        >
+          >
+        </lightning-datatable>
+      </lightning-card>
+    </template>
+  </lightning-card>
+</template>
