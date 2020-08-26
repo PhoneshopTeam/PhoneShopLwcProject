@@ -1,12 +1,25 @@
 <template>
   <lightning-card title="New order" icon-name="custom:custom28">
-    <lightning-record-view-form record-id={contactId} object-api-name="Contact">
-      <lightning-messages> </lightning-messages>
-      <lightning-output-field field-name="FirstName"> </lightning-output-field>
-      <lightning-output-field field-name="LastName"> </lightning-output-field>
-      <lightning-output-field field-name="Phone"> </lightning-output-field>
-      <lightning-output-field field-name="Email"> </lightning-output-field>
-      <lightning-output-field field-name="Personal_discont__c"></lightning-output-field>
-    </lightning-record-view-form>
+    <template if:true={mobiles.data}>
+      <lightning-datatable
+        key-field="Id"
+        data={mobiles.data}
+        columns={columns}
+        hide-checkbox-column="false"
+      >
+      </lightning-datatable>
+    </template>
+    <template if:true={mobiles.error}></template>
+    <lightning-card title="Recipient" icon-name="standard:avatar">
+      <lightning-record-form
+        record-id={contactId}
+        object-api-name="Contact"
+        fields={fields}
+        columns="1"
+        mode="View"
+        onsubmit={handleSubmit}
+      >
+      </lightning-record-form>
+    </lightning-card>
   </lightning-card>
 </template>
