@@ -8,7 +8,6 @@
       <lightning-input-field field-name="Email"> </lightning-input-field>
       <lightning-output-field field-name="Personal_discont__c">
       </lightning-output-field>
-
       <lightning-button
         class="slds-m-top_small"
         variant="brand"
@@ -23,7 +22,6 @@
         class="slds-m-top_small"
         variant="neutral"
         type="submit"
-        name={labelOfOrderButton}
         label={labelOfOrderButton}
         onclick={handleViewOrders}
       >
@@ -32,36 +30,119 @@
         class="slds-m-top_small"
         variant="neutral"
         type="submit"
-        name="View all my cases"
         label={labelOfCaseButton}
         onclick={handleViewCases}
+      >
+      </lightning-button>
+      <lightning-button
+        class="slds-m-top_small"
+        variant="neutral"
+        type="submit"
+        label={labelOfAddressesButton}
+        onclick={handleViewAddresses}
       >
       </lightning-button>
     </div>
     <template if:true={isHideOrders}>
       <lightning-card title="Orders" icon-name="standard:orders">
-        <lightning-datatable
-          key-field="Id"
-          data={orders}
-          columns={columnsForOrders}
-          hide-checkbox-column="false"
-          onrowaction={navigateToOrderRecord}
-        >
+        <template if:true={orders.data}>
+          <lightning-datatable
+            key-field="Id"
+            data={orders.data}
+            columns={columnsForOrders}
+            hide-checkbox-column="false"
+            onrowaction={navigateToOrderRecord}
           >
-        </lightning-datatable>
+          </lightning-datatable>
+        </template>
+        <template if:true={orders.error}></template>
       </lightning-card>
     </template>
     <template if:true={isHideCases}>
       <lightning-card title="Cases" icon-name="standard:case">
-        <lightning-datatable
-          key-field="Id"
-          data={cases}
-          columns={columnsForCases}
-          hide-checkbox-column="false"
-          onrowaction={navigateToCaseRecord}
-        >
+        <template if:true={cases.data}>
+          <lightning-datatable
+            key-field="Id"
+            data={cases.data}
+            columns={columnsForCases}
+            hide-checkbox-column="false"
+            onrowaction={navigateToCaseRecord}
           >
-        </lightning-datatable>
+          </lightning-datatable>
+        </template>
+        <template if:true={cases.error}></template>
+      </lightning-card>
+    </template>
+    <template if:true={isHideAddresses}>
+      <lightning-card title="My addresses" icon-name="standard:home">
+        <lightning-button
+          class="slds-m-top_small"
+          variant="neutral"
+          type="submit"
+          label={labelNewAddressButton}
+          onclick={handleAddNewAddress}
+        >
+        </lightning-button>
+        <template if:true={isHideNewAddressButton}>
+          <lightning-record-edit-form
+            data-id="address"
+            object-api-name="DeliveryAdress__c"
+            onsuccess={handleSuccess}
+            onsubmit={handleSubmit}
+          >
+            <lightning-messages> </lightning-messages>
+            <lightning-input-field
+              data-id="addressInput"
+              field-name="Country__c"
+            >
+            </lightning-input-field>
+            <lightning-input-field data-id="addressInput" field-name="State__c">
+            </lightning-input-field>
+            <lightning-input-field
+              data-id="addressInput"
+              field-name="PostalCode__c"
+            >
+            </lightning-input-field>
+            <lightning-input-field data-id="addressInput" field-name="City__c">
+            </lightning-input-field>
+            <lightning-input-field
+              data-id="addressInput"
+              field-name="Street__c"
+            >
+            </lightning-input-field>
+            <div class="slds-button-group" role="group">
+              <lightning-button
+                class="slds-m-top_small"
+                variant="neutral"
+                name="Cancel"
+                label="Cancel"
+                onclick={handleReset}
+              >
+              </lightning-button>
+              <lightning-button
+                class="slds-m-top_small"
+                variant="brand"
+                type="submit"
+                name="Save"
+                label="Save"
+              >
+              </lightning-button>
+            </div>
+          </lightning-record-edit-form>
+        </template>
+        <template if:true={addresses.data}>
+          <lightning-datatable
+            key-field="Id"
+            data={addresses.data}
+            columns={columnsForAdreses}
+            hide-checkbox-column="false"
+            onsave={handleSave}
+            onrowaction={actionWithAddressRecord}
+            draft-values={draftValues}
+          >
+          </lightning-datatable>
+        </template>
+        <template if:true={addresses.error}></template>
       </lightning-card>
     </template>
   </lightning-card>

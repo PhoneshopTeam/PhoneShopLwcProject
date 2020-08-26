@@ -22,8 +22,8 @@
     "@salesforce/sfdx-lwc-jest": "^0.7.1",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
-    "prettier": "^2.0.5",
-    "prettier-plugin-apex": "^1.6.0"
+    "prettier": "2.1.1",
+    "prettier-plugin-apex": "1.6.0"
   },
   "husky": {
     "hooks": {

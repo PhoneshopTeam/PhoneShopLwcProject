@@ -13,17 +13,17 @@ public with sharing class ContactController {
     return contacts;
   }
 
-  // @AuraEnabled(cacheable=true)
-  // public static List<DeliveryAdress__c> getDeliveryAdress(String contactId) {
-  //   List<DeliveryAdress__c> deliveryAdress = [
-  //     SELECT Id, Adress__c
-  //     FROM DeliveryAdress__c
-  //     WHERE Contact__c = :contactId
-  //   ];
+  @AuraEnabled(cacheable=true)
+  public static List<DeliveryAdress__c> getDeliveryAdress(String contactId) {
+    List<DeliveryAdress__c> deliveryAdress = [
+      SELECT Id, Country__c, State__c, City__c, Street__c, PostalCode__c
+      FROM DeliveryAdress__c
+      WHERE Contact__c = :contactId
+    ];
 
-  //   if (deliveryAdress.isEmpty()) {
-  //     throw new AuraHandledException('Forced error');
-  //   }
-  //   return deliveryAdress;
-  // }
+    if (deliveryAdress.isEmpty()) {
+      throw new AuraHandledException('Forced error');
+    }
+    return deliveryAdress;
+  }
 }

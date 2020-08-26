@@ -10,7 +10,6 @@ public with sharing class CaseController {
     if (cases.isEmpty()) {
       throw new AuraHandledException('Forced error');
     }
-
     return cases;
   }
 }
