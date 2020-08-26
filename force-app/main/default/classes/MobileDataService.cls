@@ -21,4 +21,22 @@ public with sharing class MobileDataService{
 				CreatedDate DESC
 		];
 	}
+
+	// @AuraEnabled(cacheable = true)
+	// public static List<Product2> getMobilesInOrder(String orderId){
+	// 	return [
+	// 		SELECT
+	// 			Id,
+	// 			Name,
+	// 			Comment__c,
+	// 			Rating__c,
+	// 			LastModifiedDate,
+	// 			CreatedDate,
+	// 			Contact__c, Contact__r.Name
+	// 		FROM Mobile_Review__c
+	// 		WHERE Product__c = :mobileId
+	// 		ORDER BY
+	// 			CreatedDate DESC
+	// 	];
+	// }
 }
