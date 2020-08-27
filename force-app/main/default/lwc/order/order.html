@@ -1,13 +1,23 @@
 <template>
   <lightning-card title="New order" icon-name="custom:custom28">
+    <lightning-record-form
+        record-id={orderId}
+        object-api-name="Custom_Order__c"
+        fields={fieldsOfOrder}
+        columns="1"
+        mode="readonly"
+        onsubmit={handleSubmitForOrder}
+      >
+      </lightning-record-form>
     <template if:true={mobiles.data}>
-      <lightning-datatable
+      gbdbdbd
+      <c-salesforce-codex-data-table
         key-field="Id"
         data={mobiles.data}
         columns={columns}
         hide-checkbox-column="false"
       >
-      </lightning-datatable>
+      </c-salesforce-codex-data-table>
     </template>
     <template if:true={mobiles.error}></template>
     <lightning-card title="Recipient" icon-name="standard:avatar">
@@ -20,6 +30,20 @@
         onsubmit={handleSubmit}
       >
       </lightning-record-form>
+      <lightning-combobox
+        name="progress"
+        label="Address"
+        value={selectedAddress}
+        placeholder="SELECT ONE"
+        options={deliveryAddressesOptions}
+        onchange={handleChange}
+      >
+      </lightning-combobox>
+      <c-add-new-address
+        contact-id={contactId}
+        onrefresh={refresh}
+      ></c-add-new-address>
+      addressId: {selectedAddress}
     </lightning-card>
   </lightning-card>
 </template>

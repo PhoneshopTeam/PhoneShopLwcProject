@@ -16,7 +16,7 @@ public with sharing class ContactController {
   @AuraEnabled(cacheable=true)
   public static List<DeliveryAdress__c> getDeliveryAdress(String contactId) {
     List<DeliveryAdress__c> deliveryAdress = [
-      SELECT Id, Country__c, State__c, City__c, Street__c, PostalCode__c
+      SELECT Id, Country__c, State__c, City__c, Street__c, PostalCode__c,Adress__c
       FROM DeliveryAdress__c
       WHERE Contact__c = :contactId
     ];

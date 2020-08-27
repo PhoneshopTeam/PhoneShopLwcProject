@@ -127,7 +127,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   contactId = "0032w00000FyKrCAAV";
   isHideOrders = false;
   isHideCases = false;
-  isHideAddresses = false;
+
   isHideNewAddressButton = false;
   columnsForOrders = COLS;
   columnsForCases = COLS2;
@@ -136,7 +136,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   labelOfOrderButton = "Show all my orders";
   labelOfCaseButton = "Show all my cases";
   labelOfAddressesButton = "Show my addresses";
-  labelNewAddressButton = "Add new address";
+
   draftValues = [];
 
   @wire(getOrders, {
@@ -173,44 +173,9 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       "Show my addresses";
   }
 
+  refresh() {
 
-  handleAddNewAddress() {
-    this.isHideNewAddressButton = this.isHideNewAddressButton ? false : true;
-    this.labelNewAddressButton = this.isHideNewAddressButton ?
-      "Hide" :
-      "Add new address";
-  }
-
-  handleSubmit(event) {
-    console.log('handleSubmit');
-    event.preventDefault();
-    const fields = event.detail.fields;
-    fields.Contact__c = this.contactId;
-    this.template.querySelector('[data-id="address"]').submit(fields);
-  }
-
-  handleSuccess() {
-    console.log('handleSuccess');
-    this.dispatchEvent(
-      new ShowToastEvent({
-        title: 'Success',
-        message: 'Address created',
-        variant: 'success'
-      })
-    );
-    this.handleReset();
-    this.handleAddNewAddress();
     return refreshApex(this.addresses);
-  }
-
-  handleReset() {
-
-    const inputFields = this.template.querySelectorAll('[data-id="addressInput"]');
-    if (inputFields) {
-      inputFields.forEach(field => {
-        field.reset();
-      });
-    }
   }
 
   handleSave(event) {
