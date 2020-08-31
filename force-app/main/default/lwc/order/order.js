@@ -4,12 +4,13 @@ import {
 } from 'lwc';
 import getMobilesInOrder from "@salesforce/apex/MobileDataService.getMobilesInOrder";
 import getDeliveryAdress from "@salesforce/apex/ContactController.getDeliveryAdress";
+import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById";
+import formOrder from "@salesforce/apex/CustomOrderController.formOrder";
+import getTypesOfPaymentOptions from "@salesforce/apex/CustomOrderController.getTypesOfPaymentOptions";
+
 import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
-import {
-    updateRecord
-} from 'lightning/uiRecordApi';
 import {
     refreshApex
 } from '@salesforce/apex';
@@ -23,7 +24,8 @@ import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount_
 const COLS = [{
         label: "Picture",
         fieldName: "Picture__c",
-        hideDefaultActions: true, type: 'image'
+        hideDefaultActions: true,
+        type: 'image'
     },
     {
         label: "Name",
@@ -33,7 +35,8 @@ const COLS = [{
     {
         label: "Price",
         fieldName: "Price__c",
-        hideDefaultActions: true, type: 'currency'
+        hideDefaultActions: true,
+        type: 'currency'
     }
 ];
 
@@ -42,13 +45,23 @@ export default class Order extends LightningElement {
     //@api
     contactId = "0032w00000FyKrCAAV";
     //@api
-    orderId = "a002w000009iUOQAA2";
-    selectedAddress;
+    orderId = "a002w000009jZpCAAU";
+    selectedAddressId;
+    orders;
+    error;
+    date;
+    typeOfPayment;
+    isHideDeliveryDate = false;
+    isHidePositionsInOrder = false;
+    labelOfPositionsButton = "Show all positions";
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
     fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
 
     columns = COLS;
+
+    @wire(getTypesOfPaymentOptions)
+    typeOfPaymentOptions;
 
     @wire(getMobilesInOrder, {
         orderId: "$orderId"
@@ -58,18 +71,34 @@ export default class Order extends LightningElement {
         contactId: "$contactId"
     }) deliveryAddresses;
 
-     refresh() {
-         return refreshApex(this.deliveryAddresses);
-     }
+    @wire(getOrdersById, {
+        orderId: "$orderId"
+    })
+    wiredOrders({
+        data,
+        error
+    }) {
+        if (data) {
+            this.orders = data;
+            this.error = undefined;
+        }
+        if (error) {
+            this.error = error;
+            this.orders = undefined;
+        }
+    }
+
+    refresh() {
+        return refreshApex(this.deliveryAddresses);
+    }
 
     get deliveryAddressesOptions() {
         const returnOptions = [];
         if (this.deliveryAddresses.data) {
-            console.log('this.deliveryAddresses.data = ' + JSON.stringify(this.deliveryAddresses.data));
+
             const addresses = this.deliveryAddresses.data;
-            console.log(' const addresses = ' + addresses);
+
             addresses.forEach(item => {
-                console.log(' item.Name = ' + item.Adress__c);
                 returnOptions.push({
                     label: item.Adress__c,
                     value: item.Id
@@ -80,52 +109,74 @@ export default class Order extends LightningElement {
     }
 
     handleChange(event) {
-        console.log('handleChange');
-
-        this.selectedAddress = event.detail.value;
+        switch (event.target.dataset.id) {
+            case "positions":
+                this.isHidePositionsInOrder = this.isHidePositionsInOrder ? false : true;
+                this.labelOfPositionsButton = this.isHidePositionsInOrder ?
+                    "Hide all positions" :
+                    "Show all positions";
+                break;
+            case "address":
+                this.selectedAddressId = event.detail.value;
+                break;
+            case "deliveryCheckbox":
+                this.isHideDeliveryDate = event.target.checked ? true : false;
+                break;
+            case "deliveryDate":
+                this.date = event.detail.value;
+                break;
+            case "typeOfPayment":
+                this.typeOfPayment = event.detail.value;
+                break;
+            default:
+        }
     }
 
-    handleSubmit(event) {
-        const recordInputs = event.detail.draftValues.slice().map(draft => {
-            const fields = Object.assign({}, draft);
-            return {
-                fields
-            };
-        });
-        const promises = recordInputs.map(recordInput => updateRecord(recordInput));
+    handleSubmitForOrder() {
 
-        Promise.all(promises).then(() => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Address updated',
-                    variant: 'success'
-                })
-            );
-            this.draftValues = [];
-
-            return refreshApex(this.addresses);
-        }).catch(error => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error updating record',
-                    message: error.body.message,
-                    variant: 'error'
-                })
-            );
-        });
+        switch (this.typeOfPayment != null) {
+            case true:
+                switch (this.isHideDeliveryDate) {
+                    case false:
+                        this.formOrder();
+                        break;
+                    case true:
+                        if (this.selectedAddressId != null && this.date != null) {
+                            this.formOrder();
+                        } else {
+                            this.dispatchEvent(
+                                new ShowToastEvent({
+                                    title: 'Warning',
+                                    message: 'Please, choose date and address',
+                                    variant: 'warning'
+                                })
+                            );
+                        }
+                        break;
+                    default:
+                }
+                break;
+            case false:
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Warning',
+                        message: 'Please, choose type of payment',
+                        variant: 'warning'
+                    })
+                );
+                break;
+            default:
+        }
     }
 
-    handleSubmitForOrder(event) {
-        const recordInputs = event.detail.draftValues.slice().map(draft => {
-            const fieldsOfOrder = Object.assign({}, draft);
-            return {
-                fieldsOfOrder
-            };
-        });
-        const promises = recordInputs.map(recordInput => updateRecord(recordInput));
-
-        Promise.all(promises).then(() => {
+    formOrder() {
+        formOrder({
+            deliveryDate: this.date,
+            typeOfPayment: this.typeOfPayment,
+            orderId: this.orderId,
+            id: this.selectedAddressId,
+            isHideDeliveryDate: this.isHideDeliveryDate
+        }).then(() => {
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Success',
@@ -133,9 +184,6 @@ export default class Order extends LightningElement {
                     variant: 'success'
                 })
             );
-            this.draftValues = [];
-
-            return refreshApex(this.addresses);
         }).catch(error => {
             this.dispatchEvent(
                 new ShowToastEvent({

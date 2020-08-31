@@ -1,12 +1,12 @@
 <template>
   <lightning-button
-          class="slds-m-top_small"
-          variant="neutral"
-          type="submit"
-          label={labelNewAddressButton}
-          onclick={handleAddNewAddress}
-        >
-        </lightning-button>
+    class="slds-m-top_small"
+    variant="neutral"
+    type="submit"
+    label={labelNewAddressButton}
+    onclick={handleAddNewAddress}
+  >
+  </lightning-button>
   <template if:true={isHideNewAddressButton}>
     <lightning-record-edit-form
       data-id="address"

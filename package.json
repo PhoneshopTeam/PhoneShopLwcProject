@@ -37,5 +37,17 @@
     "**/{aura|lwc}/**": [
       "eslint"
     ]
-  }
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhoneshopTeam/PhoneShopLwcProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhoneshopTeam/PhoneShopLwcProject/issues"
+  },
+  "homepage": "https://github.com/PhoneshopTeam/PhoneShopLwcProject#readme"
 }
