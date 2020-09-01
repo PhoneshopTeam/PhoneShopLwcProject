@@ -103,7 +103,6 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 			})
 			.catch(error => {
 				this.error = JSON.stringify(error);
-				window.console.log(this.error);
 			});
 		const createOrderEvent = new CustomEvent('createorder', {
 			detail: { orderId: this.orderId }
