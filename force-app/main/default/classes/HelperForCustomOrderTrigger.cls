@@ -12,15 +12,15 @@ public with sharing class HelperForCustomOrderTrigger {
           FROM Custom_Order__c
           WHERE Id = :o.Id
         ];
+
         if (order.Delivery_date__c != null) {
-          order.Status__c = 'Awaiting delivery';
-          if (order.Type_of_payment__c != 'by card online') {
-            order.Status__c = 'Awaiting payment';
-          } else {
-            order.Status__c = 'Paid';
-          }
+          order.Status__c = order.Type_of_payment__c != 'by card online'
+            ? 'Awaiting payment; Awaiting delivery'
+            : 'Paid; Awaiting delivery';
         } else {
-          order.Status__c = 'Without delivery';
+          order.Status__c = order.Type_of_payment__c != 'by card online'
+            ? 'Awaiting payment; Without delivery'
+            : 'Paid; Without delivery';
         }
 
         ordersToUpdate.add(order);

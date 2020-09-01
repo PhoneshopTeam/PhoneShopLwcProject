@@ -6,5 +6,9 @@
       <members>Product2</members>
       <name>CustomObject</name>
    </types>
-<version>46.0</version>
+   <types>
+      <members>*</members>
+      <name>FlexiPage</name>
+   </types>
+   <version>46.0</version>
 </Package>

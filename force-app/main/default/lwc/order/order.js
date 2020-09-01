@@ -12,6 +12,9 @@ import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 import {
+    NavigationMixin
+} from 'lightning/navigation';
+import {
     refreshApex
 } from '@salesforce/apex';
 import FIRST_NAME_FIELD from '@salesforce/schema/Contact.FirstName';
@@ -40,7 +43,7 @@ const COLS = [{
     }
 ];
 
-export default class Order extends LightningElement {
+export default class Order extends NavigationMixin(LightningElement) {
 
     //@api
     contactId = "0032w00000FyKrCAAV";
@@ -134,38 +137,30 @@ export default class Order extends LightningElement {
 
     handleSubmitForOrder() {
 
-        switch (this.typeOfPayment != null) {
-            case true:
-                switch (this.isHideDeliveryDate) {
-                    case false:
-                        this.formOrder();
-                        break;
-                    case true:
-                        if (this.selectedAddressId != null && this.date != null) {
-                            this.formOrder();
-                        } else {
-                            this.dispatchEvent(
-                                new ShowToastEvent({
-                                    title: 'Warning',
-                                    message: 'Please, choose date and address',
-                                    variant: 'warning'
-                                })
-                            );
-                        }
-                        break;
-                    default:
+        if (this.typeOfPayment) {
+            if (!this.isHideDeliveryDate) {
+                this.formOrder();
+            } else {
+                if (this.selectedAddressId && this.date) {
+                    this.formOrder();
+                } else {
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: 'Warning',
+                            message: 'Please, choose date and address',
+                            variant: 'warning'
+                        })
+                    );
                 }
-                break;
-            case false:
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Warning',
-                        message: 'Please, choose type of payment',
-                        variant: 'warning'
-                    })
-                );
-                break;
-            default:
+            }
+        } else {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Warning',
+                    message: 'Please, choose type of payment',
+                    variant: 'warning'
+                })
+            );
         }
     }
 
@@ -177,13 +172,26 @@ export default class Order extends LightningElement {
             id: this.selectedAddressId,
             isHideDeliveryDate: this.isHideDeliveryDate
         }).then(() => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Order updated',
-                    variant: 'success'
+            if (this.typeOfPayment === 'by card online') {
+                this[NavigationMixin.Navigate]({
+                    type: "standard__component",
+                    attributes: {
+                        componentName: "c__FromNewOrderPageToSamsungPayPage"
+                    },
+                    state: {
+                        c__orderId: this.orderId,
+                        c__contactId: this.contactId
+                    }
                 })
-            );
+            } else {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Order updated',
+                        variant: 'success'
+                    })
+                );
+            }
         }).catch(error => {
             this.dispatchEvent(
                 new ShowToastEvent({

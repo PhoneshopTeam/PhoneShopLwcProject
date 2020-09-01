@@ -22,10 +22,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>In processing</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Paid</fullName>
             <default>false</default>
         </values>

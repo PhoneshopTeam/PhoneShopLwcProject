@@ -55,13 +55,15 @@ public with sharing class CustomOrderController {
     System.debug('String typeOfPayment = ' + typeOfPayment);
     Savepoint sp = Database.setSavepoint();
     try {
-      if(isHideDeliveryDate){
-        List<DeliveryAdress__c> addresses = ContactController.getDeliveryAdressById(id);
+      if (isHideDeliveryDate) {
+        List<DeliveryAdress__c> addresses = ContactController.getDeliveryAdressById(
+          id
+        );
 
         for (DeliveryAdress__c a : addresses) {
-             a.Custom_OrderId__c = orderId;
+          a.Custom_OrderId__c = orderId;
         }
-         update addresses;
+        update addresses;
       }
 
       List<Custom_Order__c> orders = getOrdersById(orderId);
