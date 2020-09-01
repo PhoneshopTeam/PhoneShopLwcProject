@@ -22,7 +22,32 @@
     "@salesforce/sfdx-lwc-jest": "^0.7.1",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
-    "prettier": "^2.0.5",
-    "prettier-plugin-apex": "^1.5.0"
-  }
+    "prettier": "2.1.1",
+    "prettier-plugin-apex": "1.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}": [
+      "prettier --write"
+    ],
+    "**/{aura|lwc}/**": [
+      "eslint"
+    ]
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhoneshopTeam/PhoneShopLwcProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhoneshopTeam/PhoneShopLwcProject/issues"
+  },
+  "homepage": "https://github.com/PhoneshopTeam/PhoneShopLwcProject#readme"
 }

@@ -71,4 +71,11 @@ public with sharing class MobileDataService{
 		@auraEnabled
 		public string svalue{ get; set; }
 	}
+
+	@AuraEnabled(cacheable = true)
+	public static List<Product2> getMobilesInOrder(String orderId){
+		return [SELECT Id, Name, Picture__c, Price__c
+		        FROM Product2 
+		        WHERE Custom_OrderId__c = :orderId];
+	}
 }

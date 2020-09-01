@@ -3,7 +3,5 @@
  */
 
 public with sharing class TestCustomOrder {
-
-    Custom_Order__c order = new Custom_Order__c();
-
+  Custom_Order__c order = new Custom_Order__c();
 }

@@ -16,11 +16,6 @@
                 <label>Draft</label>
             </value>
             <value>
-                <fullName>In processing</fullName>
-                <default>false</default>
-                <label>In processing</label>
-            </value>
-            <value>
                 <fullName>Paid</fullName>
                 <default>false</default>
                 <label>Paid</label>
@@ -39,6 +34,17 @@
                 <fullName>Delivered</fullName>
                 <default>false</default>
                 <label>Delivered</label>
+            </value>
+            <value>
+                <fullName>Without delivery</fullName>
+                <default>false</default>
+                <label>Without delivery</label>
+            </value>
+            <value>
+                <fullName>In processing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>In processing</label>
             </value>
         </valueSetDefinition>
     </valueSet>
