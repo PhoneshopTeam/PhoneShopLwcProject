@@ -95,26 +95,18 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		createRecord(recordInput)
 			.then(order => {
 				this.orderId = order.id;
-				this.dispatchEvent(new ShowToastEvent({
-					title: 'Success!',
-					message: 'Order ' + this.orderId + ' Created Successfully!',
-					variant: 'success'
-				}));
+				this[NavigationMixin.Navigate]({
+					type: "standard__component",
+					attributes: {
+						componentName: "c__OrderComponent"
+					},
+					state: {
+						c__orderId: this.orderId
+					}
+				})
 			})
 			.catch(error => {
 				this.error = JSON.stringify(error);
 			});
-		const createOrderEvent = new CustomEvent('createorder', {
-			detail: { orderId: this.orderId }
-		});
-		this.dispatchEvent(createOrderEvent);
-		this[NavigationMixin.Navigate]({
-			type: 'standard__recordPage',
-			attributes: {
-				recordId: this.orderId,
-				objectApiName: 'Custom_Order__c',
-				actionName: 'view'
-			}
-		});
 	}
 }
