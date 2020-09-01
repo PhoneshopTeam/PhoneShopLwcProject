@@ -1,7 +1,19 @@
-import { LightningElement, wire, api } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
-import { getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent'
+import {
+	LightningElement,
+	wire,
+	api
+} from 'lwc';
+import {
+	NavigationMixin
+} from 'lightning/navigation';
+import {
+	getRecord,
+	getFieldValue,
+	createRecord
+} from 'lightning/uiRecordApi';
+import {
+	ShowToastEvent
+} from 'lightning/platformShowToastEvent'
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
@@ -24,18 +36,23 @@ import ORDER_PRICE_FIELD from '@salesforce/schema/Custom_Order__c.Unit_Price__c'
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
-	@api contactId;
-	@api mobileId = '01t2w000006P0G3AAK';
+	// @api
+	contactId = '0032w00000FyKrCAAV';
+	// @api
+	mobileId = '01t2w000006mZf3AAE';
 	quantity = 1;
 	orderId;
 
-	@wire(getRecord, { recordId: '$mobileId', fields: MOBILE_FIELDS })
+	@wire(getRecord, {
+		recordId: '$mobileId',
+		fields: MOBILE_FIELDS
+	})
 	wiredRecord;
 
 	get detailsTabIconName() {
-		return this.wiredRecord && this.wiredRecord.data
-			? 'utility:call'
-			: null;
+		return this.wiredRecord && this.wiredRecord.data ?
+			'utility:call' :
+			null;
 	}
 
 	get totalQuantityValue() {
@@ -76,7 +93,9 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 
 	handleProductToBasket() {
 		const productToBasketEvent = new CustomEvent('producttobasket', {
-			detail: { product2Id: this.mobileId }
+			detail: {
+				product2Id: this.mobileId
+			}
 		});
 		this.dispatchEvent(productToBasketEvent);
 	}
@@ -87,14 +106,18 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[ORDER_ACCOUNTID_FIELD.fieldApiName] = getFieldValue(this.wiredRecord.data, MOBILE_ACCOUNT_FIELD);
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
 		fields[ORDER_QUANTITY_FIELD.fieldApiName] = this.quantity;
-		fields[ORDER_STATUS_FIELD.fieldApiName] = 'In processing';
+		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
 		fields[ORDER_PRICE_FIELD.fieldApiName] = this.mobilePrice;
-		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity;
+		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
-		const recordInput = { apiName: ORDER_OBJECT.objectApiName, fields }
+		const recordInput = {
+			apiName: ORDER_OBJECT.objectApiName,
+			fields
+		}
 		createRecord(recordInput)
 			.then(order => {
 				this.orderId = order.id;
+<<<<<<< HEAD
 				this[NavigationMixin.Navigate]({
 					type: "standard__component",
 					attributes: {
@@ -102,11 +125,44 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 					},
 					state: {
 						c__orderId: this.orderId
+=======
+				this.dispatchEvent(new ShowToastEvent({
+					title: 'Success!',
+					message: 'Order ' + this.orderId + ' Created Successfully!',
+					variant: 'success'
+				}));
+				this[NavigationMixin.Navigate]({
+					type: "standard__component",
+					attributes: {
+						componentName: "c__FromMobileDetailsToNewOrder"
+					},
+					state: {
+						c__orderId: this.orderId,
+						c__contactId: this.contactId
+>>>>>>> Margarita
 					}
 				})
 			})
 			.catch(error => {
 				this.error = JSON.stringify(error);
 			});
+<<<<<<< HEAD
+=======
+		// const createOrderEvent = new CustomEvent('createorder', {
+		// 	detail: {
+		// 		orderId: this.orderId
+		// 	}
+		// });
+		// this.dispatchEvent(createOrderEvent);
+		// this[NavigationMixin.Navigate]({
+		// 	type: 'standard__recordPage',
+		// 	attributes: {
+		// 		recordId: this.orderId,
+		// 		objectApiName: 'Custom_Order__c',
+		// 		actionName: 'view'
+		// 	}
+		// });
+
+>>>>>>> Margarita
 	}
 }
