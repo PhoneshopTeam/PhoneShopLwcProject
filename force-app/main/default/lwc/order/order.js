@@ -12,6 +12,7 @@ import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 import {
+    CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
 import {
@@ -46,9 +47,11 @@ const COLS = [{
 export default class Order extends NavigationMixin(LightningElement) {
 
     //@api
-    contactId = "0032w00000FyKrCAAV";
+    contactId;
+    //  = "0032w00000FyKrCAAV";
     //@api
-    orderId = "a002w000009jZpCAAU";
+    orderId;
+    //  = "a002w000009jZpCAAU";
     selectedAddressId;
     orders;
     error;
@@ -62,6 +65,24 @@ export default class Order extends NavigationMixin(LightningElement) {
     fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
 
     columns = COLS;
+    @wire(CurrentPageReference)
+    currentPageReference;
+
+    get orderIdFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__orderId
+        );
+    }
+    get contactIdFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__contactId
+        );
+    }
+
+    renderedCallback() {
+        this.orderId = this.orderIdFromState;
+        this.contactId = this.contactIdFromState;
+    }
 
     @wire(getTypesOfPaymentOptions)
     typeOfPaymentOptions;
