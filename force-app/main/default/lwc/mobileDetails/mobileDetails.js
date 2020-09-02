@@ -1,20 +1,3 @@
-<< << << < HEAD
-import {
-	LightningElement,
-	wire
-} from 'lwc';
-import {
-	NavigationMixin
-} from 'lightning/navigation';
-import {
-	getRecord,
-	getFieldValue,
-	createRecord
-} from 'lightning/uiRecordApi';
-import {
-	ShowToastEvent
-} from 'lightning/platformShowToastEvent' ===
-=== =
 import {
 	LightningElement,
 	wire,
@@ -31,8 +14,7 @@ import {
 import updateProductOrderId from '@salesforce/apex/MobileDataService.updateProductOrderId';
 import {
 	ShowToastEvent
-} from 'lightning/platformShowToastEvent'; >>>
->>> > Veronika
+} from 'lightning/platformShowToastEvent';
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
