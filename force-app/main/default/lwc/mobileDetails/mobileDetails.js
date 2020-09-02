@@ -1,3 +1,4 @@
+<< << << < HEAD
 import {
 	LightningElement,
 	wire
@@ -12,7 +13,26 @@ import {
 } from 'lightning/uiRecordApi';
 import {
 	ShowToastEvent
-} from 'lightning/platformShowToastEvent'
+} from 'lightning/platformShowToastEvent' ===
+=== =
+import {
+	LightningElement,
+	wire,
+	api
+} from 'lwc';
+import {
+	NavigationMixin
+} from 'lightning/navigation';
+import {
+	getRecord,
+	getFieldValue,
+	createRecord
+} from 'lightning/uiRecordApi';
+import updateProductOrderId from '@salesforce/apex/MobileDataService.updateProductOrderId';
+import {
+	ShowToastEvent
+} from 'lightning/platformShowToastEvent'; >>>
+>>> > Veronika
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
@@ -35,10 +55,9 @@ import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount_
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
-	// @api
-	contactId = '0032w00000FyKrCAAV';
-	// @api
-	mobileId = '01t2w000006mqD4AAI';
+
+	@api contactId;
+	@api mobileId = '01t2w000006P0G3AAK';
 	quantity = 1;
 	orderId;
 
@@ -115,39 +134,42 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		}
 		createRecord(recordInput)
 			.then(order => {
+				/////нужна savepoint
 				this.orderId = order.id;
-				this.dispatchEvent(new ShowToastEvent({
-					title: 'Success!',
-					message: 'Order ' + this.orderId + ' Created Successfully!',
-					variant: 'success'
-				}));
-				this[NavigationMixin.Navigate]({
-					type: "standard__component",
-					attributes: {
-						componentName: "c__FromMobileDetailsToNewOrder"
-					},
-					state: {
-						c__orderId: this.orderId,
-						c__contactId: this.contactId
-					}
-				})
+
+				window.console.log('button2___');
+				updateProductOrderId({
+						mobileId: this.mobileId,
+						orderId: this.orderId
+					})
+
+					.then(() => {
+						window.console.log('button2___');
+						this.dispatchEvent(new ShowToastEvent({
+							title: 'Success!',
+							message: 'Order ' + this.orderId + ' Created Successfully!',
+							variant: 'success'
+						}));
+						this[NavigationMixin.Navigate]({
+							type: "standard__component",
+							attributes: {
+								componentName: "c__FromMobileDetailsToNewOrder"
+							},
+							state: {
+								c__orderId: this.orderId,
+								c__contactId: this.contactId
+							}
+						})
+					})
+					.catch(error => {
+						window.console.log(error);
+						this.error = JSON.stringify(error);
+					});
 			})
 			.catch(error => {
+				window.console.log(error);
 				this.error = JSON.stringify(error);
+				window.console.log(error);
 			});
-		// const createOrderEvent = new CustomEvent('createorder', {
-		// 	detail: {
-		// 		orderId: this.orderId
-		// 	}
-		// });
-		// this.dispatchEvent(createOrderEvent);
-		// this[NavigationMixin.Navigate]({
-		// 	type: 'standard__recordPage',
-		// 	attributes: {
-		// 		recordId: this.orderId,
-		// 		objectApiName: 'Custom_Order__c',
-		// 		actionName: 'view'
-		// 	}
-		// });
 	}
 }
