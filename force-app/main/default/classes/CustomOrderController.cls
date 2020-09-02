@@ -1,4 +1,5 @@
 public with sharing class CustomOrderController {
+
   @AuraEnabled(cacheable=true)
   public static List<Custom_Order__c> getOrders(String contactId) {
     List<Custom_Order__c> orders = [
@@ -31,12 +32,12 @@ public with sharing class CustomOrderController {
         Delivery_date__c,
         Type_of_payment__c
       FROM Custom_Order__c
-      WHERE Id = :orderId
+      WHERE Id = :orderId AND Status__c = 'Draft'
     ];
 
-    if (orders.isEmpty()) {
-      throw new AuraHandledException('Forced error');
-    }
+    // if (orders.isEmpty()) {
+    //   throw new AuraHandledException('Forced error');
+    // }
 
     return orders;
   }
@@ -89,5 +90,30 @@ public with sharing class CustomOrderController {
       options.add(new SelectOption(entry.getLabel(), entry.getValue()));
     }
     return options;
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static List<DeliveryAdress__c> getDeliveryAdressByOrderId(
+    String orderId
+  ) {
+    List<DeliveryAdress__c> deliveryAdress = [
+      SELECT
+        Id,
+        Country__c,
+        State__c,
+        City__c,
+        Street__c,
+        PostalCode__c,
+        Adress__c,
+        Custom_OrderId__c
+      FROM DeliveryAdress__c
+      WHERE Custom_OrderId__c = :orderId
+      LIMIT 1
+    ];
+
+    if (deliveryAdress.isEmpty()) {
+      throw new AuraHandledException('Forced error');
+    }
+    return deliveryAdress;
   }
 }

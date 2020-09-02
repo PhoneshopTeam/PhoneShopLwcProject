@@ -25,6 +25,10 @@
             <fullName>Paid</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Without delivery</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Type_of_payment__c</picklist>

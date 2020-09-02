@@ -1,9 +1,6 @@
 <template>
   <lightning-card title="New order" icon-name="custom:custom28">
     orderId: {orderId} contactId: {contactId}
-    <!-- <template for:each={orders} for:item="order">
-        <p key={order.Id}>price: {order.Total_Amount__c}</p>
-      </template> -->
     <lightning-record-form
       record-id={orderId}
       object-api-name="Custom_Order__c"
@@ -12,7 +9,8 @@
       mode="readonly"
     >
     </lightning-record-form>
-    <lightning-input
+    <c-show-positions-in-order order-id={orderId}></c-show-positions-in-order>
+    <!-- <lightning-input
       data-id="positions"
       label={labelOfPositionsButton}
       class="slds-p-left_xx-large"
@@ -31,7 +29,7 @@
         </c-salesforce-codex-data-table>
       </template>
       <template if:true={mobiles.error}></template>
-    </template>
+    </template> -->
     <lightning-card title="Recipient" icon-name="standard:avatar">
       <lightning-record-form
         record-id={contactId}

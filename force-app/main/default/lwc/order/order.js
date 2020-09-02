@@ -2,7 +2,7 @@ import {
     LightningElement,
     wire
 } from 'lwc';
-import getMobilesInOrder from "@salesforce/apex/MobileDataService.getMobilesInOrder";
+// import getMobilesInOrder from "@salesforce/apex/MobileDataService.getMobilesInOrder";
 import getDeliveryAdress from "@salesforce/apex/ContactController.getDeliveryAdress";
 import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById";
 import formOrder from "@salesforce/apex/CustomOrderController.formOrder";
@@ -25,24 +25,24 @@ import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import ORDER_NUMBER_FIELD from '@salesforce/schema/Custom_Order__c.Order_Number__c';
 import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
-const COLS = [{
-        label: "Picture",
-        fieldName: "Picture__c",
-        hideDefaultActions: true,
-        type: 'image'
-    },
-    {
-        label: "Name",
-        fieldName: "Name",
-        hideDefaultActions: true
-    },
-    {
-        label: "Price",
-        fieldName: "Price__c",
-        hideDefaultActions: true,
-        type: 'currency'
-    }
-];
+// const COLS = [{
+//         label: "Picture",
+//         fieldName: "Picture__c",
+//         hideDefaultActions: true,
+//         type: 'image'
+//     },
+//     {
+//         label: "Name",
+//         fieldName: "Name",
+//         hideDefaultActions: true
+//     },
+//     {
+//         label: "Price",
+//         fieldName: "Price__c",
+//         hideDefaultActions: true,
+//         type: 'currency'
+//     }
+// ];
 
 export default class Order extends NavigationMixin(LightningElement) {
 
@@ -58,13 +58,13 @@ export default class Order extends NavigationMixin(LightningElement) {
     date;
     typeOfPayment;
     isHideDeliveryDate = false;
-    isHidePositionsInOrder = false;
-    labelOfPositionsButton = "Show all positions";
+    // isHidePositionsInOrder = false;
+    // labelOfPositionsButton = "Show all positions";
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
     fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
 
-    columns = COLS;
+    // columns = COLS;
     @wire(CurrentPageReference)
     currentPageReference;
 
@@ -87,9 +87,9 @@ export default class Order extends NavigationMixin(LightningElement) {
     @wire(getTypesOfPaymentOptions)
     typeOfPaymentOptions;
 
-    @wire(getMobilesInOrder, {
-        orderId: "$orderId"
-    }) mobiles;
+    // @wire(getMobilesInOrder, {
+    //     orderId: "$orderId"
+    // }) mobiles;
 
     @wire(getDeliveryAdress, {
         contactId: "$contactId"
@@ -134,12 +134,12 @@ export default class Order extends NavigationMixin(LightningElement) {
 
     handleChange(event) {
         switch (event.target.dataset.id) {
-            case "positions":
-                this.isHidePositionsInOrder = this.isHidePositionsInOrder ? false : true;
-                this.labelOfPositionsButton = this.isHidePositionsInOrder ?
-                    "Hide all positions" :
-                    "Show all positions";
-                break;
+            // case "positions":
+            //     this.isHidePositionsInOrder = this.isHidePositionsInOrder ? false : true;
+            //     this.labelOfPositionsButton = this.isHidePositionsInOrder ?
+            //         "Hide all positions" :
+            //         "Show all positions";
+            //     break;
             case "address":
                 this.selectedAddressId = event.detail.value;
                 break;
@@ -212,6 +212,7 @@ export default class Order extends NavigationMixin(LightningElement) {
                         variant: 'success'
                     })
                 );
+                return refreshApex(this.orders);
             }
         }).catch(error => {
             this.dispatchEvent(

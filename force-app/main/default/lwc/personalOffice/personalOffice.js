@@ -54,6 +54,11 @@ const COLS = [{
     hideDefaultActions: true
   },
   {
+    label: "Delivery date",
+    fieldName: "Delivery_date__c",
+    hideDefaultActions: true
+  },
+  {
     label: "Order Status",
     fieldName: "Status__c",
     hideDefaultActions: true
@@ -125,6 +130,7 @@ const COLS3 = [{
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
   //@api
   contactId = "0032w00000FyKrCAAV";
+  orderId;
   isHideOrders = false;
   isHideCases = false;
 
@@ -167,6 +173,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   handleViewAddresses() {
+
     this.isHideAddresses = this.isHideAddresses ? false : true;
     this.labelOfAddressesButton = this.isHideAddresses ?
       "Hide my addresses" :
@@ -174,7 +181,6 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   refresh() {
-
     return refreshApex(this.addresses);
   }
 
@@ -221,14 +227,26 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
     switch (actionName) {
       case "view":
-        this[NavigationMixin.Navigate]({
-          type: "standard__recordPage",
-          attributes: {
-            recordId: row.Id,
-            objectApiName: "Custom_Order__c",
-            actionName: actionName
-          }
-        });
+        // this[NavigationMixin.Navigate]({
+        //   type: "standard__recordPage",
+        //   attributes: {
+        //     recordId: row.Id,
+        //     objectApiName: "Custom_Order__c",
+        //     actionName: actionName
+        //   }
+        // });
+        // this[NavigationMixin.Navigate]({
+        //   type: "standard__component",
+        //   attributes: {
+        //     componentName: "c__FromNewOrderPageToViewOrderInfo"
+        //   },
+        //   state: {
+        //     c__orderId: this.orderId,
+        //     c__contactId: this.contactId
+        //   }
+        // })
+        this.orderId = row.Id;
+        this.template.querySelector("c-view-order-info ").openModal();
         break;
       case "new":
         this[NavigationMixin.Navigate]({

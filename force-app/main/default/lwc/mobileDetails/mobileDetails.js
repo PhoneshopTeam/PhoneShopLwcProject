@@ -19,19 +19,19 @@ import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
 import MOBILE_PICTURE_FIELD from '@salesforce/schema/Product2.Picture__c';
 import MOBILE_TOTAL_QUANTITY_FIELD from '@salesforce/schema/Product2.Total_Quantity__c';
-import MOBILE_ACCOUNT_FIELD from '@salesforce/schema/Product2.Account__c';
+// import MOBILE_ACCOUNT_FIELD from '@salesforce/schema/Product2.Account__c';
 import MOBILE_PRICE_FIELD from '@salesforce/schema/Product2.Price__c';
 const MOBILE_FIELDS = [MOBILE_ID_FIELD, MOBILE_NAME_FIELD, MOBILE_PICTURE_FIELD, MOBILE_TOTAL_QUANTITY_FIELD, MOBILE_PRICE_FIELD];
 
 
 import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
-import ORDER_ACCOUNTID_FIELD from '@salesforce/schema/Custom_Order__c.AccountId__c';
+// import ORDER_ACCOUNTID_FIELD from '@salesforce/schema/Custom_Order__c.AccountId__c';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
-import ORDER_QUANTITY_FIELD from '@salesforce/schema/Custom_Order__c.Quantity__c';
+// import ORDER_QUANTITY_FIELD from '@salesforce/schema/Custom_Order__c.Quantity__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
 import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
-import ORDER_PRICE_FIELD from '@salesforce/schema/Custom_Order__c.Unit_Price__c';
+// import ORDER_PRICE_FIELD from '@salesforce/schema/Custom_Order__c.Unit_Price__c';
 
 const REVIEWS_TAB = 'reviews';
 
@@ -39,7 +39,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	// @api
 	contactId = '0032w00000FyKrCAAV';
 	// @api
-	mobileId = '01t2w000006mZf3AAE';
+	mobileId = '01t2w000006mqD4AAI';
 	quantity = 1;
 	orderId;
 
@@ -103,11 +103,11 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	handleProductToOrder() {
 		const fields = {};
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
-		fields[ORDER_ACCOUNTID_FIELD.fieldApiName] = getFieldValue(this.wiredRecord.data, MOBILE_ACCOUNT_FIELD);
+		// fields[ORDER_ACCOUNTID_FIELD.fieldApiName] = getFieldValue(this.wiredRecord.data, MOBILE_ACCOUNT_FIELD);
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
-		fields[ORDER_QUANTITY_FIELD.fieldApiName] = this.quantity;
+		// fields[ORDER_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
-		fields[ORDER_PRICE_FIELD.fieldApiName] = this.mobilePrice;
+		// fields[ORDER_PRICE_FIELD.fieldApiName] = this.mobilePrice;
 		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
