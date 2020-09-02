@@ -1,0 +1,10 @@
+<template>
+    <lightning-card>
+        <lightning-record-form
+            object-api-name={contactObject}
+            fields={myFields}
+            onsuccess={handleAccountCreated}
+            required>
+        </lightning-record-form>
+    </lightning-card>  
+</template>

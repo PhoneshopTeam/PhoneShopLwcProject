@@ -1,0 +1,63 @@
+<template>
+    <lightning-card title="REGISTER HERE" >
+        <div class="slds-text-align_center">
+            <p>Already registered? </p>
+            <lightning-button variant="brand-outline" label="Log in" onclick={handleLoginClick} 
+                class="slds-m-left_x-small"></lightning-button>
+        </div>
+
+        <!--div class="slds-p-around_small"--> 
+            <div class="slds-var-p-around_xx-large">
+            <h2>Please fill in all fields</h2>
+            <!--lightning-input-name
+                label="Name Field"
+                required
+                first-name="John"
+                middle-name="Middleton"
+                last-name="Doe"
+                informal-name="Jo"
+                suffix="The 3rd"
+                salutation="Mr."
+                options={salutationOptions}
+                fields-to-display={fields} >
+            </lightning-input-name-->
+            <p>First Name : {firstName}</p>
+            <lightning-input label="First Name" name="FirstName" type="text" value="John" required onchange={handleChange}></lightning-input>
+            <lightning-input label="Last Name" name="LastName" type="text" value="Doe" required onchange={handleChange}></lightning-input>
+            <lightning-input label="Email Adress" name="Email" type="email" value="jonedoe@gmail.com" required onchange={handleChange}></lightning-input>
+            <lightning-input label="Phone" name="Phone"  type="tel" value="+375113522525" required onchange={handleChange}
+                field-level-help="Please give us a mobile number we can contact you on if we need to discuss your online account"></lightning-input>
+            <!--lightning-input-address
+                address-label="Address"
+                street-label="Street"
+                city-label="City"
+                country-label="Country"
+                province-label="Province"
+                postal-code-label="PostalCode"
+                street="121 Spear St."
+                city="San Francisco"
+                country="US"
+                province="CA"
+                postal-code="94105"
+                required>
+            </lightning-input-address-->
+            <lightning-input label="Login" name="Login" value="jonedoe" required onchange={handleChange}></lightning-input>
+            <lightning-input label="Password" name="Password" value="pre-filled password" required onchange={handleChange}
+                minlength="6" maxlength="15" type="password"
+                field-level-help="Your password needs at least 6-15 characters,
+                1 upper case latter, 1 lower case latter, 1 number, no spaces, and 
+                can`t be the same as your email adress"></lightning-input>
+                <div class="slds-p-around_small slds-p-top_large"> 
+                    <lightning-input type="checkbox" label="I'm not a robot" required></lightning-input>
+                    <lightning-input type="checkbox" label="I like Salesforce" ></lightning-input>
+                </div>
+            
+            <lightning-button class="slds-p-top_large"
+                label="Register"
+                variant="brand"
+                onclick={createUser}
+        ></lightning-button>
+        </div>
+    </lightning-card>
+    
+</template>
