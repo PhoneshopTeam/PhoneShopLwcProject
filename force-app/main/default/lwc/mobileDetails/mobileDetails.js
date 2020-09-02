@@ -1,19 +1,8 @@
-import {
-	LightningElement,
-	wire,
-	api
-} from 'lwc';
-import {
-	NavigationMixin
-} from 'lightning/navigation';
-import {
-	getRecord,
-	getFieldValue,
-	createRecord
-} from 'lightning/uiRecordApi';
-import {
-	ShowToastEvent
-} from 'lightning/platformShowToastEvent'
+import { LightningElement, wire, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
+import { getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
+import updateProductOrderId from '@salesforce/apex/MobileDataService.updateProductOrderId';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
@@ -36,23 +25,18 @@ import ORDER_PRICE_FIELD from '@salesforce/schema/Custom_Order__c.Unit_Price__c'
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
-	// @api
-	contactId = '0032w00000FyKrCAAV';
-	// @api
-	mobileId = '01t2w000006mZf3AAE';
+	@api contactId;
+	@api mobileId = '01t2w000006P0G3AAK';
 	quantity = 1;
 	orderId;
 
-	@wire(getRecord, {
-		recordId: '$mobileId',
-		fields: MOBILE_FIELDS
-	})
+	@wire(getRecord, { recordId: '$mobileId', fields: MOBILE_FIELDS })
 	wiredRecord;
 
 	get detailsTabIconName() {
-		return this.wiredRecord && this.wiredRecord.data ?
-			'utility:call' :
-			null;
+		return this.wiredRecord && this.wiredRecord.data
+			? 'utility:call'
+			: null;
 	}
 
 	get totalQuantityValue() {
@@ -93,9 +77,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 
 	handleProductToBasket() {
 		const productToBasketEvent = new CustomEvent('producttobasket', {
-			detail: {
-				product2Id: this.mobileId
-			}
+			detail: { product2Id: this.mobileId }
 		});
 		this.dispatchEvent(productToBasketEvent);
 	}
@@ -116,53 +98,38 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		}
 		createRecord(recordInput)
 			.then(order => {
+				/////нужна savepoint
 				this.orderId = order.id;
-<<<<<<< HEAD
-				this[NavigationMixin.Navigate]({
-					type: "standard__component",
-					attributes: {
-						componentName: "c__OrderComponent"
-					},
-					state: {
-						c__orderId: this.orderId
-=======
-				this.dispatchEvent(new ShowToastEvent({
-					title: 'Success!',
-					message: 'Order ' + this.orderId + ' Created Successfully!',
-					variant: 'success'
-				}));
-				this[NavigationMixin.Navigate]({
-					type: "standard__component",
-					attributes: {
-						componentName: "c__FromMobileDetailsToNewOrder"
-					},
-					state: {
-						c__orderId: this.orderId,
-						c__contactId: this.contactId
->>>>>>> Margarita
-					}
-				})
+				window.console.log('button2___');
+				updateProductOrderId({ mobileId: this.mobileId, orderId: this.orderId })
+				
+					.then(() => {
+						window.console.log('button2___');
+						this.dispatchEvent(new ShowToastEvent({
+							title: 'Success!',
+							message: 'Order ' + this.orderId + ' Created Successfully!',
+							variant: 'success'
+						}));
+						this[NavigationMixin.Navigate]({
+							type: "standard__component",
+							attributes: {
+								componentName: "c__FromMobileDetailsToNewOrder"
+							},
+							state: {
+								c__orderId: this.orderId,
+								c__contactId: this.contactId
+							}
+						})
+					})
+					.catch(error => {
+						window.console.log(error);
+						this.error = JSON.stringify(error);
+					});
 			})
 			.catch(error => {
+				window.console.log(error);
 				this.error = JSON.stringify(error);
+				window.console.log(error);
 			});
-<<<<<<< HEAD
-=======
-		// const createOrderEvent = new CustomEvent('createorder', {
-		// 	detail: {
-		// 		orderId: this.orderId
-		// 	}
-		// });
-		// this.dispatchEvent(createOrderEvent);
-		// this[NavigationMixin.Navigate]({
-		// 	type: 'standard__recordPage',
-		// 	attributes: {
-		// 		recordId: this.orderId,
-		// 		objectApiName: 'Custom_Order__c',
-		// 		actionName: 'view'
-		// 	}
-		// });
-
->>>>>>> Margarita
 	}
 }
