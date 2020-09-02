@@ -1,0 +1,6 @@
+<aura:component
+  description="FromMobileDetailsToNewOrder"
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <c:order orderId="{orderId}" contactId="{contactId}" />
+</aura:component>

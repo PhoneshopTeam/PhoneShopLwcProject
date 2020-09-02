@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { LightningElement, wire, api, track } from 'lwc';
 import getAccount from '@salesforce/apex/AccountController.getAccount';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -10,6 +11,9 @@ import LOGO_FIELD from '@salesforce/schema/Account.Logo__c';
 import PHONE_FIELD from '@salesforce/schema/Account.Phone';
 import ADRESS_FIELD from '@salesforce/schema/Account.BillingAddress';
 import { NavigationMixin } from 'lightning/navigation';
+=======
+import { LightningElement } from "lwc";
+>>>>>>> 2cd56f6a89de5e7b92fdbda42ba1b2c0a0a8af93
 
 const fields = [NAME_FIELD, EMAIL_FIELD, PHONE_FIELD, ADRESS_FIELD, WORKING_HOURS_FIELD];
 export default class AboutCompany extends NavigationMixin(LightningElement) {
