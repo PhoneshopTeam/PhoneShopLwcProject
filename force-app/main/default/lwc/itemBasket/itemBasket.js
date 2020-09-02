@@ -48,7 +48,6 @@ export default class ItemBasket extends LightningElement {
         this.totalPrice=this.quantity*this.phonePrice;
             console.log('phonePrice:' +this.phonePrice);
             console.log('totalPrice:' +this.totalPrice);
-        renderedCallback();
         this.fireEvent();
     }
 
