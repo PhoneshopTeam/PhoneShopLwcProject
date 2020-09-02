@@ -30,7 +30,7 @@ import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 // import ORDER_QUANTITY_FIELD from '@salesforce/schema/Custom_Order__c.Quantity__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
-import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+// import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 // import ORDER_PRICE_FIELD from '@salesforce/schema/Custom_Order__c.Unit_Price__c';
 
 const REVIEWS_TAB = 'reviews';
@@ -108,7 +108,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		// fields[ORDER_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
 		// fields[ORDER_PRICE_FIELD.fieldApiName] = this.mobilePrice;
-		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
+		// fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
 			apiName: ORDER_OBJECT.objectApiName,
@@ -117,7 +117,6 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		createRecord(recordInput)
 			.then(order => {
 				this.orderId = order.id;
-<<<<<<< HEAD
 				this.dispatchEvent(new ShowToastEvent({
 					title: 'Success!',
 					message: 'Order ' + this.orderId + ' Created Successfully!',
@@ -131,38 +130,11 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 					state: {
 						c__orderId: this.orderId,
 						c__contactId: this.contactId
-=======
-				this[NavigationMixin.Navigate]({
-					type: "standard__component",
-					attributes: {
-						componentName: "c__OrderComponent"
-					},
-					state: {
-						c__orderId: this.orderId
->>>>>>> 42be25b7212603982cada3743d6d269febed3718
 					}
 				})
 			})
 			.catch(error => {
 				this.error = JSON.stringify(error);
 			});
-<<<<<<< HEAD
-		// const createOrderEvent = new CustomEvent('createorder', {
-		// 	detail: {
-		// 		orderId: this.orderId
-		// 	}
-		// });
-		// this.dispatchEvent(createOrderEvent);
-		// this[NavigationMixin.Navigate]({
-		// 	type: 'standard__recordPage',
-		// 	attributes: {
-		// 		recordId: this.orderId,
-		// 		objectApiName: 'Custom_Order__c',
-		// 		actionName: 'view'
-		// 	}
-		// });
-
-=======
->>>>>>> 42be25b7212603982cada3743d6d269febed3718
 	}
 }

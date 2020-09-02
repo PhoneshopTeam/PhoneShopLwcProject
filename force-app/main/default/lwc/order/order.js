@@ -23,7 +23,7 @@ import LAST_NAME_FIELD from '@salesforce/schema/Contact.LastName';
 import PHONE_FIELD from '@salesforce/schema/Contact.Phone';
 import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import ORDER_NUMBER_FIELD from '@salesforce/schema/Custom_Order__c.Order_Number__c';
-import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+// import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
 // const COLS = [{
 //         label: "Picture",
@@ -62,7 +62,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     // labelOfPositionsButton = "Show all positions";
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
-    fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
+    fieldsOfOrder = [ORDER_NUMBER_FIELD];
 
     // columns = COLS;
     @wire(CurrentPageReference)
