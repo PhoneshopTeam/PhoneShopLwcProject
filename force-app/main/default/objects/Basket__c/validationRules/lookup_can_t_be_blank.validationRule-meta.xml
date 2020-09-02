@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>lookup_can_t_be_blank</fullName>
-    <active>true</active>
-    <errorConditionFormula>ISBLANK(  ProductId__c )</errorConditionFormula>
-    <errorDisplayField>ProductId__c</errorDisplayField>
-    <errorMessage>lookup can`t_be_blank. Add value to Product</errorMessage>
-</ValidationRule>

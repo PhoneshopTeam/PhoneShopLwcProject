@@ -1,4 +1,0 @@
-<aura:component implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId">
-    
-    <c:aboutCompany/>
-</aura:component>	

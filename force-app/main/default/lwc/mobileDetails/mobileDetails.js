@@ -118,7 +118,6 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 			.then(order => {
 				/////нужна savepoint
 				this.orderId = order.id;
-
 				window.console.log('button2___');
 				updateProductOrderId({
 						mobileId: this.mobileId,
