@@ -117,6 +117,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		createRecord(recordInput)
 			.then(order => {
 				this.orderId = order.id;
+<<<<<<< HEAD
 				this.dispatchEvent(new ShowToastEvent({
 					title: 'Success!',
 					message: 'Order ' + this.orderId + ' Created Successfully!',
@@ -130,12 +131,22 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 					state: {
 						c__orderId: this.orderId,
 						c__contactId: this.contactId
+=======
+				this[NavigationMixin.Navigate]({
+					type: "standard__component",
+					attributes: {
+						componentName: "c__OrderComponent"
+					},
+					state: {
+						c__orderId: this.orderId
+>>>>>>> 42be25b7212603982cada3743d6d269febed3718
 					}
 				})
 			})
 			.catch(error => {
 				this.error = JSON.stringify(error);
 			});
+<<<<<<< HEAD
 		// const createOrderEvent = new CustomEvent('createorder', {
 		// 	detail: {
 		// 		orderId: this.orderId
@@ -151,5 +162,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		// 	}
 		// });
 
+=======
+>>>>>>> 42be25b7212603982cada3743d6d269febed3718
 	}
 }
