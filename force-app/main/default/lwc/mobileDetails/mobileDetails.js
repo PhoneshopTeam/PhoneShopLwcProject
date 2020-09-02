@@ -11,10 +11,9 @@ import {
 	getFieldValue,
 	createRecord
 } from 'lightning/uiRecordApi';
-import updateProductOrderId from '@salesforce/apex/MobileDataService.updateProductOrderId';
 import {
 	ShowToastEvent
-} from 'lightning/platformShowToastEvent';
+} from 'lightning/platformShowToastEvent'
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
@@ -37,9 +36,10 @@ import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
-
-	@api contactId;
-	@api mobileId = '01t2w000006P0G3AAK';
+	// @api
+	contactId = '0032w00000FyKrCAAV';
+	// @api
+	mobileId = '01t2w000006mqD4AAI';
 	quantity = 1;
 	orderId;
 
@@ -116,38 +116,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		}
 		createRecord(recordInput)
 			.then(order => {
-				/////нужна savepoint
 				this.orderId = order.id;
-<<<<<<< HEAD
-				window.console.log('button2___');
-				updateProductOrderId({
-						mobileId: this.mobileId,
-						orderId: this.orderId
-					})
-
-					.then(() => {
-						window.console.log('button2___');
-						this.dispatchEvent(new ShowToastEvent({
-							title: 'Success!',
-							message: 'Order ' + this.orderId + ' Created Successfully!',
-							variant: 'success'
-						}));
-						this[NavigationMixin.Navigate]({
-							type: "standard__component",
-							attributes: {
-								componentName: "c__FromMobileDetailsToNewOrder"
-							},
-							state: {
-								c__orderId: this.orderId,
-								c__contactId: this.contactId
-							}
-						})
-					})
-					.catch(error => {
-						window.console.log(error);
-						this.error = JSON.stringify(error);
-					});
-=======
 				this.dispatchEvent(new ShowToastEvent({
 					title: 'Success!',
 					message: 'Order ' + this.orderId + ' Created Successfully!',
@@ -163,12 +132,9 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 						c__contactId: this.contactId
 					}
 				})
->>>>>>> Vadim
 			})
 			.catch(error => {
-				window.console.log(error);
 				this.error = JSON.stringify(error);
-				window.console.log(error);
 			});
 	}
 }

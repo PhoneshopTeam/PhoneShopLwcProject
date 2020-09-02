@@ -3,9 +3,9 @@
     <fullName>Total_Amount__c</fullName>
     <externalId>false</externalId>
     <label>Total Amount</label>
-    <precision>18</precision>
-    <required>false</required>
-    <scale>2</scale>
+    <summarizedField>Basket__c.TotalPrice__c</summarizedField>
+    <summaryForeignKey>Basket__c.CustomOrderId__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
     <trackTrending>false</trackTrending>
-    <type>Currency</type>
+    <type>Summary</type>
 </CustomField>
