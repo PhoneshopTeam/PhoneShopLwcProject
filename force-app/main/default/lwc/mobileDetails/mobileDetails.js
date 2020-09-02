@@ -31,7 +31,7 @@ import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 // import ORDER_QUANTITY_FIELD from '@salesforce/schema/Custom_Order__c.Quantity__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
-import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+// import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 // import ORDER_PRICE_FIELD from '@salesforce/schema/Custom_Order__c.Unit_Price__c';
 
 const REVIEWS_TAB = 'reviews';
@@ -108,7 +108,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		// fields[ORDER_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
 		// fields[ORDER_PRICE_FIELD.fieldApiName] = this.mobilePrice;
-		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
+		// fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
 			apiName: ORDER_OBJECT.objectApiName,
@@ -118,6 +118,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 			.then(order => {
 				/////нужна savepoint
 				this.orderId = order.id;
+<<<<<<< HEAD
 				window.console.log('button2___');
 				updateProductOrderId({
 						mobileId: this.mobileId,
@@ -146,6 +147,23 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 						window.console.log(error);
 						this.error = JSON.stringify(error);
 					});
+=======
+				this.dispatchEvent(new ShowToastEvent({
+					title: 'Success!',
+					message: 'Order ' + this.orderId + ' Created Successfully!',
+					variant: 'success'
+				}));
+				this[NavigationMixin.Navigate]({
+					type: "standard__component",
+					attributes: {
+						componentName: "c__FromMobileDetailsToNewOrder"
+					},
+					state: {
+						c__orderId: this.orderId,
+						c__contactId: this.contactId
+					}
+				})
+>>>>>>> Vadim
 			})
 			.catch(error => {
 				window.console.log(error);

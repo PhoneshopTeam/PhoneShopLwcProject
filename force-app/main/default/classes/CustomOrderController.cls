@@ -1,5 +1,4 @@
 public with sharing class CustomOrderController {
-
   @AuraEnabled(cacheable=true)
   public static List<Custom_Order__c> getOrders(String contactId) {
     List<Custom_Order__c> orders = [
@@ -7,7 +6,6 @@ public with sharing class CustomOrderController {
         Id,
         Order_Number__c,
         Status__c,
-        Total_Amount__c,
         Delivery_date__c,
         Type_of_payment__c
       FROM Custom_Order__c
@@ -28,7 +26,6 @@ public with sharing class CustomOrderController {
         Id,
         Order_Number__c,
         Status__c,
-        Total_Amount__c,
         Delivery_date__c,
         Type_of_payment__c
       FROM Custom_Order__c

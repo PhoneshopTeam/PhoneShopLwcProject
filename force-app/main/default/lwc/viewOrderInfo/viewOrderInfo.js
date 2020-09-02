@@ -4,7 +4,7 @@ import {
     api
 } from 'lwc';
 import ORDER_NUMBER_FIELD from '@salesforce/schema/Custom_Order__c.Order_Number__c';
-import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+// import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 import STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
 import TYPE_OF_PAYMENT_FIELD from '@salesforce/schema/Custom_Order__c.Type_of_payment__c';
 import DELIVERY_DATE_FIELD from '@salesforce/schema/Custom_Order__c.Delivery_date__c';
@@ -22,7 +22,7 @@ export default class ViewOrderInfo extends NavigationMixin(LightningElement) {
     // @api contactId;
     addressId;
 
-    fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD, STATUS_FIELD, TYPE_OF_PAYMENT_FIELD, DELIVERY_DATE_FIELD];
+    fieldsOfOrder = [ORDER_NUMBER_FIELD, STATUS_FIELD, TYPE_OF_PAYMENT_FIELD, DELIVERY_DATE_FIELD];
     fieldsOfDeliveryAdress = [DELIVERY_ADDRESS_ID_FIELD];
 
     // @wire(CurrentPageReference)
