@@ -11,7 +11,6 @@ import DELIVERY_DATE_FIELD from '@salesforce/schema/Custom_Order__c.Delivery_dat
 import DELIVERY_ADDRESS_ID_FIELD from '@salesforce/schema/DeliveryAdress__c.Adress__c';
 import getDeliveryAdressByOrderId from "@salesforce/apex/CustomOrderController.getDeliveryAdressByOrderId";
 import {
-    CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
 
