@@ -8,15 +8,15 @@
   >
   </lightning-input>
   <template if:true={isHidePositionsInOrder}>
-    <template if:true={mobiles.data}>
+    <template if:true={orderItems}>
       <c-salesforce-codex-data-table
         key-field="Id"
-        data={mobiles.data}
+        data={orderItems}
         columns={columns}
         hide-checkbox-column="false"
       >
       </c-salesforce-codex-data-table>
     </template>
-    <template if:true={mobiles.error}></template>
+    <template if:true={orderItems}></template>
   </template>
 </template>

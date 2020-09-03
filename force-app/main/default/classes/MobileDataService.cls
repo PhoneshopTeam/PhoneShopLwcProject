@@ -23,11 +23,18 @@ public with sharing class MobileDataService {
   }
 
   @AuraEnabled(cacheable=true)
-  public static List<Product2> getMobilesInOrder(String orderId) {
+  public static List<Basket__c> getBasketsInOrder(String orderId) {
     return [
-      SELECT Id, Name, Picture__c, Price__c
-      FROM Product2
-      WHERE Custom_OrderId__c = :orderId
+      SELECT
+        Id,
+        UnitPrice__c,
+        Quantity__c,
+        TotalPrice__c,
+        ProductId__r.Id,
+        ProductId__r.Picture__c,
+        ProductId__r.Name
+      FROM Basket__c
+      WHERE CustomOrderId__c = :orderId
     ];
   }
 }

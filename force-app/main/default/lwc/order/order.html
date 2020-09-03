@@ -10,26 +10,6 @@
     >
     </lightning-record-form>
     <c-show-positions-in-order order-id={orderId}></c-show-positions-in-order>
-    <!-- <lightning-input
-      data-id="positions"
-      label={labelOfPositionsButton}
-      class="slds-p-left_xx-large"
-      type="checkbox"
-      onchange={handleChange}
-    >
-    </lightning-input>
-    <template if:true={isHidePositionsInOrder}>
-      <template if:true={mobiles.data}>
-        <c-salesforce-codex-data-table
-          key-field="Id"
-          data={mobiles.data}
-          columns={columns}
-          hide-checkbox-column="false"
-        >
-        </c-salesforce-codex-data-table>
-      </template>
-      <template if:true={mobiles.error}></template>
-    </template> -->
     <lightning-card title="Recipient" icon-name="standard:avatar">
       <lightning-record-form
         record-id={contactId}
