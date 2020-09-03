@@ -25,25 +25,6 @@ import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import ORDER_NUMBER_FIELD from '@salesforce/schema/Custom_Order__c.Order_Number__c';
 import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
-// const COLS = [{
-//         label: "Picture",
-//         fieldName: "Picture__c",
-//         hideDefaultActions: true,
-//         type: 'image'
-//     },
-//     {
-//         label: "Name",
-//         fieldName: "Name",
-//         hideDefaultActions: true
-//     },
-//     {
-//         label: "Price",
-//         fieldName: "Price__c",
-//         hideDefaultActions: true,
-//         type: 'currency'
-//     }
-// ];
-
 export default class Order extends NavigationMixin(LightningElement) {
 
     //@api
@@ -51,7 +32,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     //  = "0032w00000FyKrCAAV";
     //@api
     orderId;
-    //  = "a002w000009jZpCAAU";
+    //  = 'a002w000009jyqzAAA';
     selectedAddressId;
     orders;
     error;

@@ -6,10 +6,6 @@ public with sharing class CaseController {
       FROM Case
       WHERE ContactId = :contactId
     ];
-
-    if (cases.isEmpty()) {
-      throw new AuraHandledException('Forced error');
-    }
     return cases;
   }
 }

@@ -1,6 +1,0 @@
-<aura:component
-  description="FromNewOrderPageToViewOrderInfo"
-  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
->
-  <c:viewOrderInfo orderId="{orderId}" contactId="{contactId}" />
-</aura:component>

@@ -17,12 +17,6 @@ import {
 import {
   ShowToastEvent
 } from 'lightning/platformShowToastEvent';
-import {
-  encodeDefaultFieldValues
-} from "lightning/pageReferenceUtils";
-import {
-  NavigationMixin
-} from "lightning/navigation";
 
 const actions = [{
   label: "View",
@@ -127,18 +121,24 @@ const COLS3 = [{
   }
 ];
 
-export default class PersonalOffice extends NavigationMixin(LightningElement) {
+export default class PersonalOffice extends LightningElement {
   //@api
   contactId = "0032w00000FyKrCAAV";
   orderId;
+  caseId;
+  error;
+
   isHideOrders = false;
   isHideCases = false;
-
+  isOrderModalOpen = false;
+  isCaseModalOpen = false;
+  isCaseInfoModalOpen = false;
   isHideNewAddressButton = false;
+
   columnsForOrders = COLS;
   columnsForCases = COLS2;
   columnsForAdreses = COLS3;
-  error;
+
   labelOfOrderButton = "Show all my orders";
   labelOfCaseButton = "Show all my cases";
   labelOfAddressesButton = "Show my addresses";
@@ -217,65 +217,25 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   navigateToOrderRecord(event) {
-    const row = event.detail.row;
-    const actionName = event.detail.action.name;
 
-    const defaultValues = encodeDefaultFieldValues({
-      Custom_OrderId__c: row.Id,
-      ContactId: this.contactId
-    });
+    const actionName = event.detail.action.name;
+    this.orderId = event.detail.row.Id;
 
     switch (actionName) {
       case "view":
-        // this[NavigationMixin.Navigate]({
-        //   type: "standard__recordPage",
-        //   attributes: {
-        //     recordId: row.Id,
-        //     objectApiName: "Custom_Order__c",
-        //     actionName: actionName
-        //   }
-        // });
-        // this[NavigationMixin.Navigate]({
-        //   type: "standard__component",
-        //   attributes: {
-        //     componentName: "c__FromNewOrderPageToViewOrderInfo"
-        //   },
-        //   state: {
-        //     c__orderId: this.orderId,
-        //     c__contactId: this.contactId
-        //   }
-        // })
-        this.orderId = row.Id;
-        this.template.querySelector("c-view-order-info ").openModal();
+        this.isOrderModalOpen = true;
         break;
       case "new":
-        this[NavigationMixin.Navigate]({
-          type: "standard__objectPage",
-          attributes: {
-            objectApiName: "Case",
-            actionName: actionName
-          },
-          state: {
-            defaultFieldValues: defaultValues // and here we set defaults as a nav parameter
-          }
-        });
+        this.isCaseModalOpen = true;
         break;
       default:
     }
   }
 
   navigateToCaseRecord(event) {
-    const row = event.detail.row;
-    const actionName = event.detail.action.name;
-
-    this[NavigationMixin.Navigate]({
-      type: "standard__recordPage",
-      attributes: {
-        recordId: row.Id,
-        objectApiName: "Case",
-        actionName: actionName
-      }
-    });
+    // const actionName = event.detail.action.name;
+    this.caseId = event.detail.row.Id;
+    this.isCaseInfoModalOpen = true;
   }
 
   actionWithAddressRecord(event) {
@@ -302,5 +262,17 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
         );
       });
     console.log('this.addresses' + JSON.stringify(this.addresses.data));
+  }
+
+  closeOrderModal() {
+    this.isOrderModalOpen = false;
+  }
+
+  closeCaseModal() {
+    this.isCaseModalOpen = false;
+  }
+
+  closeCaseInfoModal() {
+    this.isCaseInfoModalOpen = false;
   }
 }

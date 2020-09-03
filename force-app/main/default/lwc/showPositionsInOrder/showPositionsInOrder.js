@@ -88,7 +88,14 @@ export default class ShowPositionsInOrder extends LightningElement {
             console.log('error====>');
         }
     }
-    //  mobiles;
+
+    _flatten = (nodeValue, flattenedRow, nodeName) => {
+        let rowKeys = Object.keys(nodeValue);
+        rowKeys.forEach((key) => {
+            let finalKey = nodeName + '.' + key;
+            flattenedRow[finalKey] = nodeValue[key];
+        })
+    }
 
     handleChange() {
 

@@ -27,7 +27,7 @@ import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
-import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+// import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
 import BASKET_OBJECT from '@salesforce/schema/Basket__c';
 import BASKET_PRODUCTID_FIELD from '@salesforce/schema/Basket__c.ProductId__c';
@@ -130,7 +130,6 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
-		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
 			apiName: ORDER_OBJECT.objectApiName,
@@ -141,18 +140,20 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 				this.orderId = order.id;
 
 				const fields = {};
+
 				fields[BASKET_PRODUCTID_FIELD.fieldApiName] = this.mobileId;
 				fields[BASKET_CONTACTID_FIELD.fieldApiName] = this.contactId;
 				fields[BASKET_ORDERID_FIELD.fieldApiName] = this.orderId
 				fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 				fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 				fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
-				//fields[BASKET_TOTALPRICE_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
+
 				const recordInput = {
 					apiName: BASKET_OBJECT.objectApiName,
 					fields
 				}
 				window.console.log('a');
+
 				createRecord(recordInput)
 					.then(basket => {
 						window.console.log('b');

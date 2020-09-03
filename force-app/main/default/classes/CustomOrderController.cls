@@ -7,7 +7,8 @@ public with sharing class CustomOrderController {
         Order_Number__c,
         Status__c,
         Delivery_date__c,
-        Type_of_payment__c
+        Type_of_payment__c,
+        Total_Amount__c
       FROM Custom_Order__c
       WHERE ContactId__c = :contactId
     ];
@@ -29,7 +30,7 @@ public with sharing class CustomOrderController {
         Delivery_date__c,
         Type_of_payment__c
       FROM Custom_Order__c
-      WHERE Id = :orderId AND Status__c = 'Draft'
+      WHERE Id = :orderId
     ];
 
     // if (orders.isEmpty()) {
@@ -49,8 +50,6 @@ public with sharing class CustomOrderController {
   ) {
     System.debug('formOrder');
 
-    System.debug('Date deliveryDate = ' + deliveryDate);
-    System.debug('String typeOfPayment = ' + typeOfPayment);
     Savepoint sp = Database.setSavepoint();
     try {
       if (isHideDeliveryDate) {
@@ -71,7 +70,6 @@ public with sharing class CustomOrderController {
         o.Type_of_payment__c = typeOfPayment;
       }
       update orders;
-      System.debug('orders' + orders);
     } catch (Exception e) {
       System.debug('formOrder catch ');
 

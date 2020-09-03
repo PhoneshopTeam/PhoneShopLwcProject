@@ -94,6 +94,30 @@
         <template if:true={addresses.error}></template>
       </lightning-card>
     </template>
+    <div class="slds-theme_default">
+      <template if:true={isOrderModalOpen}>
+        <c-view-order-info
+          order-id={orderId}
+          onclose={closeOrderModal}
+        ></c-view-order-info>
+      </template>
+    </div>
+    <div class="slds-theme_default">
+      <template if:true={isCaseModalOpen}>
+        <c-create-new-case
+          contact-id={contactId}
+          order-id={orderId}
+          onclose={closeCaseModal}
+        ></c-create-new-case>
+      </template>
+    </div>
+    <div class="slds-theme_default">
+      <template if:true={isCaseInfoModalOpen}>
+        <c-view-case-info
+          case-id={caseId}
+          onclose={closeCaseInfoModal}
+        ></c-view-case-info>
+      </template>
+    </div>
   </lightning-card>
-  <c-view-order-info order-id={orderId}></c-view-order-info>
 </template>
