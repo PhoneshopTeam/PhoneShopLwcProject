@@ -2,12 +2,12 @@ public with sharing class MobileDataService{
 	@AuraEnabled(cacheable = true)
 	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, String mobileBrand){
 		if (mobileBrand.equals('')){
-			return [SELECT Name, Description, Picture__c, Price__c
+			return [SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c
 			        FROM Product2 
 			        LIMIT :pageSize
 			        OFFSET :offset];
 		} else{
-			return [SELECT Name, Description, Picture__c, Price__c
+			return [SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c
 			        FROM Product2 
 			        WHERE Brand__c = :mobileBrand
 			        LIMIT :pageSize
