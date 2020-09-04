@@ -223,7 +223,7 @@ export default class PersonalOffice extends LightningElement {
 
     switch (actionName) {
       case "view":
-        this.isOrderModalOpen = true;
+        this.openOrderModal();
         break;
       case "new":
         this.isCaseModalOpen = true;
@@ -262,6 +262,13 @@ export default class PersonalOffice extends LightningElement {
         );
       });
     console.log('this.addresses' + JSON.stringify(this.addresses.data));
+  }
+
+  openOrderModal(event) {
+    if (event) {
+      this.orderId = event.detail;
+    }
+    this.isOrderModalOpen = true;
   }
 
   closeOrderModal() {

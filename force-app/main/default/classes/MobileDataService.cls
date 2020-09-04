@@ -58,16 +58,16 @@ public with sharing class MobileDataService {
     return offset;
   }
 
-  @AuraEnabled
-  public static void updateProductOrderId(Id mobileId, Id orderId) {
-    Product2 mobile = [
-      SELECT Custom_OrderId__C
-      FROM Product2
-      WHERE Id = :mobileId
-    ];
-    mobile.Custom_OrderId__c = orderId;
-    update mobile;
-  }
+  //   @AuraEnabled
+  //   public static void updateProductOrderId(Id mobileId, Id orderId) {
+  //     Product2 mobile = [
+  //       SELECT Custom_OrderId__C
+  //       FROM Product2
+  //       WHERE Id = :mobileId
+  //     ];
+  //     mobile.Custom_OrderId__c = orderId;
+  //     update mobile;
+  //   }
 
   @AuraEnabled(cacheable=true)
   public static Integer getPrevious(Integer offset, Integer pageSize) {
@@ -104,12 +104,12 @@ public with sharing class MobileDataService {
     public string svalue { get; set; }
   }
 
-  @AuraEnabled(cacheable=true)
-  public static List<Product2> getMobilesInOrder(String orderId) {
-    return [
-      SELECT Id, Name, Picture__c, Price__c
-      FROM Product2
-      WHERE Custom_OrderId__c = :orderId
-    ];
-  }
+  //   @AuraEnabled(cacheable=true)
+  //   public static List<Product2> getMobilesInOrder(String orderId) {
+  //     return [
+  //       SELECT Id, Name, Picture__c, Price__c
+  //       FROM Product2
+  //       WHERE Custom_OrderId__c = :orderId
+  //     ];
+  //   }
 }

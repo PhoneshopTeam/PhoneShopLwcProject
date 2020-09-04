@@ -27,7 +27,15 @@
             id="modal-heading-01"
             class="slds-text-heading_medium slds-hyphenate"
           >
-            Info about order
+            <lightning-card title="Order number">
+              <lightning-button
+                variant="base"
+                label={orderNumber}
+                title="Order number"
+                onclick={handleClick}
+                class="slds-m-left_x-small"
+              ></lightning-button>
+            </lightning-card>
           </h2>
         </header>
         <div class="slds-modal__content slds-p-around_medium">
@@ -39,10 +47,6 @@
               columns="1"
               mode="readonly"
             >
-              <lightning-output-field
-                field-name="Custom_OrderId__c"
-                onclick={onclick}
-              ></lightning-output-field>
             </lightning-record-form>
           </lightning-card>
         </div>
