@@ -3,23 +3,28 @@ public with sharing class MobileDataService {
   public static List<Product2> getMobilesList(
     Integer offset,
     Integer pageSize,
-    String mobileBrand
+    String mobileBrand,
+    String bySort
   ) {
+    String query = '';
     if (mobileBrand.equals('')) {
-      return [
-        SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c
-        FROM Product2
-        LIMIT :pageSize
-        OFFSET :offset
-      ];
+      query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c FROM Product2';
     } else {
-      return [
-        SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c
-        FROM Product2
-        WHERE Brand__c = :mobileBrand
-        LIMIT :pageSize
-        OFFSET :offset
-      ];
+      query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c FROM Product2 WHERE Brand__c = :mobileBrand';
+    }
+    if (bySort.equals('priceDesc')) {
+      query += ' ORDER BY Price__c DESC';
+    } else if (bySort.equals('priceAsc')) {
+      query += ' ORDER BY Price__c ASC';
+    } else if (bySort.equals('rating')) {
+      query += ' ORDER BY Rating__c DESC';
+    }
+    query += ' LIMIT :pageSize OFFSET :offset';
+    try {
+      return Database.query(query);
+    } catch (DMLException e) {
+      System.debug(e.getMessage());
+      return new List<Product2>();
     }
   }
 

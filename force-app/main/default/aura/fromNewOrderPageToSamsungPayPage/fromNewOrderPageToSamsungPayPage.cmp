@@ -1,6 +1,0 @@
-<aura:component
-  description="FromNewOrderPageToSamsungPayPage"
-  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
->
-  <c:testSamsungPay orderId="{orderId}" contactId="{contactId}" />
-</aura:component>
