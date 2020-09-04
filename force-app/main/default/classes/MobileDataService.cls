@@ -1,17 +1,25 @@
 public with sharing class MobileDataService{
 	@AuraEnabled(cacheable = true)
-	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, String mobileBrand){
+	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, String mobileBrand, String bySort){
+		String query = '';
 		if (mobileBrand.equals('')){
-			return [SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c
-			        FROM Product2 
-			        LIMIT :pageSize
-			        OFFSET :offset];
+			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c FROM Product2';
 		} else{
-			return [SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c
-			        FROM Product2 
-			        WHERE Brand__c = :mobileBrand
-			        LIMIT :pageSize
-			        OFFSET :offset];
+			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c FROM Product2 WHERE Brand__c = :mobileBrand';
+		}
+		if (bySort.equals('priceDesc')){
+			query += ' ORDER BY Price__c DESC';
+		} else if (bySort.equals('priceAsc')){
+			query += ' ORDER BY Price__c ASC';
+		} else if (bySort.equals('rating')){
+			query += ' ORDER BY Rating__c DESC';
+		}
+		query += ' LIMIT :pageSize OFFSET :offset';
+		try{
+			return Database.query(query);
+		} catch (DMLException e){
+			System.debug(e.getMessage());
+			return new List<Product2>();
 		}
 	}
 
@@ -43,13 +51,6 @@ public with sharing class MobileDataService{
 		return offset;
 	}
 
-	@AuraEnabled
-	public static void updateProductOrderId(Id mobileId, Id orderId){
-		Product2 mobile = [SELECT Custom_OrderId__C FROM Product2 WHERE Id=:mobileId];
-		mobile.Custom_OrderId__c = orderId;
-		update mobile;
-	}
-
 	@AuraEnabled(cacheable = true)
 	public static Integer getPrevious(Integer offset, Integer pageSize){
 		offset -= pageSize;
@@ -77,12 +78,5 @@ public with sharing class MobileDataService{
 
 		@auraEnabled
 		public string svalue{ get; set; }
-	}
-
-	@AuraEnabled(cacheable = true)
-	public static List<Product2> getMobilesInOrder(String orderId){
-		return [SELECT Id, Name, Picture__c, Price__c
-		        FROM Product2 
-		        WHERE Custom_OrderId__c = :orderId];
 	}
 }

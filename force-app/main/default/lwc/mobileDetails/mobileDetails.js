@@ -15,7 +15,7 @@ import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
-import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+//import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
 import BASKET_OBJECT from '@salesforce/schema/Basket__c';
 import BASKET_PRODUCTID_FIELD from '@salesforce/schema/Basket__c.ProductId__c';
@@ -112,7 +112,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
-		fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
+		//fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
 			apiName: ORDER_OBJECT.objectApiName,

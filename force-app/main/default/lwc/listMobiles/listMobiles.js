@@ -12,11 +12,14 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     mobiles;
     @api selectedMobileId;
     @api selectedBrand = '';
+    @api selectedBySort = '';
     isLoading = true;
 
-    @wire(getMobilesList, { offset: '$offset', pageSize: '$pageSize', mobileBrand: '$selectedBrand' })
+    @wire(getMobilesList, { offset: '$offset', pageSize: '$pageSize', mobileBrand: '$selectedBrand', bySort: '$selectedBySort' })
     wiredBoats(result) {
+        window.console.log('4');
         this.mobiles = result;
+        window.console.log('5');
     }
 
     @api
@@ -24,6 +27,16 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.isLoading = true;
         this.notifyLoading(this.isLoading);
         this.selectedBrand = selectedBrand;
+        this.isLoading = false;
+        this.notifyLoading(this.isLoading);
+    }
+
+    @api
+    sortMobiles(selectedBySort) {
+        window.console.log('3');
+        this.isLoading = true;
+        this.notifyLoading(this.isLoading);
+        this.selectedBySort = selectedBySort;
         this.isLoading = false;
         this.notifyLoading(this.isLoading);
     }
