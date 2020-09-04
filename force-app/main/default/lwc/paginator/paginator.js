@@ -37,4 +37,4 @@ export default class Paginator extends LightningElement {
         const selectedEvent = new CustomEvent('selected', { detail: s_value });
         this.dispatchEvent(selectedEvent);
     }
-}   
+}
