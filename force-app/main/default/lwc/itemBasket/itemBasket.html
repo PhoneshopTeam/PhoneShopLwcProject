@@ -1,14 +1,14 @@
 <template>
     <lightning-card>
-        <template if:true={product}>
+        <template if:true={basketId}>
             <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
                 <lightning-layout class="slds-grid slds-gutters" vertical-align="center">
                     <lightning-layout-item class="slds-col slds-size_3-of-6">
                         <div class="slds-p-around_medium slds-text-align_center">
-                            <c-product-item-for-basket product={product}>
+                            <c-product-item-for-basket basket-id={basketId}>
                             </c-product-item-for-basket>
-                            <p>Mob Phone: {product.Name}   Mobi Price__c: {product.Price__c}  Mobi Price: {price}    quantityItems: {quantityItems}   
-                                Mobi phonePrice: {phonePrice}   totalPrice: {totalPrice}  
+                            <p>Mob Phone: {basketId.ProductId__r.Name}   Mobi Price__c: {productId.Price__c}  Mobi Price: {price}    quantityUpd: {quantityUpd}   
+                                   checkboxVal: {checkboxVal}  basketId: {basketId.ProductId__c}  basket Name: {basketId.Name} Pic: {basketId.ProductId__r.Picture__c}
                             </p>
                         </div>
                     </lightning-layout-item>
@@ -33,7 +33,7 @@
                             <div class="slds-m-top_x-small" >
                                 <!--lightning-badge label={totalPriceItem} icon-name="utility:moneybag" class="slds-text-heading_medium" 
                                     style="height: 40px; width: 100px;" ></lightning-badge-->
-                                    <p><strong><lightning-formatted-number id="totalPriceItem" value={totalPriceItem} format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                    <p><strong><lightning-formatted-number id="totalPriceItem" value={totalPrice} format-style="currency" currency-code="USD"></lightning-formatted-number>
                                     </strong></p>
                             </div> 
                         </div>
