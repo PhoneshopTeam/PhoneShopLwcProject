@@ -106,9 +106,9 @@ public with sharing class CustomOrderController {
       LIMIT 1
     ];
 
-    if (deliveryAdress.isEmpty()) {
-      throw new AuraHandledException('Forced error');
-    }
+    // if (deliveryAdress.isEmpty()) {
+    //   throw new AuraHandledException('Forced error');
+    // }
     return deliveryAdress;
   }
 }
