@@ -21,7 +21,6 @@ public with sharing class BasketController {
         return prod;
     }*/
 
-    //new!! use Basket__C
     @AuraEnabled(cacheable=true)
     public static List<Basket__c> getBasketList(Id contactId) {
         List<Basket__c> baskets = [SELECT Name, UnitPrice__c, TotalPrice__c, Quantity__c, ProductStatus__c, 

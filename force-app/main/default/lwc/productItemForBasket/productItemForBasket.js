@@ -2,7 +2,6 @@ import { LightningElement, api } from 'lwc';
 
 export default class ProductItemForBasket extends LightningElement {
     @api basketId;
-    //@api product;
 
     get name() {
         return this.basketId.ProductId__r.Name;
