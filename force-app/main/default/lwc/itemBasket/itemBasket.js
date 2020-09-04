@@ -13,7 +13,7 @@ export default class ItemBasket extends LightningElement {
     @track hasRendered = true;
     basketItem;
                             //Basket__c.UnitPrice__c
-    //productId;
+
     quantityUpd; //=1;       //Basket__c.Quantity__c
     //totalPrice;  //='';   //Basket__c.TotalPrice__c
     checkboxVal = true;     //Basket__c.ProductStatus__c
