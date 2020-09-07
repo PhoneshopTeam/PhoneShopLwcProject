@@ -52,11 +52,21 @@ const COLS = [{
     fieldName: "Delivery_date__c",
     hideDefaultActions: true
   },
-  {
-    label: "Order Status",
-    fieldName: "Status__c",
-    hideDefaultActions: true
-  },
+  // {
+  //   label: "Delivery address",
+  //   fieldName: "Delivery_address__c",
+  //   hideDefaultActions: true
+  // },
+  // {
+  //   label: "Description",
+  //   fieldName: "Description__c",
+  //   hideDefaultActions: true
+  // },
+  // {
+  //   label: "Order Status",
+  //   fieldName: "Status__c",
+  //   hideDefaultActions: true
+  // },
   {
     type: "action",
     typeAttributes: {

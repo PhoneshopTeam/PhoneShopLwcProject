@@ -7,7 +7,9 @@ public with sharing class CustomOrderController {
         Order_Number__c,
         Status__c,
         Delivery_date__c,
+        Delivery_address__c,
         Type_of_payment__c,
+        Description__c,
         Total_Amount__c
       FROM Custom_Order__c
       WHERE ContactId__c = :contactId
@@ -46,28 +48,36 @@ public with sharing class CustomOrderController {
     String typeOfPayment,
     String orderId,
     String id,
+    String description,
     Boolean isHideDeliveryDate
   ) {
     System.debug('formOrder');
 
     Savepoint sp = Database.setSavepoint();
     try {
-      if (isHideDeliveryDate) {
-        List<DeliveryAdress__c> addresses = ContactController.getDeliveryAdressById(
-          id
-        );
+      // if (isHideDeliveryDate) {
+      //   List<DeliveryAdress__c> addresses = ContactController.getDeliveryAdressById(
+      //     id
+      //   );
 
-        for (DeliveryAdress__c a : addresses) {
-          a.Custom_OrderId__c = orderId;
-        }
-        update addresses;
-      }
+      //   for (DeliveryAdress__c a : addresses) {
+      //     a.Custom_OrderId__c = orderId;
+      //   }
+      //   update addresses;
+      // }
 
       List<Custom_Order__c> orders = getOrdersById(orderId);
 
       for (Custom_Order__c o : orders) {
         o.Delivery_date__c = deliveryDate;
         o.Type_of_payment__c = typeOfPayment;
+        o.Description__c = description;
+        if (isHideDeliveryDate) {
+          List<DeliveryAdress__c> addresses = ContactController.getDeliveryAdressById(
+            id
+          );
+          o.Delivery_address__c = addresses[0].Adress__c;
+        }
       }
       update orders;
     } catch (Exception e) {

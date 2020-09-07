@@ -38,6 +38,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     error;
     date;
     typeOfPayment;
+    description;
     isHideDeliveryDate = false;
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
@@ -120,6 +121,9 @@ export default class Order extends NavigationMixin(LightningElement) {
             case "typeOfPayment":
                 this.typeOfPayment = event.detail.value;
                 break;
+            case "description":
+                this.description = event.detail.value;
+                break;
             default:
         }
     }
@@ -159,7 +163,8 @@ export default class Order extends NavigationMixin(LightningElement) {
             typeOfPayment: this.typeOfPayment,
             orderId: this.orderId,
             id: this.selectedAddressId,
-            isHideDeliveryDate: this.isHideDeliveryDate
+            isHideDeliveryDate: this.isHideDeliveryDate,
+            description: this.description
         }).then(() => {
             if (this.typeOfPayment === 'by card online') {
                 this[NavigationMixin.Navigate]({

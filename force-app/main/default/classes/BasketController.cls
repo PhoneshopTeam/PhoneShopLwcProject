@@ -20,8 +20,6 @@ public with sharing class BasketController {
         return prod;
     }*/
 
-<<<<<<< HEAD
-  //new!! use Basket__C
   @AuraEnabled(cacheable=true)
   public static List<Basket__c> getBasketList(Id contactId) {
     List<Basket__c> baskets = [
@@ -82,20 +80,6 @@ public with sharing class BasketController {
       System.debug(
         'basket.CustomOrderId__c -----------------' + basket.CustomOrderId__c
       );
-=======
-    @AuraEnabled(cacheable=true)
-    public static List<Basket__c> getBasketList(Id contactId) {
-        List<Basket__c> baskets = [SELECT Name, UnitPrice__c, TotalPrice__c, Quantity__c, ProductStatus__c, 
-            ProductId__c, ProductId__r.Name, ProductId__r.Description, ProductId__r.Price__c, ProductId__r.Picture__c
-            FROM Basket__c 
-            WHERE ContactId__c =: contactId 
-            AND CustomOrderId__r.Name = 'DraftOrder'
-            ];
-
-            System.debug('basket-----------------'+baskets);
-            System.debug('basket size-----------------'+baskets.size());
-        return baskets;
->>>>>>> Vadim
     }
 
     update basketsToOrder;
