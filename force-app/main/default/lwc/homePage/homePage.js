@@ -16,7 +16,7 @@ import {
     loadScript,
     loadStyle
 } from 'lightning/platformResourceLoader';
-import PAYPAL_SCR from '@salesforce/resourceUrl/paypal';
+// import PAYPAL_SCR from '@salesforce/resourceUrl/paypal';
 
 
 export default class HomePage extends NavigationMixin(LightningElement) {
