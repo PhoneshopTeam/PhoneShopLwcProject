@@ -1,5 +1,5 @@
 import { LightningElement, wire, api } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
 import { getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -28,8 +28,8 @@ import BASKET_UNITPRICE_FIELD from '@salesforce/schema/Basket__c.UnitPrice__c';
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
-	@api contactId;
-	@api mobileId = '01t2w000006P0G3AAK';
+	contactId;
+	mobileId;
 	quantity = 1;
 	orderId;
 
@@ -41,6 +41,25 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 			? 'utility:call'
 			: null;
 	}
+
+	@wire(CurrentPageReference)
+    currentPageReference;
+
+	get mobileIdFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__mobileId
+        );
+    }
+    get contactIdFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__contactId
+        );
+    }
+ 
+    renderedCallback() {
+        this.mobileId = this.mobileIdFromState;
+        this.contactId = this.contactIdFromState;
+    }
 
 	get totalQuantityValue() {
 		return getFieldValue(this.wiredRecord.data, MOBILE_TOTAL_QUANTITY_FIELD);
@@ -83,7 +102,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[BASKET_PRODUCTID_FIELD.fieldApiName] = this.mobileId;
 		fields[BASKET_CONTACTID_FIELD.fieldApiName] = this.contactId;
 		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a022w00000Eol5lAAB';//////////////////////////////
-		fields[BASKET_STATUS_FIELD.fieldApiName] = false;
+		fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 		fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
 		const recordInput = {
