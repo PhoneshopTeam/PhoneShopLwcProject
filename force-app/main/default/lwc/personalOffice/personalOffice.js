@@ -1,6 +1,6 @@
 import {
   LightningElement,
-  wire,
+  wire
 } from "lwc";
 import getOrders from "@salesforce/apex/CustomOrderController.getOrders";
 import getCases from "@salesforce/apex/CaseController.getCases";
@@ -121,7 +121,7 @@ const COLS3 = [{
 ];
 
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
-  //@api
+
   contactId;
   // = "0032w00000FyKrCAAV";
   orderId;

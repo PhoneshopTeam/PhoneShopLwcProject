@@ -20,7 +20,8 @@ import {
 
 
 export default class HomePage extends NavigationMixin(LightningElement) {
-    @api contactId;
+    // @api
+    contactId;
     @track userName;
     @track open = false;
     @api objectApiName;
@@ -41,6 +42,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
 
     renderedCallback() {
         this.userName = this.userNameFromState;
+        this.contactId = this.userIdFromState;
         //     Promise.all([
         //         loadScript(this, PAYPAL_SCR + '/paypal.js')
         //       ])
@@ -87,7 +89,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: ''
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Gallery'
                 }
             },
             true
@@ -98,7 +100,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: ''
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/about_Company'
                 }
             },
             true
@@ -109,7 +111,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: ''
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/basket'
                 }
             },
             true
@@ -123,9 +125,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
                 componentName: "c__FromHomePageToPersonalOffice"
             },
             state: {
-                c__userName: this.userName,
-                c__userId: this.contactId
-
+                c__contactId: this.contactId
             }
         })
     }
@@ -134,7 +134,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: 'https://lwcphoneshop-dev-ed.lightning.force.com/lightning/n/Home_Page_For_Guest'
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/home_Page_For_Guest'
                 }
             },
             true

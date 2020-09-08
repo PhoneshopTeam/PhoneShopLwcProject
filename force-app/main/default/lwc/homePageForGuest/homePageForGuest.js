@@ -1,58 +1,63 @@
-import { LightningElement } from 'lwc';
-import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
-export default class HomePageForGuest extends  NavigationMixin(LightningElement) {
-    navigateToCatalog(){
+import {
+    LightningElement
+} from 'lwc';
+import {
+    CurrentPageReference,
+    NavigationMixin
+} from 'lightning/navigation';
+export default class HomePageForGuest extends NavigationMixin(LightningElement) {
+    navigateToCatalog() {
         this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: ''
-            }
-        },
-        true
-    );
-}
+                type: 'standard__webPage',
+                attributes: {
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Gallery'
+                }
+            },
+            true
+        );
+    }
 
-    navigateToAbout(){
+    navigateToAbout() {
         this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                 url: ''
-            }
-        },
-        true
-    );
-}
+                type: 'standard__webPage',
+                attributes: {
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/about_Company'
+                }
+            },
+            true
+        );
+    }
 
-    navigateToBascet(){
+    navigateToBascet() {
         this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: ''
-            }
-        },
-        true
-    );
-}
+                type: 'standard__webPage',
+                attributes: {
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/basket'
+                }
+            },
+            true
+        );
+    }
 
-    navigateToRegistration(){
+    navigateToRegistration() {
         this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: ''
-            }
-        },
-        true
-    );
-}
-navigateToLogin() {
-    this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: 'https://lwcphoneshop-dev-ed.lightning.force.com/lightning/n/Autorization_Page'
-            }
-        },
-        true
-    );
-}
+                type: 'standard__webPage',
+                attributes: {
+                    url: ''
+                }
+            },
+            true
+        );
+    }
+    navigateToLogin() {
+        this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/authorization_Page'
+                }
+            },
+            true
+        );
+    }
 
 }

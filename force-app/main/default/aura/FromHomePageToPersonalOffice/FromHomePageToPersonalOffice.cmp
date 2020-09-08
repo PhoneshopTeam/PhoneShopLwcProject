@@ -1,3 +1,6 @@
-<aura:component implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId">
-    <!-- <c:homePage username="{userName}" userId ="{userId}"/> -->
-</aura:component>	
+<aura:component
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <!-- <c:personalOffice contactId="{userId}" /> -->
+  <c:personalOffice contactId="{contactId}" />
+</aura:component>
