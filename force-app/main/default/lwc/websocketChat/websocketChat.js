@@ -1,7 +1,18 @@
-import { LightningElement, api, wire } from 'lwc';
-import { loadScript } from 'lightning/platformResourceLoader';
-import { getRecord, createRecord } from 'lightning/uiRecordApi';
-import { refreshApex } from '@salesforce/apex';
+import {
+  LightningElement,
+  api,
+  wire
+} from 'lwc';
+import {
+  loadScript
+} from 'lightning/platformResourceLoader';
+import {
+  getRecord,
+  createRecord
+} from 'lightning/uiRecordApi';
+import {
+  refreshApex
+} from '@salesforce/apex';
 import SOCKET_IO_JS from '@salesforce/resourceUrl/socketiojs';
 import WEBSOCKET_SERVER_URL from '@salesforce/label/c.websocket_server_url';
 import MESSAGE_OBJECT from '@salesforce/schema/Chat_Message__c';
@@ -26,32 +37,32 @@ export default class WebsocketChat extends LightningElement {
 
   @wire(getTodayMessages)
   wiredMessages
-  
+
   @wire(getActiveChatUsers)
   wiredChatUsers
 
-  handleChange(event){
+  handleChange(event) {
     this.testparam = event.target.value
   }
 
-  renderedCallback(){
+  renderedCallback() {
     if (this._socketIoInitialized) {
       return;
     }
     this._socketIoInitialized = true;
     Promise.all([
-      loadScript(this, SOCKET_IO_JS),
-    ])
-    .then(() => {
-      this.initSocketIo();
-    })
-    .catch(error => {
-      console.error('loadScript error', error);
-      this.error = 'Error loading socket.io';
-    });
+        loadScript(this, SOCKET_IO_JS),
+      ])
+      .then(() => {
+        this.initSocketIo();
+      })
+      .catch(error => {
+        console.error('loadScript error', error);
+        this.error = 'Error loading socket.io';
+      });
   }
 
-  initSocketIo(){
+  initSocketIo() {
     this._socket = io.connect(WEBSOCKET_SERVER_URL);
     const messageInput = this.template.querySelector('.message-input');
     if (this._socket !== undefined) {
@@ -59,18 +70,25 @@ export default class WebsocketChat extends LightningElement {
         this.timeString = timeString;
       });
       messageInput.addEventListener('keydown', (event) => {
-        this._socket.emit('usertyping', { userId: this.item });
-       
+        this._socket.emit('usertyping', {
+          userId: this.item
+        });
+
         if (event.keyCode !== 9) {
-          this._socket.emit('usertyping', { userId: this.item });
+          this._socket.emit('usertyping', {
+            userId: this.item
+          });
         }
         if (event.which === 13 && event.shiftKey === false) {
-         event.preventDefault();
+          event.preventDefault();
 
           const fields = {};
           fields[CONTENT_FIELD.fieldApiName] = messageInput.value;
           fields[CONTACT_FIELD.fieldApiName] = this.item;
-          const message = { apiName: MESSAGE_OBJECT.objectApiName, fields };
+          const message = {
+            apiName: MESSAGE_OBJECT.objectApiName,
+            fields
+          };
 
           createRecord(message)
             .then(() => {
@@ -85,8 +103,10 @@ export default class WebsocketChat extends LightningElement {
         }
       });
 
-      messageInput.addEventListener('keyup', this.debounce( () => {
-        this._socket.emit('usernottyping', { userId: this.item });
+      messageInput.addEventListener('keyup', this.debounce(() => {
+        this._socket.emit('usernottyping', {
+          userId: this.item
+        });
       }, 1000));
       this._socket.on('istyping', (data) => {
         if (data.userId !== this.item) {
@@ -123,7 +143,9 @@ export default class WebsocketChat extends LightningElement {
   }
 
   handleEnterChat() {
-    setUserChatActive({userId: this.item})
+    setUserChatActive({
+        userId: this.item
+      })
       .then((res) => {
         console.log(res);
         this.isChatActive = res.Chat_Active__c;
@@ -137,7 +159,9 @@ export default class WebsocketChat extends LightningElement {
   }
 
   handleLeaveChat() {
-    setUserChatInactive({userId: this.item})
+    setUserChatInactive({
+        userId: this.item
+      })
       .then((res) => {
         this.isChatActive = res.Chat_Active__c;
         this._socket.emit('userLeftChat');
@@ -150,11 +174,11 @@ export default class WebsocketChat extends LightningElement {
       });
   }
 
-  get isInputDisabled(){
+  get isInputDisabled() {
     return this.isChatActive ? false : true;
   }
 
-  get inputPlaceholderText(){
+  get inputPlaceholderText() {
     return this.isInputDisabled ? '' : 'Type your message and press enter';
   }
 
@@ -162,16 +186,16 @@ export default class WebsocketChat extends LightningElement {
     return this.isChatActive && this.wiredChatUsers;
   }
 
-  debounce(callback, wait){
+  debounce(callback, wait) {
     let timeout;
     return (...args) => {
-        const context = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(() => callback.apply(context, args), wait);
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => callback.apply(context, args), wait);
     };
   }
 
-  messageResetDelay(msgType){
+  messageResetDelay(msgType) {
     setTimeout(() => {
       this[msgType] = '';
     }, 1000)

@@ -1,8 +1,21 @@
-import { LightningElement, track, wire, api  } from 'lwc';
-import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
+import {
+    LightningElement,
+    track,
+    wire,
+    api
+} from 'lwc';
+import {
+    CurrentPageReference,
+    NavigationMixin
+} from 'lightning/navigation';
 import getContact from '@salesforce/apex/HomePageController.getContact';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
+import {
+    ShowToastEvent
+} from 'lightning/platformShowToastEvent';
+import {
+    loadScript,
+    loadStyle
+} from 'lightning/platformResourceLoader';
 import PAYPAL_SCR from '@salesforce/resourceUrl/paypal';
 
 
@@ -12,8 +25,8 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     @track open = false;
     @api objectApiName;
     @track hasRendered = true;
-    @wire(CurrentPageReference)currentPageReference;
-    
+    @wire(CurrentPageReference) currentPageReference;
+
 
     get userNameFromState() {
         return (
@@ -28,99 +41,103 @@ export default class HomePage extends NavigationMixin(LightningElement) {
 
     renderedCallback() {
         this.userName = this.userNameFromState;
-        Promise.all([
-            loadScript(this, PAYPAL_SCR + '/paypal.js')
-          ])
-          .then(() => {
-            console.log('load')  
-            this.initPaypal()})
-          .catch(error => {
-            console.error('loadScript error', error);
-            this.error = 'Error loading PAYPAL_SCR';
-          });
+        //     Promise.all([
+        //         loadScript(this, PAYPAL_SCR + '/paypal.js')
+        //       ])
+        //       .then(() => {
+        //         console.log('load')
+        //         this.initPaypal()})
+        //       .catch(error => {
+        //         console.error('loadScript error', error);
+        //         this.error = 'Error loading PAYPAL_SCR';
+        //       });
+        // }
+        // initPaypal(){
+        // paypal.Buttons().render('#paypal-button-container');
     }
-    initPaypal(){
-    paypal.Buttons().render('#paypal-button-container');
-    };
-    
+
     openShat() {
         this.open = true;
-        getContact({ searchUserName: this.userName})
-        .then((result) =>{
-        this.contactId = result.Id;
-        console.log('id',this.contactId)
-        })
+        getContact({
+                searchUserName: this.userName
+            })
+            .then((result) => {
+                this.contactId = result.Id;
+                console.log('id', this.contactId)
+            })
     }
 
     closeChat() {
         this.open = false
-    } 
-
-    sendMessage () {
-        addMessageInDatabase({inputMessage:this.inputTextMessage}); 
     }
-     
-    handleChange(event){
+
+    sendMessage() {
+        addMessageInDatabase({
+            inputMessage: this.inputTextMessage
+        });
+    }
+
+    handleChange(event) {
         if (event.target.label === 'Enter message') {
-        this.inputTextMessage = event.target.value;
-                }
-    }
-    
-    navigateToCatalog(){
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: ''
-            }
-        },
-        true
-    );
-}
-
-    navigateToAbout(){
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                 url: ''
-            }
-        },
-        true
-    );
-}
-
-    navigateToBascet(){
-        this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: ''
-            }
-        },
-        true
-    );
-}
-
-navigateToPersonalOffice(){
-    this[NavigationMixin.Navigate]({
-        type: "standard__component",
-        attributes: {
-            componentName: "c__FromHomePageToPersonalOffice"
-        },
-        state: {
-            c__userName: this.userName,
-            c__userId: this.contactId
-           
+            this.inputTextMessage = event.target.value;
         }
-    })
-}
+    }
 
-logout() {
-    this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
+    navigateToCatalog() {
+        this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: ''
+                }
+            },
+            true
+        );
+    }
+
+    navigateToAbout() {
+        this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: ''
+                }
+            },
+            true
+        );
+    }
+
+    navigateToBascet() {
+        this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: ''
+                }
+            },
+            true
+        );
+    }
+
+    navigateToPersonalOffice() {
+        this[NavigationMixin.Navigate]({
+            type: "standard__component",
             attributes: {
-                url: 'https://lwcphoneshop-dev-ed.lightning.force.com/lightning/n/Home_Page_For_Guest'
+                componentName: "c__FromHomePageToPersonalOffice"
+            },
+            state: {
+                c__userName: this.userName,
+                c__userId: this.contactId
+
             }
-        },
-        true
-    );
-}
+        })
+    }
+
+    logout() {
+        this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: 'https://lwcphoneshop-dev-ed.lightning.force.com/lightning/n/Home_Page_For_Guest'
+                }
+            },
+            true
+        );
+    }
 }
