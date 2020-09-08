@@ -1,9 +1,16 @@
-import { LightningElement, api, wire, track } from 'lwc';
+import {
+    LightningElement,
+    api,
+    wire,
+    track
+} from 'lwc';
 import getMobilesList from '@salesforce/apex/MobileDataService.getMobilesList';
 import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
 import totalRecords from '@salesforce/apex/MobileDataService.totalRecords';
-import { NavigationMixin } from 'lightning/navigation';
+import {
+    NavigationMixin
+} from 'lightning/navigation';
 export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track offset = 0;
     @track totalRecords;
@@ -15,7 +22,12 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @api selectedBySort = '';
     isLoading = true;
 
-    @wire(getMobilesList, { offset: '$offset', pageSize: '$pageSize', mobileBrand: '$selectedBrand', bySort: '$selectedBySort' })
+    @wire(getMobilesList, {
+        offset: '$offset',
+        pageSize: '$pageSize',
+        mobileBrand: '$selectedBrand',
+        bySort: '$selectedBySort'
+    })
     wiredBoats(result) {
         window.console.log('4');
         this.mobiles = result;
@@ -57,13 +69,18 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback() {
-        totalRecords({ mobileBrand: this.selectedBrand }).then(result => {
+        totalRecords({
+            mobileBrand: this.selectedBrand
+        }).then(result => {
             this.totalRecords = result;
         });
     }
 
     previousHandler2() {
-        getPrevious({ offset: this.offset, pageSize: this.pageSize }).then(result => {
+        getPrevious({
+            offset: this.offset,
+            pageSize: this.pageSize
+        }).then(result => {
             this.offset = result;
             if (this.offset === 0) {
                 this.template.querySelector('c-paginator').changeView('trueprevious');
@@ -74,7 +91,10 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     nextHandler2() {
-        getNext({ offset: this.offset, pageSize: this.pageSize }).then(result => {
+        getNext({
+            offset: this.offset,
+            pageSize: this.pageSize
+        }).then(result => {
             this.offset = result;
             if (this.offset + 10 > this.totalRecords) {
                 this.template.querySelector('c-paginator').changeView('truenext');

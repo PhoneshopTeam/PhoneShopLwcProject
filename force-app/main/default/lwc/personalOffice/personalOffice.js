@@ -17,6 +17,10 @@ import {
 import {
   ShowToastEvent
 } from 'lightning/platformShowToastEvent';
+import {
+  CurrentPageReference,
+  NavigationMixin
+} from 'lightning/navigation';
 
 const actions = [{
   label: "View",
@@ -52,21 +56,6 @@ const COLS = [{
     fieldName: "Delivery_date__c",
     hideDefaultActions: true
   },
-  // {
-  //   label: "Delivery address",
-  //   fieldName: "Delivery_address__c",
-  //   hideDefaultActions: true
-  // },
-  // {
-  //   label: "Description",
-  //   fieldName: "Description__c",
-  //   hideDefaultActions: true
-  // },
-  // {
-  //   label: "Order Status",
-  //   fieldName: "Status__c",
-  //   hideDefaultActions: true
-  // },
   {
     type: "action",
     typeAttributes: {
@@ -131,12 +120,18 @@ const COLS3 = [{
   }
 ];
 
-export default class PersonalOffice extends LightningElement {
+export default class PersonalOffice extends NavigationMixin(LightningElement) {
   //@api
-  contactId = "0032w00000FyKrCAAV";
+  contactId;
+  // = "0032w00000FyKrCAAV";
   orderId;
   caseId;
   error;
+  opps;
+  showTable = false; //Used to render table after we get the data from apex controller
+  recordsToDisplay = []; //Records to be displayed on the page
+  rowNumberOffset; //Row number
+  orders;
 
   isHideOrders = false;
   isHideCases = false;
@@ -155,9 +150,33 @@ export default class PersonalOffice extends LightningElement {
 
   draftValues = [];
 
+  // @wire(getOrders, {
+  //   contactId: "$contactId"
+  // }) orders;
   @wire(getOrders, {
     contactId: "$contactId"
-  }) orders;
+  })
+  wiredOrders({
+    error,
+    data
+  }) {
+    if (data) {
+      console.log('data.length = ' + JSON.stringify(data.length));
+      let recs = [];
+      for (let i = 0; i < data.length; i++) {
+        let opp = {};
+        opp.rowNumber = '' + (i + 1);
+        // opp.oppLink = '/' + data[i].Id;
+        opp = Object.assign(opp, data[i]);
+        recs.push(opp);
+      }
+      this.opps = recs;
+      console.log('this.opps = ' + JSON.stringify(this.opps));
+      this.showTable = true;
+    } else {
+      this.error = error;
+    }
+  }
 
   @wire(getCases, {
     contactId: "$contactId"
@@ -166,6 +185,25 @@ export default class PersonalOffice extends LightningElement {
   @wire(getDeliveryAdress, {
     contactId: "$contactId"
   }) addresses;
+
+  @wire(CurrentPageReference)
+  currentPageReference;
+
+
+  get contactIdFromState() {
+    return (
+      this.currentPageReference && this.currentPageReference.state.c__contactId
+    );
+  }
+
+  renderedCallback() {
+    this.contactId = this.contactIdFromState;
+  }
+
+  handlePaginatorChange(event) {
+    this.recordsToDisplay = event.detail;
+    this.rowNumberOffset = this.recordsToDisplay[0].rowNumber - 1;
+  }
 
 
   handleViewOrders() {
@@ -190,8 +228,12 @@ export default class PersonalOffice extends LightningElement {
       "Show my addresses";
   }
 
-  refresh() {
+  refreshAddresses() {
     return refreshApex(this.addresses);
+  }
+
+  refreshCases() {
+    return refreshApex(this.cases);
   }
 
   handleSave(event) {

@@ -6,19 +6,25 @@ import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 
-export default class CreateNewCase extends LightningElement {
+export default class AddNewAddress extends LightningElement {
 
-    @api orderId;
     @api contactId;
+    isHideAddresses = false;
+    labelNewAddressButton = "Add new address";
+
+    handleAddNewAddress() {
+        this.isHideNewAddressButton = this.isHideNewAddressButton ? false : true;
+        this.labelNewAddressButton = this.isHideNewAddressButton ?
+            "Hide" :
+            "Add new address";
+    }
 
     handleSubmit(event) {
         console.log('handleSubmit');
         event.preventDefault();
         const fields = event.detail.fields;
-        fields.ContactId = this.contactId;
-        fields.Custom_OrderId__c = this.orderId;
-        fields.CreatedDate = new Date();
-        this.template.querySelector('[data-id="newCase"]').submit(fields);
+        fields.Contact__c = this.contactId;
+        this.template.querySelector('[data-id="address"]').submit(fields);
     }
 
     handleSuccess() {
@@ -26,26 +32,23 @@ export default class CreateNewCase extends LightningElement {
         this.dispatchEvent(
             new ShowToastEvent({
                 title: 'Success',
-                message: 'Case created',
+                message: 'Address created',
                 variant: 'success'
             })
         );
         this.handleReset();
-        this.dispatchEvent(new CustomEvent('close', {}));
+
+        this.handleAddNewAddress();
         this.dispatchEvent(new CustomEvent('refresh', {}));
     }
 
     handleReset() {
 
-        const inputFields = this.template.querySelectorAll('[data-id="caseInput"]');
+        const inputFields = this.template.querySelectorAll('[data-id="addressInput"]');
         if (inputFields) {
             inputFields.forEach(field => {
                 field.reset();
             });
         }
-    }
-
-    closeModal() {
-        this.dispatchEvent(new CustomEvent('close', {}));
     }
 }

@@ -100,8 +100,8 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		const fields = {};
 		fields[BASKET_PRODUCTID_FIELD.fieldApiName] = this.mobileId;
 		fields[BASKET_CONTACTID_FIELD.fieldApiName] = this.contactId;
-		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a002w000009kKPlAAM'; //////////////////////////////
-		fields[BASKET_STATUS_FIELD.fieldApiName] = false;
+		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a002w000009kMa5AAE'; //////////////////////////////
+		fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 		fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
 		const recordInput = {

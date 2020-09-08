@@ -27,11 +27,11 @@
             id="modal-heading-01"
             class="slds-text-heading_medium slds-hyphenate"
           >
-            Info about order
+            <lightning-card title={orderNumber}> </lightning-card>
           </h2>
         </header>
         <div class="slds-modal__content slds-p-around_medium">
-          <lightning-card title="Order" icon-name="custom:custom28">
+          <lightning-card icon-name="custom:custom28">
             <lightning-record-form
               record-id={orderId}
               object-api-name="Custom_Order__c"

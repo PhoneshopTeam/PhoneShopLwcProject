@@ -18,6 +18,7 @@ import {
 import {
     refreshApex
 } from '@salesforce/apex';
+// import createNewPayments from '@salesforce/apex/PayPalController/createNewPayments';
 import FIRST_NAME_FIELD from '@salesforce/schema/Contact.FirstName';
 import LAST_NAME_FIELD from '@salesforce/schema/Contact.LastName';
 import PHONE_FIELD from '@salesforce/schema/Contact.Phone';
@@ -40,6 +41,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     typeOfPayment;
     description;
     isHideDeliveryDate = false;
+    isCongratulationModalOpen = false;
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
     fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
@@ -167,25 +169,36 @@ export default class Order extends NavigationMixin(LightningElement) {
             description: this.description
         }).then(() => {
             if (this.typeOfPayment === 'by card online') {
+                //go to controller Apex
+                // createNewPayments({
+                //     contId: this.contactId,
+                //     orderId: this.orderId
+                // }).then(() => {
+                //     this.dispatchEvent(
+                //         new ShowToastEvent({
+                //             title: 'Success',
+                //             message: 'Success',
+                //             variant: 'success'
+                //         })
+                //     );
+                // }).catch(error => {
+                //     this.dispatchEvent(
+                //         new ShowToastEvent({
+                //             title: 'Error updating record',
+                //             message: error.body.message,
+                //             variant: 'error'
+                //         })
+                //     );
+                // });
+                //go to paypal
                 this[NavigationMixin.Navigate]({
-                    type: "standard__component",
-                    attributes: {
-                        componentName: "c__FromNewOrderPageToSamsungPayPage"
-                    },
-                    state: {
-                        c__orderId: this.orderId,
-                        c__contactId: this.contactId
+                    "type": "standard__webPage",
+                    "attributes": {
+                        "url": "https://www.paypal.com/in/signin"
                     }
-                })
+                });
             } else {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'Order updated',
-                        variant: 'success'
-                    })
-                );
-                return refreshApex(this.orders);
+                this.isCongratulationModalOpen = true;
             }
         }).catch(error => {
             this.dispatchEvent(

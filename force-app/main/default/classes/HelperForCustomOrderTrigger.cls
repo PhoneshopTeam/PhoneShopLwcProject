@@ -13,17 +13,18 @@ public with sharing class HelperForCustomOrderTrigger {
           WHERE Id = :o.Id
         ];
 
-        if (order.Delivery_date__c != null) {
-          order.Status__c = order.Type_of_payment__c != 'by card online'
-            ? 'Awaiting payment; Awaiting delivery'
-            : 'Paid; Awaiting delivery';
-        } else {
-          order.Status__c = order.Type_of_payment__c != 'by card online'
-            ? 'Awaiting payment; Without delivery'
-            : 'Paid; Without delivery';
+        if (o.Type_of_payment__c != null) {
+          if (order.Delivery_date__c != null) {
+            order.Status__c = order.Type_of_payment__c != 'by card online'
+              ? 'Awaiting payment; Awaiting delivery'
+              : 'Awaiting delivery';
+          } else {
+            order.Status__c = order.Type_of_payment__c != 'by card online'
+              ? 'Awaiting payment; Without delivery'
+              : 'Without delivery';
+          }
+          ordersToUpdate.add(order);
         }
-
-        ordersToUpdate.add(order);
       }
       update ordersToUpdate;
     } catch (Exception e) {

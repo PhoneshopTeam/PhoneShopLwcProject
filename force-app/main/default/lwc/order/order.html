@@ -76,4 +76,9 @@
     >
     </lightning-button>
   </lightning-card>
+  <div class="slds-theme_default">
+    <template if:true={isCongratulationModalOpen}>
+      <c-congratulation-page contact-id={contactId}></c-congratulation-page>
+    </template>
+  </div>
 </template>
