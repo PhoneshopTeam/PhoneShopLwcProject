@@ -71,6 +71,8 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
                     state: {
                         c__userName: this.userName,
                         c__userId: this.userId
+
+
                     }
                 })
             })

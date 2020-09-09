@@ -16,13 +16,12 @@ import {
     loadScript,
     loadStyle
 } from 'lightning/platformResourceLoader';
-// import PAYPAL_SCR from '@salesforce/resourceUrl/paypal';
-
 
 export default class HomePage extends NavigationMixin(LightningElement) {
     // @api
     contactId;
     @track userName;
+    @track userId;
     @track open = false;
     @api objectApiName;
     @track hasRendered = true;
@@ -42,7 +41,9 @@ export default class HomePage extends NavigationMixin(LightningElement) {
 
     renderedCallback() {
         this.userName = this.userNameFromState;
-        this.contactId = this.userIdFromState;
+        this.userId = this.userIdFromState;
+        console.log(this.userName)
+        console.log(this.userId)
         //     Promise.all([
         //         loadScript(this, PAYPAL_SCR + '/paypal.js')
         //       ])
@@ -52,11 +53,12 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         //       .catch(error => {
         //         console.error('loadScript error', error);
         //         this.error = 'Error loading PAYPAL_SCR';
-        //       });
-        // }
-        // initPaypal(){
-        // paypal.Buttons().render('#paypal-button-container');
     }
+    //    );
+    // }
+    // initPaypal(){
+    // paypal.Buttons().render('#paypal-button-container');
+    // };
 
     openShat() {
         this.open = true;
@@ -92,7 +94,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
                 componentName: "c__FromHomePageToGallery"
             },
             state: {
-                c__contactId: this.contactId
+                c__userId: this.userId
             }
         })
         // this[NavigationMixin.Navigate]({
@@ -123,7 +125,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
                 componentName: "c__FromHomePageToBasket"
             },
             state: {
-                c__contactId: this.contactId
+                c__userId: this.userId
             }
         })
         // this[NavigationMixin.Navigate]({
@@ -143,7 +145,8 @@ export default class HomePage extends NavigationMixin(LightningElement) {
                 componentName: "c__FromHomePageToPersonalOffice"
             },
             state: {
-                c__contactId: this.contactId
+                // c__userName: this.userName,
+                c__userId: this.userId
             }
         })
     }

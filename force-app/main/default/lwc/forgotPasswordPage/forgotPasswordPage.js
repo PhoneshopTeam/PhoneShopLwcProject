@@ -46,14 +46,7 @@ export default class ForgotPasswordLwc extends NavigationMixin(LightningElement)
                         mode: 'dismissable'
                     });
                     this.dispatchEvent(evt);
-                    this[NavigationMixin.Navigate]({
-                            type: 'standard__webPage',
-                            attributes: {
-                                url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/authorization_Page'
-                            }
-                        },
-                        true
-                    );
+
                 } else {
                     const evt = new ShowToastEvent({
                         title: 'Application Error',
@@ -74,7 +67,8 @@ export default class ForgotPasswordLwc extends NavigationMixin(LightningElement)
             .then(result => {
                 result.forEach(element => {
                     console.log('element', element)
-                    this.userName = element.Name
+                    this.userName = element.Name,
+                        this.userId = element.Id
                 });
                 this[NavigationMixin.Navigate]({
                     type: "standard__component",
@@ -83,6 +77,8 @@ export default class ForgotPasswordLwc extends NavigationMixin(LightningElement)
                     },
                     state: {
                         c__userName: this.userName,
+                        c__userId: this.userId
+
                     }
                 })
             })
