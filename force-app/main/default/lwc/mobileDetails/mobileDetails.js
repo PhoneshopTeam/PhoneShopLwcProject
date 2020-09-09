@@ -4,6 +4,7 @@ import {
 	api
 } from 'lwc';
 import {
+	CurrentPageReference,
 	NavigationMixin
 } from 'lightning/navigation';
 import {
@@ -14,7 +15,6 @@ import {
 import {
 	ShowToastEvent
 } from 'lightning/platformShowToastEvent';
-
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
 import MOBILE_PICTURE_FIELD from '@salesforce/schema/Product2.Picture__c';
@@ -40,10 +40,10 @@ import BASKET_UNITPRICE_FIELD from '@salesforce/schema/Basket__c.UnitPrice__c';
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
-	// @api
-	contactId = '0032w00000FyKrCAAV';
-	// @api
-	mobileId = '01t2w000006mqD4AAI';
+
+	contactId;
+	mobileId;
+
 	quantity = 1;
 	orderId;
 
@@ -57,6 +57,25 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		return this.wiredRecord && this.wiredRecord.data ?
 			'utility:call' :
 			null;
+	}
+
+	@wire(CurrentPageReference)
+	currentPageReference;
+
+	get mobileIdFromState() {
+		return (
+			this.currentPageReference && this.currentPageReference.state.c__mobileId
+		);
+	}
+	get contactIdFromState() {
+		return (
+			this.currentPageReference && this.currentPageReference.state.c__contactId
+		);
+	}
+
+	renderedCallback() {
+		this.mobileId = this.mobileIdFromState;
+		this.contactId = this.contactIdFromState;
 	}
 
 	get totalQuantityValue() {

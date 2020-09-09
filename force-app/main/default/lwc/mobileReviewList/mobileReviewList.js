@@ -23,7 +23,7 @@ export default class MobileReviewList extends NavigationMixin(LightningElement) 
 	}
 
 	get reviewsToShow() {
-		return this.boatReviews ? this.boatReviews.length > 0 : false;
+		return this.mobileReviews ? this.mobileReviews.length > 0 : false;
 	}
 
 	@api

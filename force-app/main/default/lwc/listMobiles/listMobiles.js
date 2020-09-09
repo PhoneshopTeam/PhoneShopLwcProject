@@ -9,13 +9,16 @@ import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
 import totalRecords from '@salesforce/apex/MobileDataService.totalRecords';
 import {
+    CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
+
 export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track offset = 0;
     @track totalRecords;
     @track pageSize = 8;
 
+    @api contactId;
     mobiles;
     @api selectedMobileId;
     @api selectedBrand = '';
@@ -28,10 +31,9 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         mobileBrand: '$selectedBrand',
         bySort: '$selectedBySort'
     })
+
     wiredBoats(result) {
-        window.console.log('4');
         this.mobiles = result;
-        window.console.log('5');
     }
 
     @api
@@ -45,7 +47,6 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
 
     @api
     sortMobiles(selectedBySort) {
-        window.console.log('3');
         this.isLoading = true;
         this.notifyLoading(this.isLoading);
         this.selectedBySort = selectedBySort;
@@ -59,11 +60,13 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
 
     openMobileDetailPage(event) {
         this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
+            type: 'standard__component',
             attributes: {
-                objectApiName: 'Product2',
-                recordId: event.detail.selectedMobileId,
-                actionName: 'view'
+                componentName: "c__FromGalleryToMobileDetails"
+            },
+            state: {
+                c__mobileId: event.detail.selectedMobileId,
+                c__contactId: this.contactId
             }
         });
     }
