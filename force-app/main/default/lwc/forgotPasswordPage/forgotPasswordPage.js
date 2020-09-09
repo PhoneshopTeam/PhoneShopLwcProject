@@ -1,10 +1,18 @@
-import {LightningElement, api} from 'lwc';
+import {
+    LightningElement,
+    api
+} from 'lwc';
 import restorePassword from '@salesforce/apex/ForgotPasswordController.restorePassword';
 import getAutorization from '@salesforce/apex/AutorizationPageController.getAutorization';
-import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import {
+    CurrentPageReference,
+    NavigationMixin
+} from 'lightning/navigation';
+import {
+    ShowToastEvent
+} from 'lightning/platformShowToastEvent';
 
-export default class ForgotPasswordLwc extends  NavigationMixin(LightningElement) {
+export default class ForgotPasswordLwc extends NavigationMixin(LightningElement) {
     inputLoginValue;
     inputPasswordValue;
     inputEmailValue
@@ -21,10 +29,12 @@ export default class ForgotPasswordLwc extends  NavigationMixin(LightningElement
         if (event.target.label === 'Password') {
             this.inputPasswordValue = event.target.value;
         }
-    } 
+    }
 
     forgotPassword() {
-        restorePassword({emailValue: this.inputEmailValue})
+        restorePassword({
+                emailValue: this.inputEmailValue
+            })
             .then((result) => {
                 this.resultSendEmail = result;
                 console.log(result);
@@ -36,14 +46,14 @@ export default class ForgotPasswordLwc extends  NavigationMixin(LightningElement
                         mode: 'dismissable'
                     });
                     this.dispatchEvent(evt);
-                        this[NavigationMixin.Navigate]({
-                                type: 'standard__webPage',
-                                attributes: {
-                                    url: 'https://lwcphoneshop-dev-ed.lightning.force.com/lightning/n/Autorization_Page'
-                                }
-                            },
-                            true
-                        );
+                    this[NavigationMixin.Navigate]({
+                            type: 'standard__webPage',
+                            attributes: {
+                                url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/authorization_Page'
+                            }
+                        },
+                        true
+                    );
                 } else {
                     const evt = new ShowToastEvent({
                         title: 'Application Error',
@@ -56,33 +66,36 @@ export default class ForgotPasswordLwc extends  NavigationMixin(LightningElement
             })
     }
 
-    submitLogin(){
-        getAutorization({inputLoginValue: this.inputLoginValue, inputPasswordValue: this.inputPasswordValue})
-        .then(result => {
-                result.forEach(element =>{
+    submitLogin() {
+        getAutorization({
+                inputLoginValue: this.inputLoginValue,
+                inputPasswordValue: this.inputPasswordValue
+            })
+            .then(result => {
+                result.forEach(element => {
                     console.log('element', element)
                     this.userName = element.Name
                 });
                 this[NavigationMixin.Navigate]({
                     type: "standard__component",
                     attributes: {
-                        componentName: "c__PassedComponent"
+                        componentName: "c__FromAutorizationPageToHome"
                     },
                     state: {
-                        c__userName: this.userName,           
+                        c__userName: this.userName,
                     }
                 })
-        })
-        .catch(error => {
-            if (error) {
-                const evt = new ShowToastEvent({
-                    title: 'Application Error',
-                    message: 'Incorrect login or password. ',
-                    variant: 'error',
-                    mode: 'dismissable'
-                });
-                this.dispatchEvent(evt);
-            }
-        });
- }
+            })
+            .catch(error => {
+                if (error) {
+                    const evt = new ShowToastEvent({
+                        title: 'Application Error',
+                        message: 'Incorrect login or password. ',
+                        variant: 'error',
+                        mode: 'dismissable'
+                    });
+                    this.dispatchEvent(evt);
+                }
+            });
+    }
 }

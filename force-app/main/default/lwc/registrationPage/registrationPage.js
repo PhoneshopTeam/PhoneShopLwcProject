@@ -1,8 +1,16 @@
-import { LightningElement } from 'lwc';
+import {
+    LightningElement
+} from 'lwc';
 //import saveContact from '@salesforce/apex/RegistrContactController.saveContact';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { NavigationMixin } from 'lightning/navigation';
-import { createRecord } from 'lightning/uiRecordApi';
+import {
+    ShowToastEvent
+} from 'lightning/platformShowToastEvent';
+import {
+    NavigationMixin
+} from 'lightning/navigation';
+import {
+    createRecord
+} from 'lightning/uiRecordApi';
 
 import CONTACT_OBJECT from '@salesforce/schema/Contact';
 import F_NAME_FIELD from '@salesforce/schema/Contact.FirstName';
@@ -14,51 +22,51 @@ import PASSWORD_FIELD from '@salesforce/schema/Contact.Password__c';
 import STREET_FIELD from '@salesforce/schema/Contact.MailingStreet';
 import CITY_FIELD from '@salesforce/schema/Contact.MailingCity';
 
-export default class RegistrationPage extends NavigationMixin(LightningElement)  {
+export default class RegistrationPage extends NavigationMixin(LightningElement) {
     firstNameValue;
     lastNameValue;
     emailValue;
     phoneValue;
     loginValue;
     passwordValue;
-    checkBoxFieldValue=false;
+    checkBoxFieldValue = false;
     streetValue;
     cityValue;
-    
+
     contactId;
 
     handleChange(event) {
-        if(event.target.name === 'FirstName') {
+        if (event.target.name === 'FirstName') {
             this.firstNameValue = event.target.value;
         }
-        if(event.target.name === 'LastName') {
+        if (event.target.name === 'LastName') {
             this.lastNameValue = event.target.value;
         }
-        if(event.target.name === 'Phone') {
+        if (event.target.name === 'Phone') {
             this.phoneValue = event.target.value;
         }
-        if(event.target.name === 'Email') {
+        if (event.target.name === 'Email') {
             this.emailValue = event.target.value;
         }
-        if(event.target.name === 'Login') {
+        if (event.target.name === 'Login') {
             this.loginValue = event.target.value;
         }
-        if(event.target.name === 'Password') {
+        if (event.target.name === 'Password') {
             this.passwordValue = event.target.value;
         }
-        if(event.target.name === 'Street') {
+        if (event.target.name === 'Street') {
             this.streetValue = event.target.value;
         }
-        if(event.target.name === 'City') {
+        if (event.target.name === 'City') {
             this.cityValue = event.target.value;
         }
     }
 
-    handleCheckBoxChange(event){
+    handleCheckBoxChange(event) {
         this.checkBoxFieldValue = event.target.checked;
-     }
+    }
 
-     createContact() {
+    createContact() {
 
         const fields = {};
         fields[L_NAME_FIELD.fieldApiName] = this.lastNameValue;
@@ -69,24 +77,24 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
         fields[CITY_FIELD.fieldApiName] = this.cityValue;
         fields[LOGIN_FIELD.fieldApiName] = this.loginValue;
         fields[PASSWORD_FIELD.fieldApiName] = this.passwordValue;
-    
+
         const recordInput = {
             apiName: CONTACT_OBJECT.objectApiName,
             fields
         }
 
-        if(this.checkBoxFieldValue == false) {
+        if (this.checkBoxFieldValue == false) {
             alert('Please check "I`m not a robot"');
             return false;
         }
-            createRecord(recordInput)
+        createRecord(recordInput)
             .then(contact => {
                 this.contactId = contact.id;
 
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success',
-                        message: 'Successful ' + this.lastNameValue +' '+ this.firstNameValue + ' registration',
+                        message: 'Successful ' + this.lastNameValue + ' ' + this.firstNameValue + ' registration',
                         variant: 'success',
                     }),
                 );
@@ -98,7 +106,7 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
                         componentName: "c__FromRegistrationToHome"
                     },
                     state: {
-                        c__contactId: this.contactId
+                        c__userId: this.contactId
                     }
                 })
             })
@@ -110,20 +118,18 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
                         variant: 'error',
                     }),
                 );
-            }); 
-        }    
-        
-        handleLoginClick() {
-            // Navigate to the Login page
-            this[NavigationMixin.Navigate]({
-                type: 'standard__component',
-                attributes: {
-                    componentName: "c__FromRegistrationToLogin"
-                },
             });
-        }
-    
+    }
+
+    handleLoginClick() {
+        // Navigate to the Login page
+        this[NavigationMixin.Navigate]({
+            type: 'standard__component',
+            attributes: {
+                componentName: "c__FromRegistrationToLogin"
+            },
+        });
+    }
+
 
 }
-
-    

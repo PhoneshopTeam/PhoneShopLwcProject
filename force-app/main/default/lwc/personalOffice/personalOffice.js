@@ -203,7 +203,9 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       }
       this.cases = recs2;
       console.log('this.cases = ' + JSON.stringify(this.cases));
-      this.showCaseTable = true;
+      if (data.length > 0) {
+        this.showCaseTable = true;
+      }
     } else {
       this.error = error;
     }
