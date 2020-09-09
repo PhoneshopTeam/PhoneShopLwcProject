@@ -1,8 +1,10 @@
 import { LightningElement } from 'lwc';
-import saveContact from '@salesforce/apex/RegistrContactController.saveContact';
+//import saveContact from '@salesforce/apex/RegistrContactController.saveContact';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-import Contact_OBJECT from '@salesforce/schema/Contact';
+import { createRecord } from 'lightning/uiRecordApi';
+
+import CONTACT_OBJECT from '@salesforce/schema/Contact';
 import F_NAME_FIELD from '@salesforce/schema/Contact.FirstName';
 import L_NAME_FIELD from '@salesforce/schema/Contact.LastName';
 import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
@@ -23,7 +25,7 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
     streetValue;
     cityValue;
     
-    info;
+    contactId;
 
     handleChange(event) {
         if(event.target.name === 'FirstName') {
@@ -56,37 +58,49 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
         this.checkBoxFieldValue = event.target.checked;
      }
 
-    createRecord() {
+     createContact() {
 
-       let registerContact = { [F_NAME_FIELD.fieldApiName] : this.firstNameValue ,
-            [L_NAME_FIELD.fieldApiName] : this.lastNameValue,
-            [EMAIL_FIELD.fieldApiName] : this.emailValue,
-            [PHONE_FIELD.fieldApiName] : this.phoneValue,
-            [STREET_FIELD.fieldApiName] : this.streetValue,
-            [CITY_FIELD.fieldApiName] : this.cityValue,
-            [LOGIN_FIELD.fieldApiName] : this.loginValue,
-            [PASSWORD_FIELD.fieldApiName] : this.passwordValue };
-
-            /* const fields = {};
-        fields[NAME_FIELD.fieldApiName] = this.name;
-        const recordInput = { apiName: ACCOUNT_OBJECT.objectApiName, fields };
-        createRecord(recordInput) */
+        const fields = {};
+        fields[L_NAME_FIELD.fieldApiName] = this.lastNameValue;
+        fields[F_NAME_FIELD.fieldApiName] = this.firstNameValue;
+        fields[EMAIL_FIELD.fieldApiName] = this.emailValue;
+        fields[PHONE_FIELD.fieldApiName] = this.phoneValue;
+        fields[STREET_FIELD.fieldApiName] = this.streetValue;
+        fields[CITY_FIELD.fieldApiName] = this.cityValue;
+        fields[LOGIN_FIELD.fieldApiName] = this.loginValue;
+        fields[PASSWORD_FIELD.fieldApiName] = this.passwordValue;
+    
+        const recordInput = {
+            apiName: CONTACT_OBJECT.objectApiName,
+            fields
+        }
 
         if(this.checkBoxFieldValue == false) {
             alert('Please check "I`m not a robot"');
             return false;
         }
-    
-            saveContact({newContact: registerContact})
-            .then(result => {
-                this.info = result;
+            createRecord(recordInput)
+            .then(contact => {
+                this.contactId = contact.id;
+
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success',
-                        message: 'Successful registration',
+                        message: 'Successful ' + this.lastNameValue +' '+ this.firstNameValue + ' registration',
                         variant: 'success',
                     }),
                 );
+
+                // Navigate to the Home page
+                this[NavigationMixin.Navigate]({
+                    type: "standard__component",
+                    attributes: {
+                        componentName: "c__FromRegistrationToHome"
+                    },
+                    state: {
+                        c__contactId: this.contactId
+                    }
+                })
             })
             .catch(error => {
                 this.dispatchEvent(
@@ -97,26 +111,19 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
                     }),
                 );
             }); 
-    }
+        }    
+        
+        handleLoginClick() {
+            // Navigate to the Login page
+            this[NavigationMixin.Navigate]({
+                type: 'standard__component',
+                attributes: {
+                    componentName: "c__FromRegistrationToLogin"
+                },
+            });
+        }
+    
 
-    /*handleLoginClick() {
-        // Navigate to the Account home page
-        this[NavigationMixin.Navigate]({
-            type: 'standard__objectPage',
-            attributes: {
-                objectApiName: 'Account',
-                actionName: 'home',
-            },
-        });
-    }*/
-
-    handleLoginClick() {
-        // Navigate to the About company page
-        this[NavigationMixin.Navigate]({
-            type: 'standard__component',
-            attributes: {
-                componentName: "c__navigation"
-            },
-        });
-    }
 }
+
+    
