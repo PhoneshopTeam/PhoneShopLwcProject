@@ -1,8 +1,21 @@
-import { LightningElement, api } from 'lwc';
-export default class Gallery extends LightningElement {
+import { LightningElement, wire } from 'lwc';
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
+export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    @api contactId = '0032w00000I6h0sAAB';
+    contactId;
 
+    @wire(CurrentPageReference)
+    currentPageReference;
+
+    get contactIdFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__contactId
+        );
+    }
+
+    renderedCallback() {
+        this.contactId = this.contactIdFromState;
+    }
     handleLoading() {
         this.isLoading = true;
     }
