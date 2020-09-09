@@ -64,22 +64,30 @@
           >
           </lightning-datatable>
         </template>
-        <!-- <template if:true={orders.data}> -->
-        <!-- <lightning-datatable
-            key-field="Id"
-            data={orders.data}
-            columns={columnsForOrders}
-            hide-checkbox-column="false"
-            onrowaction={navigateToOrderRecord}
-          >
-          </lightning-datatable> -->
-        <!-- </template> -->
-        <template if:true={orders.error}></template>
       </lightning-card>
     </template>
     <template if:true={isHideCases}>
       <lightning-card title="Cases" icon-name="standard:case">
-        <template if:true={cases.data}>
+        <template if:true={showCaseTable}>
+          <c-paginator-for-table
+            records={cases}
+            total-records={cases.length}
+            show-search-box="true"
+            onpaginatorchange={handlePaginatorChange2}
+          >
+          </c-paginator-for-table>
+          <lightning-datatable
+            key-field="Id"
+            data={recordsToDisplay2}
+            columns={columnsForCases}
+            hide-checkbox-column="false"
+            onrowaction={navigateToCaseRecord}
+            show-row-number-column
+            row-number-offset={rowNumberOffset2}
+          >
+          </lightning-datatable>
+        </template>
+        <!-- <template if:true={cases.data}>
           <lightning-datatable
             key-field="Id"
             data={cases.data}
@@ -89,7 +97,7 @@
           >
           </lightning-datatable>
         </template>
-        <template if:true={cases.error}></template>
+        <template if:true={cases.error}></template> -->
       </lightning-card>
     </template>
     <template if:true={isHideAddresses}>

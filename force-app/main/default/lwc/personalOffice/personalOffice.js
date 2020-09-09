@@ -128,11 +128,17 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   caseId;
   error;
   opps;
-  showTable = false; //Used to render table after we get the data from apex controller
+  cases;
+  resultOfCases;
+
   recordsToDisplay = []; //Records to be displayed on the page
   rowNumberOffset; //Row number
-  orders;
+  // orders;
+  recordsToDisplay2 = []; //Records to be displayed on the page
+  rowNumberOffset2; //Row number
 
+  showTable = false; //Used to render table after we get the data from apex controller
+  showCaseTable = false; //Used to render table after we get the data from apex controller
   isHideOrders = false;
   isHideCases = false;
   isOrderModalOpen = false;
@@ -180,7 +186,28 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   @wire(getCases, {
     contactId: "$contactId"
-  }) cases;
+  }) wiredCases({
+    data,
+    error
+  }) {
+    // this.resultOfCases = result;
+    if (data) {
+      console.log('data.length = ' + JSON.stringify(data.length));
+      let recs2 = [];
+      for (let i = 0; i < data.length; i++) {
+        let opp2 = {};
+        opp2.rowNumber = '' + (i + 1);
+        // opp.oppLink = '/' + data[i].Id;
+        opp2 = Object.assign(opp2, data[i]);
+        recs2.push(opp2);
+      }
+      this.cases = recs2;
+      console.log('this.cases = ' + JSON.stringify(this.cases));
+      this.showCaseTable = true;
+    } else {
+      this.error = error;
+    }
+  }
 
   @wire(getDeliveryAdress, {
     contactId: "$contactId"
@@ -203,6 +230,11 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   handlePaginatorChange(event) {
     this.recordsToDisplay = event.detail;
     this.rowNumberOffset = this.recordsToDisplay[0].rowNumber - 1;
+  }
+
+  handlePaginatorChange2(event) {
+    this.recordsToDisplay2 = event.detail;
+    this.rowNumberOffset2 = this.recordsToDisplay2[0].rowNumber - 1;
   }
 
 
@@ -233,7 +265,9 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   refreshCases() {
-    return refreshApex(this.cases);
+    // return refreshApex(this.resultOfCases);
+    console.log('refreshCases');
+    return refreshApex(this.wiredCases);
   }
 
   handleSave(event) {
