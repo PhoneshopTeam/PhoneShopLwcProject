@@ -3,12 +3,13 @@ import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
 import getContact from '@salesforce/apex/HomePageController.getContact';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
-import PAYPAL_SCR from '@salesforce/resourceUrl/paypal';
+
 
 
 export default class HomePage extends NavigationMixin(LightningElement) {
     @api contactId;
     @track userName;
+    @track userId;
     @track open = false;
     @api objectApiName;
     @track hasRendered = true;
@@ -28,20 +29,24 @@ export default class HomePage extends NavigationMixin(LightningElement) {
 
     renderedCallback() {
         this.userName = this.userNameFromState;
-        Promise.all([
-            loadScript(this, PAYPAL_SCR + '/paypal.js')
-          ])
-          .then(() => {
-            console.log('load')  
-            this.initPaypal()})
-          .catch(error => {
-            console.error('loadScript error', error);
-            this.error = 'Error loading PAYPAL_SCR';
-          });
-    }
-    initPaypal(){
-    paypal.Buttons().render('#paypal-button-container');
-    };
+        this.userId = this.userIdFromState;
+        console.log(this.userName)
+        console.log(  this.userId)
+    //     Promise.all([
+    //         loadScript(this, PAYPAL_SCR + '/paypal.js')
+    //       ])
+    //       .then(() => {
+    //         console.log('load')  
+    //         this.initPaypal()})
+    //       .catch(error => {
+    //         console.error('loadScript error', error);
+    //         this.error = 'Error loading PAYPAL_SCR';
+           }
+        //    );
+    // }
+    // initPaypal(){
+    // paypal.Buttons().render('#paypal-button-container');
+    // };
     
     openShat() {
         this.open = true;
@@ -112,6 +117,7 @@ navigateToPersonalOffice(){
         }
     })
 }
+
 
 logout() {
     this[NavigationMixin.Navigate]({
