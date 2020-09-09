@@ -36,14 +36,7 @@ export default class ForgotPasswordLwc extends  NavigationMixin(LightningElement
                         mode: 'dismissable'
                     });
                     this.dispatchEvent(evt);
-                        this[NavigationMixin.Navigate]({
-                                type: 'standard__webPage',
-                                attributes: {
-                                    url: 'https://lwcphoneshop-dev-ed.lightning.force.com/lightning/n/Autorization_Page'
-                                }
-                            },
-                            true
-                        );
+            
                 } else {
                     const evt = new ShowToastEvent({
                         title: 'Application Error',
@@ -61,15 +54,18 @@ export default class ForgotPasswordLwc extends  NavigationMixin(LightningElement
         .then(result => {
                 result.forEach(element =>{
                     console.log('element', element)
-                    this.userName = element.Name
+                    this.userName = element.Name,
+                    this.userId = element.Id
                 });
                 this[NavigationMixin.Navigate]({
                     type: "standard__component",
                     attributes: {
-                        componentName: "c__PassedComponent"
+                        componentName: "c__FromAutorizationPageToHome"
                     },
                     state: {
-                        c__userName: this.userName,           
+                        c__userName: this.userName,
+                        c__userId: this.userId
+                       
                     }
                 })
         })
