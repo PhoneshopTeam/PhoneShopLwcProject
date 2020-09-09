@@ -1,7 +1,16 @@
 public with sharing class AccountController {
 
     @AuraEnabled(cacheable=true)
-    public static Account getAccount() {
+    public static Account getAccount(Id recordId) {
+        Account accountToReturn = [SELECT Name, Description, Logo__c, Working_hours__c, Email__c, Phone, BillingAddress, BillingStreet, BillingCity 
+            FROM Account WHERE ID =: recordId];
+        System.debug('accountToReturn'+accountToReturn);
+
+        return accountToReturn;
+    }
+
+    /*@AuraEnabled(cacheable=true)
+    public static Account getAccounts() {
         //Id accId = [Select Id FROM Account LIMIT 1][0].Id;
         //System.debug('====================recordId: ' + recordId);
         Id recordId = '0012w00000K2JaZAAV';
@@ -12,7 +21,8 @@ public with sharing class AccountController {
         return accountToReturn;
     }
 
-    /*public static Account getAccount(Id recordId) {
+    @AuraEnabled(cacheable=true)
+    public static Account getAccountID(Id recordId) {
         //Id accId = [Select Id FROM Account LIMIT 1][0].Id;
         //System.debug('====================recordId: ' + recordId);
         //Id accId = '0012w00000K2JXVAA3';
