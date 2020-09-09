@@ -1,15 +1,18 @@
 <template>
     <lightning-card title="Basket">
         <div class="slds-m-around_small">
-            <p>Selected phone</p>
+            <p>  {now} </p>
+            <p>  {contactId} </p>
             <template if:true={baskets}>
                 <template for:each={baskets} for:item="basket" >
-                    <p key={basket.Id}>  Selected phone: {basket.Name}   Total Amount: totalAmount</p>
+                    <p key={basket.Id}>  Basket number: {basket.Name} </p>
                     <c-item-basket
                         key={basket.Id}
                         basket-id={basket}
-
-                        onquantity={handlequantityEvent}
+                        quantity-item={basket.Quantity__c}
+                        checkbox-value={basket.ProductStatus__c}
+                        onbutton={handleOrderButton}
+                        ondelete={handleDeleteButton}
                     ></c-item-basket> 
                 </template>
             </template>
@@ -19,8 +22,8 @@
         </div>
 
         <div class="slds-p-around_medium">
-            <lightning-button  variant="brand"  label='Order'
-            onclick={handleOrderButton}></lightning-button>
+            <lightning-button  variant="brand"  label='Order' disabled={disabledCondition} 
+            onclick={handleOrderClick}></lightning-button>
         </div>
 
     </lightning-card>
