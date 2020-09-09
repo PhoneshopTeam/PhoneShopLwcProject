@@ -22,7 +22,6 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     renderedCallback() {
         this.contactId = this.contactIdFromState;
     }
-
     handleLoading() {
         this.isLoading = true;
     }

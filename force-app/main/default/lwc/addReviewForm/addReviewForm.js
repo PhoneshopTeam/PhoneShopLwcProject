@@ -4,7 +4,7 @@ const TOAST_TITLE = "Review Created!";
 const TOAST_SUCCESS_VARIANT = "success";
 export default class AddReviewForm extends LightningElement {
     @api mobileId;
-    @api contactId = '0032w00000I6h0sAAB';
+    @api contactId;
     rating;
 
     @api get recordId() {
@@ -15,6 +15,7 @@ export default class AddReviewForm extends LightningElement {
     }
 
     handleRatingChange(event) {
+        window.console.log('6');
         this.rating = event.detail.rating;
     }
 
@@ -25,9 +26,11 @@ export default class AddReviewForm extends LightningElement {
         fields.Rating__c = this.rating;
         fields.Contact__c = this.contactId;
         this.template.querySelector('lightning-record-edit-form').submit(fields);
+        window.console.log('7');
     }
 
     handleSuccess() {
+        window.console.log('8');
         this.dispatchEvent(new ShowToastEvent({
             title: TOAST_TITLE,
             message: TOAST_TITLE,
@@ -38,6 +41,7 @@ export default class AddReviewForm extends LightningElement {
     }
 
     handleReset() {
+        window.console.log('9');
         const inputFields = this.template.querySelectorAll("lightning-input-field");
         if (inputFields) {
             inputFields.forEach(field => {

@@ -63,6 +63,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	currentPageReference;
 
 	get mobileIdFromState() {
+
 		return (
 			this.currentPageReference && this.currentPageReference.state.c__mobileId
 		);
@@ -74,9 +75,11 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	renderedCallback() {
+		window.console.log('456'); //promise
 		this.mobileId = this.mobileIdFromState;
 		this.contactId = this.contactIdFromState;
 	}
+
 
 	get totalQuantityValue() {
 		return getFieldValue(this.wiredRecord.data, MOBILE_TOTAL_QUANTITY_FIELD);
@@ -106,6 +109,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	handleReviewCreated() {
+		window.console.log('a');
 		this.template.querySelector('lightning-tabset').activeTabValue = REVIEWS_TAB;
 		this.template.querySelector('c-mobile-review-list').refresh();
 	}
