@@ -62,6 +62,7 @@ export default class FiveStarRating extends LightningElement {
     }
 
     ratingChange(rating) {
+        window.console.log('5');
         const ratingChangeEvent = new CustomEvent('ratingchange', {
             detail: { rating: rating }
         });

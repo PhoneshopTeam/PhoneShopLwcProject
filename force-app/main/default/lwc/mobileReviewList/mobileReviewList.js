@@ -28,16 +28,19 @@ export default class MobileReviewList extends NavigationMixin(LightningElement) 
 
 	@api
 	refresh() {
+		window.console.log('b');
 		this.getReviews();
 	}
 
 	getReviews() {
+		window.console.log('c');
 		this.isLoading = true;
 		getAllReviews({
 			mobileId: this.mobileId
 		})
 			.then(result => {
 				this.mobileReviews = result;
+				window.console.log(this.mobileReviews.length);
 				this.isLoading = false;
 			})
 			.catch(error => {

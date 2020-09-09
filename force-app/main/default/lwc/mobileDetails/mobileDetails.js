@@ -57,6 +57,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
     }
  
     renderedCallback() {
+		window.console.log('456');//promise
         this.mobileId = this.mobileIdFromState;
         this.contactId = this.contactIdFromState;
     }
@@ -89,6 +90,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	handleReviewCreated() {
+		window.console.log('a');
 		this.template.querySelector('lightning-tabset').activeTabValue = REVIEWS_TAB;
 		this.template.querySelector('c-mobile-review-list').refresh();
 	}
