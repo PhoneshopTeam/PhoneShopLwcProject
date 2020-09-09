@@ -184,14 +184,11 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Account_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
+        <type>Default</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
+        <formFactor>Large</formFactor>
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
@@ -227,7 +224,7 @@
         <formFactor>Small</formFactor>
         <type>Default</type>
     </actionOverrides>
-    <compactLayoutAssignment>PhoneShop</compactLayoutAssignment>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
     <enableHistory>false</enableHistory>
     <externalSharingModel>Private</externalSharingModel>

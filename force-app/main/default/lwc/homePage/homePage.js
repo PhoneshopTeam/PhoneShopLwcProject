@@ -118,13 +118,22 @@ export default class HomePage extends NavigationMixin(LightningElement) {
 
     navigateToBascet() {
         this[NavigationMixin.Navigate]({
-                type: 'standard__webPage',
-                attributes: {
-                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/basket'
-                }
+            type: "standard__component",
+            attributes: {
+                componentName: "c__FromHomePageToBasket"
             },
-            true
-        );
+            state: {
+                c__contactId: this.contactId
+            }
+        })
+        // this[NavigationMixin.Navigate]({
+        //         type: 'standard__webPage',
+        //         attributes: {
+        //             url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/basket'
+        //         }
+        //     },
+        //     true
+        // );
     }
 
     navigateToPersonalOffice() {
