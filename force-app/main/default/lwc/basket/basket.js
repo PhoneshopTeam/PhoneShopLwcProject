@@ -1,6 +1,7 @@
 import {
   LightningElement,
   wire,
+  api,
   track
 } from 'lwc';
 import {
@@ -13,6 +14,9 @@ import {
   createRecord
 } from 'lightning/uiRecordApi';
 import {
+  refreshApex
+} from '@salesforce/apex';
+import {
   ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 import saveOrder from '@salesforce/apex/BasketController.saveOrder';
@@ -20,7 +24,7 @@ import getBasketList from '@salesforce/apex/BasketController.getBasketList';
 
 import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
-import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
+//import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
 //import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
@@ -32,40 +36,12 @@ export default class Basket extends NavigationMixin(LightningElement) {
 
   //@api
   contactId;
-  //  = '0032w00000FyKrCAAV';
-  orderId;
-  //  = 'a002w000009k7TYAAY'; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
-
+  //  = '0032w00000INmlwAAD';
+  @track hasRendered = true;
+  orderId; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
+  disabledCondition = false;
   baskets;
-
-  //@track hasRendered = true;
-  quantity;
-  totalPrice;
-  checkboxVal = true;
-
-  info;
-
-  /*@wire(getProductList)
-	wiredProducts(result) {
-		this.products = result;
-    }*/
-
-  @wire(getBasketList, {
-    contactId: '$contactId'
-  })
-  wiredBaskets({
-    error,
-    data
-  }) {
-    if (data) {
-      this.error = undefined;
-      this.baskets = data;
-      //this.quantity=this.basketItem.Quantity__c;
-
-    } else if (error) {
-      this.error = error;
-    }
-  }
+  now = new Date().toJSON().slice(0, 10);
 
   @wire(CurrentPageReference)
   currentPageReference;
@@ -80,10 +56,28 @@ export default class Basket extends NavigationMixin(LightningElement) {
     this.contactId = this.contactIdFromState;
   }
 
-  handleOrderButton() {
+  @wire(getBasketList, {
+    contactId: '$contactId'
+  })
+  wiredGetActivityHistory(value) {
+    // Hold on to the provisioned value so we can refresh it later.
+    this.wiredBaskets = value; // track the provisioned value
+    const {
+      data,
+      error
+    } = value; // destructure the provisioned value
+    if (data) {
+      this.error = undefined;
+      this.baskets = data;
+    } else if (error) {
+      this.error = error;
+    }
+  }
+
+  handleOrderClick() {
 
     const fields = {};
-    fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.contactId;
+    fields[ORDER_NAME_FIELD.fieldApiName] = 'Order_' + this.contactId + '_' + this.now;
     //fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
     fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
     //fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
@@ -95,7 +89,6 @@ export default class Basket extends NavigationMixin(LightningElement) {
     createRecord(recordInput)
       .then(order => {
         this.orderId = order.id;
-        console.log("aaaaaaaaaa");
 
         saveOrder({
             contactId: this.contactId,
@@ -103,12 +96,10 @@ export default class Basket extends NavigationMixin(LightningElement) {
           })
 
           .then(result => {
-            this.info = result;
-            console.log("bbbbbbbb");
             this.dispatchEvent(
               new ShowToastEvent({
                 title: 'Success',
-                message: 'Successful ORDER ORDER ORDER',
+                message: 'Successful ' + this.orderId + ' ORDER ORDER ORDER',
                 variant: 'success',
               }),
             );
@@ -150,26 +141,27 @@ export default class Basket extends NavigationMixin(LightningElement) {
       });
   }
 
-  /*handleOrderButton() {
-    saveContact({newContact: registerContact})
-        .then(result => {
-            this.info = result;
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Successful registration',
-                    variant: 'success',
-                }),
-            );
-        })
-        .catch(error => {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error creating contact',
-                    message: error.body.message,
-                    variant: 'error',
-                }),
-            );
-        });
+  handleOrderButton(event) {
+    console.log('handleOrderButton------------------' + event.detail);
+    this.disabledCondition = event.detail;
+  }
+
+  handleDeleteButton(event) {
+    console.log('handleDeleteButton start------------------' + event.detail);
+    refreshApex(this.wiredBaskets);
+    console.log('handleDeleteButton finish------------------' + event.detail);
+  }
+
+  //works without refreshApex()
+  /*@wire(getBasketList, {contactId :'$contactId' })
+  wiredBaskets({ error, data }) {
+    if (data) {
+        this.error = undefined;
+        this.baskets = data;
+        //this.quantity=this.basketItem.Quantity__c;
+
+    } else if (error) {
+      this.error = error;
+    }
   }*/
 }
