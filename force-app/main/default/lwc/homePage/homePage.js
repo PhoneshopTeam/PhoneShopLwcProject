@@ -87,13 +87,22 @@ export default class HomePage extends NavigationMixin(LightningElement) {
 
     navigateToCatalog() {
         this[NavigationMixin.Navigate]({
-                type: 'standard__webPage',
-                attributes: {
-                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Gallery'
-                }
+            type: "standard__component",
+            attributes: {
+                componentName: "c__FromHomePageToGallery"
             },
-            true
-        );
+            state: {
+                c__contactId: this.contactId
+            }
+        })
+        // this[NavigationMixin.Navigate]({
+        //         type: 'standard__webPage',
+        //         attributes: {
+        //             url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Gallery'
+        //         }
+        //     },
+        //     true
+        // );
     }
 
     navigateToAbout() {

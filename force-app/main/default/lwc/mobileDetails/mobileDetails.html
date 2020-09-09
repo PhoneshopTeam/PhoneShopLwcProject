@@ -1,34 +1,61 @@
 <template>
-	<template if:true={wiredRecord.data}>
-		<lightning-tabset>
-			<lightning-tab label='Details' value="details">
-				<lightning-card title={mobileName} icon-name="utility:call">
-					<div class="slds-m-right_small">
-						<img src={backgroundStyle}>
-					</div>
-					<lightning-record-view-form record-id={mobileId} object-api-name="Product2" density="compact">
-						<lightning-output-field field-name="Price__c"></lightning-output-field>
-						<lightning-output-field field-name="Description"></lightning-output-field>
-					</lightning-record-view-form>
-					<lightning-input type="number" name="quantity" value={quantity} onchange={handleQuantityChange}
-						placeholder="type the quantity of items..." label="Enter a quantity" max={totalQuantityValue}>
-					</lightning-input>
-					<p>
-						Number of Items: {quantity}
-					</p>
-				</lightning-card>
-				<lightning-button class="slds-m-top_small" variant="neutral" type="submit" label='Add to basket'
-					onclick={handleProductToBasket}></lightning-button>
-				<lightning-button class="slds-m-top_small" variant="neutral" type="submit" label='Buy quickly'
-					onclick={handleProductToOrder}></lightning-button>
-			</lightning-tab>
-			<lightning-tab label='Reviews' value="reviews">
-				<c-mobile-review-list record-id={mobileId}></c-mobile-review-list>
-			</lightning-tab>
-			<lightning-tab label='Add review' value="add-review">
-				<c-add-review-form record-id={mobileId} oncreatereview={handleReviewCreated}>
-				</c-add-review-form>
-			</lightning-tab>
-		</lightning-tabset>
-	</template>
+  contactId: {contactId}
+  <template if:true={wiredRecord.data}>
+    <lightning-tabset>
+      <lightning-tab label="Details" value="details">
+        <lightning-card title={mobileName} icon-name="utility:call">
+          <div class="slds-m-right_small">
+            <img src={backgroundStyle} />
+          </div>
+          <lightning-record-view-form
+            record-id={mobileId}
+            object-api-name="Product2"
+            density="compact"
+          >
+            <lightning-output-field
+              field-name="Price__c"
+            ></lightning-output-field>
+            <lightning-output-field
+              field-name="Description"
+            ></lightning-output-field>
+          </lightning-record-view-form>
+          <lightning-input
+            type="number"
+            name="quantity"
+            value={quantity}
+            onchange={handleQuantityChange}
+            placeholder="type the quantity of items..."
+            label="Enter a quantity"
+            max={totalQuantityValue}
+          >
+          </lightning-input>
+          <p>Number of Items: {quantity}</p>
+        </lightning-card>
+        <lightning-button
+          class="slds-m-top_small"
+          variant="neutral"
+          type="submit"
+          label="Add to basket"
+          onclick={handleProductToBasket}
+        ></lightning-button>
+        <lightning-button
+          class="slds-m-top_small"
+          variant="neutral"
+          type="submit"
+          label="Buy quickly"
+          onclick={handleProductToOrder}
+        ></lightning-button>
+      </lightning-tab>
+      <lightning-tab label="Reviews" value="reviews">
+        <c-mobile-review-list record-id={mobileId}></c-mobile-review-list>
+      </lightning-tab>
+      <lightning-tab label="Add review" value="add-review">
+        <c-add-review-form
+          record-id={mobileId}
+          oncreatereview={handleReviewCreated}
+        >
+        </c-add-review-form>
+      </lightning-tab>
+    </lightning-tabset>
+  </template>
 </template>

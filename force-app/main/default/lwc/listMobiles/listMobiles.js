@@ -9,6 +9,9 @@ import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
 import totalRecords from '@salesforce/apex/MobileDataService.totalRecords';
 import {
+    refreshApex
+} from '@salesforce/apex';
+import {
     CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
@@ -31,7 +34,6 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         mobileBrand: '$selectedBrand',
         bySort: '$selectedBySort'
     })
-
     wiredBoats(result) {
         this.mobiles = result;
     }
@@ -54,11 +56,16 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.notifyLoading(this.isLoading);
     }
 
+    refreshMobiles() {
+        return refreshApex(this.mobiles);
+    }
+
     notifyLoading(isLoading) {
         isLoading ? this.dispatchEvent(new CustomEvent('loading')) : this.dispatchEvent(new CustomEvent('doneloading'));
     }
 
     openMobileDetailPage(event) {
+        this.refreshMobiles();
         this[NavigationMixin.Navigate]({
             type: 'standard__component',
             attributes: {
