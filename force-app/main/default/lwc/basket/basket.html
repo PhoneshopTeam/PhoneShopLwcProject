@@ -1,8 +1,9 @@
 <template>
+  <c-header user-id={userId}></c-header>
   <lightning-card title="Basket">
     <div class="slds-m-around_small">
       <p>{now}</p>
-      <p>{contactId}</p>
+      <p>{userId}</p>
       <template if:true={baskets}>
         <template for:each={baskets} for:item="basket">
           <p key={basket.Id}>Basket number: {basket.Name}</p>

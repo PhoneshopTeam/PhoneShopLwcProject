@@ -6,6 +6,7 @@ import {
 import getDeliveryAdress from "@salesforce/apex/ContactController.getDeliveryAdress";
 import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById";
 import formOrder from "@salesforce/apex/CustomOrderController.formOrder";
+import deleteOrder from "@salesforce/apex/CustomOrderController.deleteOrder";
 import getTypesOfPaymentOptions from "@salesforce/apex/CustomOrderController.getTypesOfPaymentOptions";
 
 import {
@@ -157,6 +158,30 @@ export default class Order extends NavigationMixin(LightningElement) {
                 })
             );
         }
+    }
+
+    handleCancelOrder() {
+        deleteOrder({
+            orderId: this.orderId,
+        }).then(() => {
+            this[NavigationMixin.Navigate]({
+                type: "standard__component",
+                attributes: {
+                    componentName: "c__FromHomePageToGallery"
+                },
+                state: {
+                    c__userId: this.contactId
+                }
+            })
+        }).catch(error => {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error updating record',
+                    message: error.body.message,
+                    variant: 'error'
+                })
+            );
+        });
     }
 
     formOrder() {

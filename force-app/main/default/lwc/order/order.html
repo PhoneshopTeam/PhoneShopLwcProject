@@ -67,14 +67,24 @@
       value={description}
       onchange={handleChange}
     ></lightning-input>
-    <lightning-button
-      class="slds-m-top_small"
-      variant="neutral"
-      type="submit"
-      label="Order"
-      onclick={handleSubmitForOrder}
-    >
-    </lightning-button>
+    <div class="slds-button-group" role="group">
+      <lightning-button
+        class="slds-m-top_small"
+        variant="neutral"
+        type="submit"
+        label="Cancel order"
+        onclick={handleCancelOrder}
+      >
+      </lightning-button>
+      <lightning-button
+        class="slds-m-top_small"
+        variant="brand"
+        type="submit"
+        label="Order"
+        onclick={handleSubmitForOrder}
+      >
+      </lightning-button>
+    </div>
   </lightning-card>
   <div class="slds-theme_default">
     <template if:true={isCongratulationModalOpen}>

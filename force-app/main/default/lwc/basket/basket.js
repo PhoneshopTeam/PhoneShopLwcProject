@@ -35,7 +35,7 @@ const READ_ONLY_CLASS = "lgc-bg";
 export default class Basket extends NavigationMixin(LightningElement) {
 
   //@api
-  contactId;
+  userId;
   //  = '0032w00000INmlwAAD';
   @track hasRendered = true;
   orderId; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
@@ -53,11 +53,11 @@ export default class Basket extends NavigationMixin(LightningElement) {
   }
 
   renderedCallback() {
-    this.contactId = this.contactIdFromState;
+    this.userId = this.contactIdFromState;
   }
 
   @wire(getBasketList, {
-    contactId: '$contactId'
+    contactId: '$userId'
   })
   wiredGetActivityHistory(value) {
     // Hold on to the provisioned value so we can refresh it later.
@@ -77,7 +77,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
   handleOrderClick() {
 
     const fields = {};
-    fields[ORDER_NAME_FIELD.fieldApiName] = 'Order_' + this.contactId + '_' + this.now;
+    fields[ORDER_NAME_FIELD.fieldApiName] = 'Order_' + this.userId + '_' + this.now;
     //fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
     fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
     //fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
@@ -91,7 +91,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
         this.orderId = order.id;
 
         saveOrder({
-            contactId: this.contactId,
+            contactId: this.userId,
             orderId: this.orderId
           })
 
@@ -111,7 +111,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
               },
               state: {
                 c__orderId: this.orderId,
-                c__contactId: this.contactId
+                c__contactId: this.userId
               }
             })
 

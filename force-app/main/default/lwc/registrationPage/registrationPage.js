@@ -33,7 +33,7 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
     streetValue;
     cityValue;
 
-    contactId;
+    userId;
 
     handleChange(event) {
         if (event.target.name === 'FirstName') {
@@ -89,7 +89,7 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
         }
         createRecord(recordInput)
             .then(contact => {
-                this.contactId = contact.id;
+                this.userId = contact.id;
 
                 this.dispatchEvent(
                     new ShowToastEvent({
@@ -106,7 +106,7 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
                         componentName: "c__FromRegistrationToHome"
                     },
                     state: {
-                        c__userId: this.contactId
+                        c__userId: this.userId
                     }
                 })
             })

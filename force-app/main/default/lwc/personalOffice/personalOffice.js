@@ -122,7 +122,8 @@ const COLS3 = [{
 
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
-  contactId;
+  // @api contactId;
+  userId;
   // = "0032w00000FyKrCAAV";
   orderId;
   caseId;
@@ -160,7 +161,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   //   contactId: "$contactId"
   // }) orders;
   @wire(getOrders, {
-    contactId: "$contactId"
+    contactId: "$userId"
   })
   wiredOrders({
     error,
@@ -185,7 +186,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   @wire(getCases, {
-    contactId: "$contactId"
+    contactId: "$userId"
   }) wiredCases({
     data,
     error
@@ -212,7 +213,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   @wire(getDeliveryAdress, {
-    contactId: "$contactId"
+    contactId: "$userId"
   }) addresses;
 
   @wire(CurrentPageReference)
@@ -226,7 +227,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   renderedCallback() {
-    this.contactId = this.contactIdFromState;
+    this.userId = this.contactIdFromState;
   }
 
   handlePaginatorChange(event) {

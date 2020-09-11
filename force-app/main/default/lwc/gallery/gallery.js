@@ -8,7 +8,7 @@ import {
 } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    contactId;
+    userId;
 
     @wire(CurrentPageReference)
     currentPageReference;
@@ -20,7 +20,7 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-        this.contactId = this.contactIdFromState;
+        this.userId = this.contactIdFromState;
     }
     handleLoading() {
         this.isLoading = true;

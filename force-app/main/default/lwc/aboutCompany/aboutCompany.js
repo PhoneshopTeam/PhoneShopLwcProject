@@ -5,6 +5,7 @@ import {
     track
 } from 'lwc';
 import {
+    CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
 
@@ -25,12 +26,26 @@ const ACC_FIELDS = [NAME_FIELD, LOGO_FIELD, DESCRIPTION_FIELD,
 export default class AboutCompany extends NavigationMixin(LightningElement) {
 
     //@api
-    recordId = '0012w00000LD5UPAA1'; //0012w00000K2JaZAAV
+    recordId = '0012w00000LD5UPAA1';
+    userId;
 
     @wire(getAccount, {
         recordId: '$recordId'
     })
     account;
+
+    @wire(CurrentPageReference)
+    currentPageReference;
+
+    get contactIdFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userId
+        );
+    }
+
+    renderedCallback() {
+        this.userId = this.contactIdFromState;
+    }
 
     get name() {
         return this.account.data.Name;

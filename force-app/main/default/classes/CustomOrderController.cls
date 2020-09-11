@@ -43,6 +43,23 @@ public with sharing class CustomOrderController {
   }
 
   @AuraEnabled
+  public static void deleteOrder(String orderId) {
+    Savepoint sp = Database.setSavepoint();
+    try {
+      System.debug('deleteOrder');
+
+      List<Custom_Order__c> orders = getOrdersById(orderId);
+
+      delete orders;
+    } catch (Exception e) {
+      System.debug('deleteOrder catch ');
+
+      Database.rollback(sp);
+      System.debug(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
   public static void formOrder(
     Date deliveryDate,
     String typeOfPayment,

@@ -1,6 +1,7 @@
 /* eslint-disable radix */
 import {
-    LightningElement
+    LightningElement,
+    api
 } from 'lwc';
 import {
     NavigationMixin
@@ -8,7 +9,9 @@ import {
 
 export default class CongratulationPage extends NavigationMixin(LightningElement) {
 
-    contactId = "0032w00000FyKrCAAV";
+    @api contactId;
+    // = "0032w00000FyKrCAAV";
+
 
     renderedCallback() {
         // this.confetti();
@@ -24,7 +27,7 @@ export default class CongratulationPage extends NavigationMixin(LightningElement
                         componentName: "c__FromOrderToGallery"
                     },
                     state: {
-                        c__contactId: this.contactId
+                        c__userId: this.contactId
                     }
                 })
                 break;
@@ -35,7 +38,7 @@ export default class CongratulationPage extends NavigationMixin(LightningElement
                         componentName: "c__FromOrderToPersonalOffice"
                     },
                     state: {
-                        c__contactId: this.contactId
+                        c__userId: this.contactId
                     }
                 })
                 break;
