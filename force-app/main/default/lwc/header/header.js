@@ -12,20 +12,10 @@ import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 
-// Import message service features required for subscribing and the message channel
-import { subscribe,
-    unsubscribe,
-    APPLICATION_SCOPE,
-    MessageContext } from 'lightning/messageService';
-
-import USER_NAME_CHANNEL from '@salesforce/messageChannel/UserName__c';
-
 export default class Header extends NavigationMixin(LightningElement) {
     @api userId;
     @api userName;
     authLabel;
-    recordName;
-    subscription = null;
 
     renderedCallback() {
         console.log('renderedCallback header');
@@ -172,46 +162,5 @@ export default class Header extends NavigationMixin(LightningElement) {
                 }
             })
         }
-    }
-
-    // By using the MessageContext @wire adapter, unsubscribe will be called
-    // implicitly during the component descruction lifecycle.
-    @wire(MessageContext)
-    messageContext;
-
-    // Encapsulate logic for LMS subscribe.
-    /*subscribeToMessageChannel() {
-        this.subscription = subscribe(
-            this.messageContext,
-            USER_NAME_CHANNEL,
-            (message) => this.handleMessage(message)
-        );
-    }*/
-
-    // Pass scope to the subscribe() method.
-    subscribeToMessageChannel() {
-        if (!this.subscription) {
-            this.subscription = subscribe(
-                this.messageContext,
-                USER_NAME_CHANNEL,
-                (message) => this.handleMessage(message),
-                { scope: APPLICATION_SCOPE }
-            );
-        }
-    }
-
-    unsubscribeToMessageChannel() {
-        unsubscribe(this.subscription);
-        this.subscription = null;
-    }
-
-    // Handler for message received by component
-    handleMessage(message) {
-        this.recordName = message.recordName;
-    }
-
-    // Standard lifecycle hooks used to sub/unsub to message channel
-    connectedCallback() {
-        this.subscribeToMessageChannel();
     }
 }

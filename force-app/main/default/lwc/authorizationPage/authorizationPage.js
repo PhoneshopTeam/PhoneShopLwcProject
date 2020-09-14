@@ -13,11 +13,6 @@ import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 
-// Import message service features required for publishing and the message channel
-import { publish, MessageContext } from 'lightning/messageService';
-import USER_NAME_CHANNEL from '@salesforce/messageChannel/UserName__c';
-
-
 
 export default class AuthorizationPage extends NavigationMixin(LightningElement) {
     loginInput;
@@ -25,10 +20,6 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
     url;
     @track errorMsg = '';
     @api userName;
-
-    @wire(MessageContext)
-    messageContext;
-
 
     navigateToForgotPassword() {
         this[NavigationMixin.Navigate]({
@@ -68,13 +59,7 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
                 result.forEach(element => {
                     console.log('element', element)
                     this.userName = element.Name,
-                        this.userId = element.Id,
-
-
-                        //const payload = { recordName: this.userName };
-                        //console.log('payload+++++++++++'+this.payload);
-                        console.log('userName+++++++++++'+this.userName);
-                        publish(this.messageContext, USER_NAME_CHANNEL, { recordName: this.userName });  
+                        this.userId = element.Id
                 });
                 this[NavigationMixin.Navigate]({
                     type: "standard__component",
@@ -101,14 +86,4 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
                 }
             });
     }
-
-
-
-    /*renderedCallback(){
-
-        const payload = { recordName: this.userName };
-        console.log('payload+++++++++++'+this.payload);
-        console.log('userName+++++++++++'+this.userName);
-        publish(this.messageContext, USER_NAME_CHANNEL, payload);
-    }*/
 }
