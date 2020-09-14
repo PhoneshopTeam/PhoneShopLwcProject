@@ -1,5 +1,5 @@
 <template>
-  userId inside header: {userId}
+  userId inside header: {userId} userName inside header: {userName}
   <div class="headerButton">
     <lightning-button label="Home" class="button" onclick={navigateToHome}>
     </lightning-button>
@@ -25,10 +25,6 @@
       >
       </lightning-button>
     </template>
-    <!-- <lightning-button label="Registration"
-                          class="button"
-                          onclick={navigateToRegistration}>
-        </lightning-button> -->
     <lightning-button
       label={authLabel}
       class="button"
@@ -36,24 +32,4 @@
     >
     </lightning-button>
   </div>
-  <!-- <div class="headerButton">
-    <lightning-button
-      label="Catalog"
-      class="button"
-      onclick={navigateToCatalog}
-    >
-    </lightning-button>
-    <lightning-button label="About" class="button" onclick={navigateToAbout}>
-    </lightning-button>
-    <lightning-button label="Bascet" class="button" onclick={navigateToBascet}>
-    </lightning-button>
-    <lightning-button
-      label="Personal Office"
-      class="button"
-      onclick={navigateToPersonalOffice}
-    >
-    </lightning-button>
-    <lightning-button label="Logout" class="button" onclick={logout}>
-    </lightning-button>
-  </div> -->
 </template>

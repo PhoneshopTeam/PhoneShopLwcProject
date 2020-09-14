@@ -122,9 +122,8 @@ const COLS3 = [{
 
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
-  // @api contactId;
   userId;
-  // = "0032w00000FyKrCAAV";
+  userName;
   orderId;
   caseId;
   error;
@@ -134,7 +133,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   recordsToDisplay = []; //Records to be displayed on the page
   rowNumberOffset; //Row number
-  // orders;
+
   recordsToDisplay2 = []; //Records to be displayed on the page
   rowNumberOffset2; //Row number
 
@@ -157,9 +156,6 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   draftValues = [];
 
-  // @wire(getOrders, {
-  //   contactId: "$contactId"
-  // }) orders;
   @wire(getOrders, {
     contactId: "$userId"
   })
@@ -173,7 +169,6 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       for (let i = 0; i < data.length; i++) {
         let opp = {};
         opp.rowNumber = '' + (i + 1);
-        // opp.oppLink = '/' + data[i].Id;
         opp = Object.assign(opp, data[i]);
         recs.push(opp);
       }
@@ -191,14 +186,12 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
     data,
     error
   }) {
-    // this.resultOfCases = result;
     if (data) {
       console.log('data.length = ' + JSON.stringify(data.length));
       let recs2 = [];
       for (let i = 0; i < data.length; i++) {
         let opp2 = {};
         opp2.rowNumber = '' + (i + 1);
-        // opp.oppLink = '/' + data[i].Id;
         opp2 = Object.assign(opp2, data[i]);
         recs2.push(opp2);
       }
@@ -219,15 +212,20 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   @wire(CurrentPageReference)
   currentPageReference;
 
-
   get contactIdFromState() {
     return (
       this.currentPageReference && this.currentPageReference.state.c__userId
     );
   }
+  get userNameFromState() {
+    return (
+      this.currentPageReference && this.currentPageReference.state.c__userName
+    );
+  }
 
   renderedCallback() {
     this.userId = this.contactIdFromState;
+    this.userName = this.userNameFromState;
   }
 
   handlePaginatorChange(event) {

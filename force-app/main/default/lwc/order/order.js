@@ -2,7 +2,6 @@ import {
     LightningElement,
     wire
 } from 'lwc';
-// import getMobilesInOrder from "@salesforce/apex/MobileDataService.getMobilesInOrder";
 import getDeliveryAdress from "@salesforce/apex/ContactController.getDeliveryAdress";
 import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById";
 import formOrder from "@salesforce/apex/CustomOrderController.formOrder";
@@ -29,12 +28,9 @@ import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount_
 
 export default class Order extends NavigationMixin(LightningElement) {
 
-    //@api
     contactId;
-    //  = "0032w00000FyKrCAAV";
-    //@api
     orderId;
-    //  = 'a002w000009jyqzAAA';
+
     selectedAddressId;
     orders;
     error;

@@ -1,5 +1,5 @@
 <template>
-  <c-header user-id={userId}></c-header>
+  <c-header user-id={userId} user-name={userName}></c-header>
   <lightning-card title="Personal office" icon-name="standard:avatar">
     <lightning-record-edit-form record-id={userId} object-api-name="Contact">
       <lightning-messages> </lightning-messages>
@@ -88,17 +88,6 @@
           >
           </lightning-datatable>
         </template>
-        <!-- <template if:true={cases.data}>
-          <lightning-datatable
-            key-field="Id"
-            data={cases.data}
-            columns={columnsForCases}
-            hide-checkbox-column="false"
-            onrowaction={navigateToCaseRecord}
-          >
-          </lightning-datatable>
-        </template>
-        <template if:true={cases.error}></template> -->
       </lightning-card>
     </template>
     <template if:true={isHideAddresses}>

@@ -28,6 +28,7 @@ export default class AboutCompany extends NavigationMixin(LightningElement) {
     //@api
     recordId = '0012w00000LD5UPAA1';
     userId;
+    userName;
 
     @wire(getAccount, {
         recordId: '$recordId'
@@ -42,9 +43,15 @@ export default class AboutCompany extends NavigationMixin(LightningElement) {
             this.currentPageReference && this.currentPageReference.state.c__userId
         );
     }
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
+        );
+    }
 
     renderedCallback() {
         this.userId = this.contactIdFromState;
+        this.userName = this.userNameFromState;
     }
 
     get name() {

@@ -4,7 +4,6 @@ import {
     api
 } from 'lwc';
 import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById";
-// import ORDER_NUMBER_FIELD from '@salesforce/schema/Custom_Order__c.Order_Number__c';
 import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 import STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
 import TYPE_OF_PAYMENT_FIELD from '@salesforce/schema/Custom_Order__c.Type_of_payment__c';
