@@ -1,23 +1,8 @@
-<<<<<<< HEAD
 import { LightningElement, api, wire } from 'lwc';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
     contactId = '0032w00000I6h0uAAB';
-=======
-import {
-    LightningElement,
-    wire
-} from 'lwc';
-import {
-    CurrentPageReference,
-    NavigationMixin
-} from 'lightning/navigation';
-export default class Gallery extends NavigationMixin(LightningElement) {
-    isLoading = false;
-    userId;
-    userName;
->>>>>>> Margarita
 
     @wire(CurrentPageReference)
     currentPageReference;

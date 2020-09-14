@@ -1,9 +1,4 @@
-import {
-    LightningElement,
-    api,
-    wire,
-    track
-} from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import getMobilesList from '@salesforce/apex/MobileDataService.getMobilesList';
 import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
@@ -59,7 +54,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     openMobileDetailPage(event) {
-        this.refreshMobiles();
+        window.console.log('2');
         this[NavigationMixin.Navigate]({
             type: 'standard__component',
             attributes: {
