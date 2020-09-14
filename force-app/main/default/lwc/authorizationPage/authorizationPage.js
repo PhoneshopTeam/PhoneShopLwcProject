@@ -1,7 +1,8 @@
 import {
     LightningElement,
     track,
-    api
+    api,
+    wire
 } from 'lwc';
 import getAutorization from '@salesforce/apex/AutorizationPageController.getAutorization';
 import {
@@ -12,6 +13,10 @@ import {
     ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 
+// Import message service features required for publishing and the message channel
+import { publish, MessageContext } from 'lightning/messageService';
+import USER_NAME_CHANNEL from '@salesforce/messageChannel/UserName__c';
+
 
 
 export default class AuthorizationPage extends NavigationMixin(LightningElement) {
@@ -21,6 +26,8 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
     @track errorMsg = '';
     @api userName;
 
+    @wire(MessageContext)
+    messageContext;
 
 
     navigateToForgotPassword() {
@@ -61,7 +68,13 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
                 result.forEach(element => {
                     console.log('element', element)
                     this.userName = element.Name,
-                        this.userId = element.Id
+                        this.userId = element.Id,
+
+
+                        //const payload = { recordName: this.userName };
+                        //console.log('payload+++++++++++'+this.payload);
+                        console.log('userName+++++++++++'+this.userName);
+                        publish(this.messageContext, USER_NAME_CHANNEL, { recordName: this.userName });  
                 });
                 this[NavigationMixin.Navigate]({
                     type: "standard__component",
@@ -88,4 +101,14 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
                 }
             });
     }
+
+
+
+    /*renderedCallback(){
+
+        const payload = { recordName: this.userName };
+        console.log('payload+++++++++++'+this.payload);
+        console.log('userName+++++++++++'+this.userName);
+        publish(this.messageContext, USER_NAME_CHANNEL, payload);
+    }*/
 }

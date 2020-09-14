@@ -14,7 +14,7 @@ import {
   refreshApex
 } from '@salesforce/apex';
 import SOCKET_IO_JS from '@salesforce/resourceUrl/socketiojs';
-import WEBSOCKET_SERVER_URL from '@salesforce/label/c.websocket_server_url';
+//import WEBSOCKET_SERVER_URL from '@salesforce/label/c.websocket_server_url';
 import MESSAGE_OBJECT from '@salesforce/schema/Chat_Message__c';
 import CONTENT_FIELD from '@salesforce/schema/Chat_Message__c.Content__c';
 import CONTACT_FIELD from '@salesforce/schema/Chat_Message__c.Contact__c';

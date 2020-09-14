@@ -37,6 +37,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
   //@api
   userId;
   //  = '0032w00000INmlwAAD';
+  userName;
   @track hasRendered = true;
   orderId; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
   disabledCondition = false;
@@ -52,8 +53,15 @@ export default class Basket extends NavigationMixin(LightningElement) {
     );
   }
 
+  get userNameFromState() {
+    return (
+        this.currentPageReference && this.currentPageReference.state.c__userName
+    );
+  }
+
   renderedCallback() {
     this.userId = this.contactIdFromState;
+    this.userName = this.userNameFromState;
   }
 
   @wire(getBasketList, {
