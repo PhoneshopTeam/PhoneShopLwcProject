@@ -26,39 +26,46 @@ public with sharing class MobileDataService{
 		}
 	}
 
-	@AuraEnabled
-	public static List<Mobile_Review__c> getAllReviews(Id mobileId){
-		return [SELECT Id, Name, Comment__c, Rating__c, LastModifiedDate, CreatedDate, Contact__c, Contact__r.Name
-		        FROM Mobile_Review__c 
-		        WHERE Product__c = :mobileId
-		        ORDER BY CreatedDate DESC];
-	}
+  @AuraEnabled
+  public static List<Mobile_Review__c> getAllReviews(Id mobileId) {
+    return [
+      SELECT
+        Id,
+        Name,
+        Comment__c,
+        Rating__c,
+        LastModifiedDate,
+        CreatedDate,
+        Contact__c,
+        Contact__r.Name
+      FROM Mobile_Review__c
+      WHERE Product__c = :mobileId
+      ORDER BY CreatedDate DESC
+    ];
+  }
 
-	@AuraEnabled
-	public static Integer totalRecords(String mobileBrand){
-		if (mobileBrand.equals('')){
-			System.debug(mobileBrand);
-			return [SELECT COUNT()
-			        FROM Product2 ];
-		} else{
-			System.debug(mobileBrand);
-			return [SELECT COUNT()
-			        FROM Product2 
-			        WHERE Brand__c = :mobileBrand];
-		}
-	}
+  @AuraEnabled
+  public static Integer totalRecords(String mobileBrand) {
+    if (mobileBrand.equals('')) {
+      System.debug(mobileBrand);
+      return [SELECT COUNT() FROM Product2];
+    } else {
+      System.debug(mobileBrand);
+      return [SELECT COUNT() FROM Product2 WHERE Brand__c = :mobileBrand];
+    }
+  }
 
-	@AuraEnabled(cacheable = true)
-	public static Integer getNext(Integer offset, Integer pageSize){
-		offset += pageSize;
-		return offset;
-	}
+  @AuraEnabled(cacheable=true)
+  public static Integer getNext(Integer offset, Integer pageSize) {
+    offset += pageSize;
+    return offset;
+  }
 
-	@AuraEnabled(cacheable = true)
-	public static Integer getPrevious(Integer offset, Integer pageSize){
-		offset -= pageSize;
-		return offset;
-	}
+  @AuraEnabled(cacheable=true)
+  public static Integer getPrevious(Integer offset, Integer pageSize) {
+    offset -= pageSize;
+    return offset;
+  }
 
 	@AuraEnabled
 	public static void updateRating(Id mobileId, Id reviewId){
@@ -94,11 +101,27 @@ public with sharing class MobileDataService{
 		return objWrapper;
 	}
 
-	public with sharing class FatchValueWrapper{
-		@auraEnabled
-		public string slabel{ get; set; }
+  public with sharing class FatchValueWrapper {
+    @auraEnabled
+    public string slabel { get; set; }
 
-		@auraEnabled
-		public string svalue{ get; set; }
-	}
+    @auraEnabled
+    public string svalue { get; set; }
+  }
+
+  @AuraEnabled(cacheable=true)
+  public static List<Basket__c> getBasketsInOrder(String orderId) {
+    return [
+      SELECT
+        Id,
+        UnitPrice__c,
+        Quantity__c,
+        TotalPrice__c,
+        ProductId__r.Id,
+        ProductId__r.Picture__c,
+        ProductId__r.Name
+      FROM Basket__c
+      WHERE CustomOrderId__c = :orderId
+    ];
+  }
 }

@@ -29,18 +29,23 @@ import BASKET_UNITPRICE_FIELD from '@salesforce/schema/Basket__c.UnitPrice__c';
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
+
 	contactId;
 	mobileId;
+
 	quantity = 1;
 	orderId;
 
-	@wire(getRecord, { recordId: '$mobileId', fields: MOBILE_FIELDS })
+	@wire(getRecord, {
+		recordId: '$mobileId',
+		fields: MOBILE_FIELDS
+	})
 	wiredRecord;
 
 	get detailsTabIconName() {
-		return this.wiredRecord && this.wiredRecord.data
-			? 'utility:call'
-			: null;
+		return this.wiredRecord && this.wiredRecord.data ?
+			'utility:call' :
+			null;
 	}
 
 	@wire(CurrentPageReference)
@@ -58,9 +63,11 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	renderedCallback() {
+		window.console.log('456'); //promise
 		this.mobileId = this.mobileIdFromState;
 		this.contactId = this.contactIdFromState;
 	}
+
 
 	get totalQuantityValue() {
 		return getFieldValue(this.wiredRecord.data, MOBILE_TOTAL_QUANTITY_FIELD);
@@ -111,10 +118,11 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	handleProductToBasket() {
+
 		const fields = {};
 		fields[BASKET_PRODUCTID_FIELD.fieldApiName] = this.mobileId;
 		fields[BASKET_CONTACTID_FIELD.fieldApiName] = this.contactId;
-		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a022w00000Eol5lAAB';//////////////////////////////
+		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a002w000009kMa5AAE'; //////////////////////////////
 		fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 		fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
@@ -144,6 +152,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
+
 		//fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
@@ -152,21 +161,23 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		}
 		createRecord(recordInput)
 			.then(order => {
-				/////нужна savepoint
 				this.orderId = order.id;
+
 				const fields = {};
+
 				fields[BASKET_PRODUCTID_FIELD.fieldApiName] = this.mobileId;
 				fields[BASKET_CONTACTID_FIELD.fieldApiName] = this.contactId;
 				fields[BASKET_ORDERID_FIELD.fieldApiName] = this.orderId
 				fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 				fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 				fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
-				//fields[BASKET_TOTALPRICE_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
+
 				const recordInput = {
 					apiName: BASKET_OBJECT.objectApiName,
 					fields
 				}
 				window.console.log('a');
+
 				createRecord(recordInput)
 					.then(basket => {
 						window.console.log('b');
@@ -193,7 +204,6 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 					});
 			})
 			.catch(error => {
-				window.console.log(error);
 				this.error = JSON.stringify(error);
 			});
 	}

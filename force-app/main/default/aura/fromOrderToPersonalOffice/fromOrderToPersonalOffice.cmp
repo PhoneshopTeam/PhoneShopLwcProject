@@ -1,0 +1,6 @@
+<aura:component
+  description="FromOrderToPersonalOffice"
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <c:personalOffice contactId="{contactId}" />
+</aura:component>

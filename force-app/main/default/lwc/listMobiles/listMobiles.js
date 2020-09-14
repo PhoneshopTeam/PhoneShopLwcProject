@@ -1,4 +1,9 @@
-import { LightningElement, api, wire, track } from 'lwc';
+import {
+    LightningElement,
+    api,
+    wire,
+    track
+} from 'lwc';
 import getMobilesList from '@salesforce/apex/MobileDataService.getMobilesList';
 import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
@@ -54,6 +59,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     openMobileDetailPage(event) {
+        this.refreshMobiles();
         this[NavigationMixin.Navigate]({
             type: 'standard__component',
             attributes: {
@@ -67,13 +73,18 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback() {
-        totalRecords({ mobileBrand: this.selectedBrand }).then(result => {
+        totalRecords({
+            mobileBrand: this.selectedBrand
+        }).then(result => {
             this.totalRecords = result;
         });
     }
 
     previousHandler2() {
-        getPrevious({ offset: this.offset, pageSize: this.pageSize }).then(result => {
+        getPrevious({
+            offset: this.offset,
+            pageSize: this.pageSize
+        }).then(result => {
             this.offset = result;
             if (this.offset === 0) {
                 this.template.querySelector('c-paginator').changeView('trueprevious');
@@ -84,7 +95,10 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     nextHandler2() {
-        getNext({ offset: this.offset, pageSize: this.pageSize }).then(result => {
+        getNext({
+            offset: this.offset,
+            pageSize: this.pageSize
+        }).then(result => {
             this.offset = result;
             if (this.offset + 10 > this.totalRecords) {
                 this.template.querySelector('c-paginator').changeView('truenext');

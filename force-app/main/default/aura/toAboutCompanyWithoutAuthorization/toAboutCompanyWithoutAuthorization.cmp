@@ -1,0 +1,6 @@
+<aura:component
+  description="ToAboutCompanyWithoutAuthorization"
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <c:aboutCompany />
+</aura:component>

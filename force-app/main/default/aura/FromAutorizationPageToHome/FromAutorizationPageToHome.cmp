@@ -1,0 +1,5 @@
+<aura:component
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <c:homePage username="{userName}" userId="{userId}" />
+</aura:component>

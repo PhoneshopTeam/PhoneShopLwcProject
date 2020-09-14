@@ -1,6 +1,11 @@
-import { LightningElement, api } from 'lwc';
+import {
+    LightningElement,
+    api
+} from 'lwc';
 
-import { NavigationMixin } from 'lightning/navigation';
+import {
+    NavigationMixin
+} from 'lightning/navigation';
 
 export default class Header extends NavigationMixin(LightningElement) {
     @api userId;
@@ -8,11 +13,16 @@ export default class Header extends NavigationMixin(LightningElement) {
     authLabel;
 
     renderedCallback() {
-        this.authLabel = this.userId ? "Sign out" : "Sign in";
+        console.log('renderedCallback header');
+        console.log('this.userId  = ' + this.userId);
+
+        this.authLabel = this.userId ? "Sign out" : "Sign in"
+        console.log('this.authLabel = ' + this.authLabel);
     }
 
     navigateToHome() {
         if (this.userId) {
+            console.log('navigateToHome header');
             this[NavigationMixin.Navigate]({
                 type: "standard__component",
                 attributes: {
@@ -31,6 +41,30 @@ export default class Header extends NavigationMixin(LightningElement) {
                 }
             })
         }
+    }
+
+    navigateToCatalog() {
+        console.log('navigateToCatalog header');
+        if (this.userId) {
+            this[NavigationMixin.Navigate]({
+                type: "standard__component",
+                attributes: {
+                    componentName: "c__FromHomePageToGallery"
+                },
+                state: {
+                    c__userId: this.userId,
+                    c__userName: this.userName
+                }
+            })
+        } else {
+            this[NavigationMixin.Navigate]({
+                type: "standard__component",
+                attributes: {
+                    componentName: "c__ToGalleryWithoutAuthorization"
+                }
+            })
+        }
+
     }
 
     navigateToAbout() {

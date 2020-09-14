@@ -1,22 +1,42 @@
+<<<<<<< HEAD
 import { LightningElement, api, wire } from 'lwc';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
     contactId = '0032w00000I6h0uAAB';
+=======
+import {
+    LightningElement,
+    wire
+} from 'lwc';
+import {
+    CurrentPageReference,
+    NavigationMixin
+} from 'lightning/navigation';
+export default class Gallery extends NavigationMixin(LightningElement) {
+    isLoading = false;
+    userId;
+    userName;
+>>>>>>> Margarita
 
     @wire(CurrentPageReference)
     currentPageReference;
 
     get contactIdFromState() {
         return (
-            this.currentPageReference && this.currentPageReference.state.c__contactId
+            this.currentPageReference && this.currentPageReference.state.c__userId
+        );
+    }
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
         );
     }
 
-    /*renderedCallback() {
-        this.contactId = this.contactIdFromState;
-    }*/
-
+    renderedCallback() {
+        this.userId = this.contactIdFromState;
+        this.userName = this.userNameFromState;
+    }
     handleLoading() {
         this.isLoading = true;
     }
