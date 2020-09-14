@@ -1,11 +1,14 @@
 public with sharing class MobileDataService{
 	@AuraEnabled(cacheable = true)
-	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, String mobileBrand, String bySort){
+	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, String mobileBrand, String bySort, String searchKey){
 		String query = '';
 		if (mobileBrand.equals('')){
-			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c FROM Product2';
+			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c FROM Product2';
 		} else{
-			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c FROM Product2 WHERE Brand__c = :mobileBrand';
+			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c FROM Product2 WHERE Brand__c = :mobileBrand';
+		}
+		if (!searchKey.equals('')){
+			query += ' WHERE Name LIKE \'%' + searchKey + '%\'';
 		}
 		if (bySort.equals('priceDesc')){
 			query += ' ORDER BY Price__c DESC';
@@ -55,6 +58,25 @@ public with sharing class MobileDataService{
 	public static Integer getPrevious(Integer offset, Integer pageSize){
 		offset -= pageSize;
 		return offset;
+	}
+
+	@AuraEnabled
+	public static void updateRating(Id mobileId, Id reviewId){
+		Product2 product = [SELECT Id, Rating__c, Reviews_Count__c, Rating_Amount__c
+		                    FROM Product2 
+		                    WHERE Id = :mobileId];
+		Double mobileRating = product.Rating__c;
+		Double reviewsCount = product.Reviews_Count__c;
+		Double ratingAmount = product.Rating_Amount__c;
+		Mobile_Review__c review = [SELECT Id, Rating__c
+		                           FROM Mobile_Review__c 
+		                           WHERE Id = :reviewId];
+		Double reviewRating = review.Rating__c;
+		++reviewsCount;
+		ratingAmount += reviewRating;
+		product.Reviews_Count__c = reviewsCount;
+		product.Rating_Amount__c = ratingAmount;
+		update product;
 	}
 
 	@AuraEnabled(cacheable = true)

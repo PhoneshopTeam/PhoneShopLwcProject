@@ -2,10 +2,10 @@ import { LightningElement, wire, track } from 'lwc';
 import getMobileBrands from '@salesforce/apex/MobileDataService.getMobileBrands';
 
 export default class MobileSearchForm extends LightningElement {
-    selectedBrand = '';
-    selectedBySort = '';
-
-    @track error = undefined;
+    @track selectedBrand = '';
+    @track selectedBySort = '';
+    @track searchKey = '';
+    @track maxPrice = 0;
 
     @track searchOptions;
     @track sortingOptions = [
@@ -14,6 +14,8 @@ export default class MobileSearchForm extends LightningElement {
         { value: 'rating', label: 'Rating' },
         { value: '', label: 'choose...' }
     ];
+
+    @track error = undefined;
 
     @wire(getMobileBrands, {
         objInfo: { 'sobjectType': 'Product2' },
@@ -45,7 +47,6 @@ export default class MobileSearchForm extends LightningElement {
     }
 
     handleSortingOptionChange(event) {
-        window.console.log('1');
         this.selectedBySort = event.detail.value;
         const sortEvent = new CustomEvent('sort', {
             detail: {
@@ -53,5 +54,26 @@ export default class MobileSearchForm extends LightningElement {
             }
         });
         this.dispatchEvent(sortEvent);
+    }
+
+    handleMaxPriceChange(event) {
+        this.maxPrice = event.detail.value;
+        const priceEvent = new CustomEvent('maxprice', {
+            detail: {
+                maxPrice: this.maxPrice
+            }
+        });
+        this.dispatchEvent(priceEvent);
+    }
+
+    handleChange(event) {
+        this.searchKey = event.target.value;
+        event.preventDefault();
+        const searchEvent = new CustomEvent('changekey', {
+            detail: {
+                searchKey: this.searchKey
+            }
+        });
+        this.dispatchEvent(searchEvent);
     }
 }

@@ -1,21 +1,22 @@
 import { LightningElement, wire, api } from 'lwc';
-import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 import { getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import updateRating from '@salesforce/apex/MobileDataService.updateRating';
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
 import MOBILE_PICTURE_FIELD from '@salesforce/schema/Product2.Picture__c';
 import MOBILE_TOTAL_QUANTITY_FIELD from '@salesforce/schema/Product2.Total_Quantity__c';
 import MOBILE_PRICE_FIELD from '@salesforce/schema/Product2.Price__c';
-const MOBILE_FIELDS = [MOBILE_ID_FIELD, MOBILE_NAME_FIELD, MOBILE_PICTURE_FIELD, MOBILE_TOTAL_QUANTITY_FIELD, MOBILE_PRICE_FIELD];
+import MOBILE_REVIEWS_COUNT from '@salesforce/schema/Product2.Reviews_Count__c';
+const MOBILE_FIELDS = [MOBILE_ID_FIELD, MOBILE_NAME_FIELD, MOBILE_PICTURE_FIELD, MOBILE_TOTAL_QUANTITY_FIELD, MOBILE_PRICE_FIELD, MOBILE_REVIEWS_COUNT];
 
 
 import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
-//import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
 import BASKET_OBJECT from '@salesforce/schema/Basket__c';
 import BASKET_PRODUCTID_FIELD from '@salesforce/schema/Basket__c.ProductId__c';
@@ -43,24 +44,23 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	@wire(CurrentPageReference)
-    currentPageReference;
+	currentPageReference;
 
 	get mobileIdFromState() {
-        return (
-            this.currentPageReference && this.currentPageReference.state.c__mobileId
-        );
-    }
-    get contactIdFromState() {
-        return (
-            this.currentPageReference && this.currentPageReference.state.c__contactId
-        );
-    }
- 
-    renderedCallback() {
-		window.console.log('456');//promise
-        this.mobileId = this.mobileIdFromState;
-        this.contactId = this.contactIdFromState;
-    }
+		return (
+			this.currentPageReference && this.currentPageReference.state.c__mobileId
+		);
+	}
+	get contactIdFromState() {
+		return (
+			this.currentPageReference && this.currentPageReference.state.c__contactId
+		);
+	}
+
+	renderedCallback() {
+		this.mobileId = this.mobileIdFromState;
+		this.contactId = this.contactIdFromState;
+	}
 
 	get totalQuantityValue() {
 		return getFieldValue(this.wiredRecord.data, MOBILE_TOTAL_QUANTITY_FIELD);
@@ -78,6 +78,14 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		return getFieldValue(this.wiredRecord.data, MOBILE_PRICE_FIELD);
 	}
 
+	get reviewsCount() {
+		return getFieldValue(this.wiredRecord.data, MOBILE_REVIEWS_COUNT);
+	}
+
+	get reviewsLabel() {
+		return 'Reviews(' + this.reviewsCount + ')';
+	}
+
 	navigateToRecordViewPage() {
 		this[NavigationMixin.Navigate]({
 			type: 'standard__recordPage',
@@ -89,8 +97,11 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		});
 	}
 
-	handleReviewCreated() {
-		window.console.log('a');
+	handleReviewCreated(event) {
+		const reviewId = event.detail.reviewId;
+		updateRating({ mobileId: this.mobileId, reviewId: reviewId }).then(() => {
+			window.console.log('good');
+		});
 		this.template.querySelector('lightning-tabset').activeTabValue = REVIEWS_TAB;
 		this.template.querySelector('c-mobile-review-list').refresh();
 	}

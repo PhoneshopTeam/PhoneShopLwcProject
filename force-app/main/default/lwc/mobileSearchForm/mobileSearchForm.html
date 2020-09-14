@@ -11,6 +11,16 @@
           options={sortingOptions} onchange={handleSortingOptionChange} class="slds-align-middle">
         </lightning-combobox>
       </lightning-layout-item>
+      <lightning-layout-item class="slds-align-middle" padding="horizontal-medium">
+        <lightning-input variant="label-hidden" label="Search Record" value={searchKey} type="search"
+          onchange={handleChange} placeholder="Search by name">
+        </lightning-input>
+      </lightning-layout-item>
+      <lightning-layout-item class="slds-align-middle" padding="horizontal-medium">
+        <lightning-input type="number" name="maxprice" value={maxrice} onchange={handleMaxPriceChange}
+          placeholder="Maximum price..." label="Enter the maximum price">
+        </lightning-input>
+      </lightning-layout-item>
     </lightning-layout>
   </lightning-card>
 </template>
