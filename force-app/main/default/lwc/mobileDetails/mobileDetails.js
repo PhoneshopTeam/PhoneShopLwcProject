@@ -41,11 +41,12 @@ const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
 
-	contactId;
+	contactId;;
 	mobileId;
 
 	quantity = 1;
 	orderId;
+	userName;
 
 	@wire(getRecord, {
 		recordId: '$mobileId',
@@ -74,10 +75,17 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		);
 	}
 
+	get userNameFromState() {
+		return (
+			this.currentPageReference && this.currentPageReference.state.c__userName
+		);
+	}
+
 	renderedCallback() {
 		window.console.log('456'); //promise
 		this.mobileId = this.mobileIdFromState;
 		this.contactId = this.contactIdFromState;
+		this.userName = this.userNameFromState;
 	}
 
 
@@ -195,7 +203,8 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 							},
 							state: {
 								c__orderId: this.orderId,
-								c__contactId: this.contactId
+								c__contactId: this.contactId,
+								c__userName: this.userName
 							}
 						})
 					})

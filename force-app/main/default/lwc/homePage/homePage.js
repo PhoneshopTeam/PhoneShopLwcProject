@@ -44,6 +44,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this.userId = this.userIdFromState;
         console.log(this.userName)
         console.log(this.userId)
+
         //     Promise.all([
         //         loadScript(this, PAYPAL_SCR + '/paypal.js')
         //       ])
@@ -82,30 +83,30 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     }
 
     handleChange(event) {
-        if (event.target.label === 'Enter message') {
-            this.inputTextMessage = event.target.value;
+            if (event.target.label === 'Enter message') {
+                this.inputTextMessage = event.target.value;
+            }
         }
-    }
 
-    // navigateToCatalog() {
-    //     this[NavigationMixin.Navigate]({
-    //         type: "standard__component",
-    //         attributes: {
-    //             componentName: "c__FromHomePageToGallery"
-    //         },
-    //         state: {
-    //             c__userId: this.userId
-    //         }
-    //     })
-    // this[NavigationMixin.Navigate]({
-    //         type: 'standard__webPage',
-    //         attributes: {
-    //             url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Gallery'
-    //         }
-    //     //     },
-    //     //     true
-    //     // );
-    // }
+        /* navigateToCatalog() {
+        this[NavigationMixin.Navigate]({
+            type: "standard__component",
+            attributes: {
+                componentName: "c__FromHomePageToGallery"
+            },
+            state: {
+                c__userId: this.userId
+            }
+        })
+        // this[NavigationMixin.Navigate]({
+        //         type: 'standard__webPage',
+        //         attributes: {
+        //             url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Gallery'
+        //         }
+        //     },
+        //     true
+        // );
+    }
 
     // navigateToAbout() {
     //     this[NavigationMixin.Navigate]({
@@ -151,6 +152,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     //     })
     // }
 
+<<<<<<< HEAD
     // logout() {
     //     this[NavigationMixin.Navigate]({
     //             type: 'standard__webPage',
@@ -161,4 +163,17 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     //         true
     //     );
     // }
+=======
+    logout() {
+        this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/home_Page_For_Guest'
+                }
+            },
+            true
+        );
+    }*/
+        >>>
+        >>> > Vadim
 }

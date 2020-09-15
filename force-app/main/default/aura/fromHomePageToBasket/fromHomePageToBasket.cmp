@@ -2,5 +2,5 @@
   description="FromHomePageToBasket"
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:basket userId="{userId}" />
+  <c:basket userId="{userId}" userName="{userName}"/>
 </aura:component>

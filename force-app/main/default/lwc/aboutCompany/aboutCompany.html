@@ -3,10 +3,9 @@
   <lightning-card>
     <template if:true={account.data}>
       <div class="slds-p-left_large slds-text-heading_large">
-        <h1>
+        <p>
           <strong>{name}</strong>
-          <!--strong>name: {account.data.BillingAddress}</strong-->
-        </h1>
+        </p>
       </div>
 
       <div>
@@ -34,43 +33,35 @@
         </lightning-layout>
       </div>
 
-      <div
-        class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none"
-      >
-        <lightning-layout multiple-rows>
-          <lightning-layout-item size="3" padding="around-small">
-            <div
-              class="custom-box slds-box slds-p-around_medium slds-text-align_center"
-            >
-              <p>Address</p>
-              <h1>{addressCity} {addressStreet}</h1>
-            </div>
-          </lightning-layout-item>
-          <lightning-layout-item size="3" padding="around-small">
-            <div
-              class="custom-box slds-box slds-p-around_medium slds-text-align_center"
-            >
-              <p>Phone</p>
-              <h1>{phone}</h1>
-            </div>
-          </lightning-layout-item>
-          <lightning-layout-item size="3" padding="around-small">
-            <div
-              class="custom-box slds-box slds-p-around_medium slds-text-align_center"
-            >
-              <p>Email</p>
-              <h1>{email}</h1>
-            </div>
-          </lightning-layout-item>
-          <lightning-layout-item size="3" padding="around-small">
-            <div
-              class="custom-box slds-box slds-p-around_medium slds-text-align_center"
-            >
-              <p>Working hours</p>
-              <h1>{hours}</h1>
-            </div>
-          </lightning-layout-item>
-        </lightning-layout>
+      <div class="slds-border_top">
+        <div class="slds-box box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+          <lightning-layout multiple-rows>
+            <lightning-layout-item size="3" padding="around-large">
+              <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                <p>Address:</p>
+                <h1><strong>{addressCity} {addressStreet}</strong></h1>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="3" padding="around-large">
+              <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                <p>Phone:</p>
+                <h1><strong>{phone}</strong></h1>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="3" padding="around-large">
+              <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                <p>Email:</p>
+                <h1><strong>{email}</strong></h1>
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="3" padding="around-large">
+              <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                <p>Working hours:</p>
+                <h1><strong>{hours}</strong></h1>
+              </div>
+            </lightning-layout-item>
+          </lightning-layout>
+        </div>
       </div>
 
       <!--div class="slds-border_top">

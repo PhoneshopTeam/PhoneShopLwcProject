@@ -1,7 +1,8 @@
 import {
     LightningElement,
     track,
-    api
+    api,
+    wire
 } from 'lwc';
 import getAutorization from '@salesforce/apex/AutorizationPageController.getAutorization';
 import {
@@ -13,15 +14,12 @@ import {
 } from 'lightning/platformShowToastEvent';
 
 
-
 export default class AuthorizationPage extends NavigationMixin(LightningElement) {
     loginInput;
     passwordInput;
     url;
     @track errorMsg = '';
     @api userName;
-
-
 
     navigateToForgotPassword() {
         this[NavigationMixin.Navigate]({

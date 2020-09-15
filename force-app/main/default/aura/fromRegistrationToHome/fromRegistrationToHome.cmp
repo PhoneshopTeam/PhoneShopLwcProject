@@ -1,5 +1,5 @@
 <aura:component
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:homePage userId="{userId}" />
+  <c:homePage userId="{userId}" userName="{userName}"/>
 </aura:component>

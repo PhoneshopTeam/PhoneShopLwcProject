@@ -1,6 +1,8 @@
 import {
     LightningElement,
-    api
+    api,
+    track,
+    wire
 } from 'lwc';
 
 import {
@@ -17,6 +19,7 @@ export default class Header extends NavigationMixin(LightningElement) {
         console.log('this.userId  = ' + this.userId);
 
         this.authLabel = this.userId ? "Sign out" : "Sign in"
+
         console.log('this.authLabel = ' + this.authLabel);
     }
 

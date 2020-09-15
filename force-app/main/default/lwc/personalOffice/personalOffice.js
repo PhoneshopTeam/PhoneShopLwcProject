@@ -123,7 +123,8 @@ const COLS3 = [{
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   userId;
-  userName
+  userName;
+
   orderId;
   caseId;
   error;
@@ -214,6 +215,12 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       this.currentPageReference && this.currentPageReference.state.c__userId
     );
   }
+  get userNameFromState() {
+    return (
+      this.currentPageReference && this.currentPageReference.state.c__userName
+    );
+  }
+
   get userNameFromState() {
     return (
       this.currentPageReference && this.currentPageReference.state.c__userName

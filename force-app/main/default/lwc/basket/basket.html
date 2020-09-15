@@ -1,12 +1,19 @@
 <template>
-  <c-header user-id={userId} user-name={userName}></c-header>
-  <lightning-card title="Basket">
+  <lightning-card>
+    <c-header user-id={userId} user-name={userName}></c-header>
+
+    <!--lightning-card title="Basket"-->
     <div class="slds-m-around_small">
-      <p>{now}</p>
-      <p>{userId}</p>
       <template if:true={baskets}>
         <template for:each={baskets} for:item="basket">
-          <p key={basket.Id}>Basket number: {basket.Name}</p>
+          <div class="inside slds-m-top_medium" key={basket.Id}>
+            <div class="slds-m-left_medium">
+              <p key={basket.Id}>
+                Basket number: <strong>{basket.Name}</strong>
+              </p>
+            </div>
+          </div>
+
           <c-item-basket
             key={basket.Id}
             basket-id={basket}
@@ -33,4 +40,5 @@
       ></lightning-button>
     </div>
   </lightning-card>
+  <!--/lightning-card-->
 </template>

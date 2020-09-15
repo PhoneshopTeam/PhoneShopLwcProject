@@ -39,6 +39,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     description;
     isHideDeliveryDate = false;
     isCongratulationModalOpen = false;
+    userName;
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
     fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
@@ -56,10 +57,17 @@ export default class Order extends NavigationMixin(LightningElement) {
             this.currentPageReference && this.currentPageReference.state.c__contactId
         );
     }
+    
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
+        );
+    }
 
     renderedCallback() {
         this.orderId = this.orderIdFromState;
         this.contactId = this.contactIdFromState;
+        this.userName = this.userNameFromState;
     }
 
     @wire(getTypesOfPaymentOptions)

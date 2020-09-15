@@ -2,5 +2,5 @@
   description="FromHomePageToAboutCompany"
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:aboutCompany userId="{userId}" />
+  <c:aboutCompany userId="{userId}" userName="{userName}"/>
 </aura:component>

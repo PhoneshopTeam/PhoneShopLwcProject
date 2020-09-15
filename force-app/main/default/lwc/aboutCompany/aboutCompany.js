@@ -26,7 +26,8 @@ const ACC_FIELDS = [NAME_FIELD, LOGO_FIELD, DESCRIPTION_FIELD,
 export default class AboutCompany extends NavigationMixin(LightningElement) {
 
     //@api
-    recordId = '0012w00000LD5UPAA1';
+    //recordId = '0012w00000LD5UPAA1';   //Margarita Id
+    recordId = '0012w00000K2JaZAAV';   //Vadim Id
     userId;
     userName;
 
