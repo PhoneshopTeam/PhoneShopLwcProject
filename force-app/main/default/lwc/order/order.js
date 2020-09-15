@@ -29,12 +29,9 @@ import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount_
 
 export default class Order extends NavigationMixin(LightningElement) {
 
-    //@api
     contactId;
-    //  = "0032w00000FyKrCAAV";
-    //@api
     orderId;
-    //  = 'a002w000009jyqzAAA';
+
     selectedAddressId;
     orders;
     error;
@@ -43,6 +40,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     description;
     isHideDeliveryDate = false;
     isCongratulationModalOpen = false;
+    userName;
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
     fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
@@ -60,10 +58,17 @@ export default class Order extends NavigationMixin(LightningElement) {
             this.currentPageReference && this.currentPageReference.state.c__contactId
         );
     }
+    
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
+        );
+    }
 
     renderedCallback() {
         this.orderId = this.orderIdFromState;
         this.contactId = this.contactIdFromState;
+        this.userName = this.userNameFromState;
     }
 
     @wire(getTypesOfPaymentOptions)

@@ -119,7 +119,8 @@ export default class Basket extends NavigationMixin(LightningElement) {
               },
               state: {
                 c__orderId: this.orderId,
-                c__contactId: this.userId
+                c__contactId: this.userId,
+                c__userName: this.userName
               }
             })
 

@@ -5,15 +5,16 @@
 
     <!--lightning-card title="Basket"-->
       <div class="slds-m-around_small">
-        
-        <div class="inside ">
-          userId inside Basket: {userId}
-        </div>
 
         <template if:true={baskets}>
           <template for:each={baskets} for:item="basket">
+
+            <div class="inside slds-m-top_medium" key={basket.Id}>
+              <div class="slds-m-left_medium">
+                <p key={basket.Id}>Basket number: <strong>{basket.Name}</strong></p>
+              </div>
+            </div>
             
-            <p key={basket.Id}>Basket number: <strong>{basket.Name}</strong></p>
 
             <c-item-basket
               key={basket.Id}

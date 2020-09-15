@@ -29,6 +29,7 @@ export default class AboutCompany extends NavigationMixin(LightningElement) {
     //recordId = '0012w00000LD5UPAA1';   //Margarita Id
     recordId = '0012w00000K2JaZAAV';   //Vadim Id
     userId;
+    userName;
 
     @wire(getAccount, {
         recordId: '$recordId'
@@ -43,9 +44,15 @@ export default class AboutCompany extends NavigationMixin(LightningElement) {
             this.currentPageReference && this.currentPageReference.state.c__userId
         );
     }
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
+        );
+    }
 
     renderedCallback() {
         this.userId = this.contactIdFromState;
+        this.userName = this.userNameFromState;
     }
 
     get name() {

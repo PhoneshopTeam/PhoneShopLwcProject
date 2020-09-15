@@ -122,16 +122,15 @@ const COLS3 = [{
 
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
-  // @api contactId;
   userId;
-  // = "0032w00000FyKrCAAV";
+  userName;
   orderId;
   caseId;
   error;
   opps;
   cases;
   resultOfCases;
-
+  
   recordsToDisplay = []; //Records to be displayed on the page
   rowNumberOffset; //Row number
   // orders;
@@ -226,8 +225,15 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
     );
   }
 
+  get userNameFromState() {
+    return (
+      this.currentPageReference && this.currentPageReference.state.c__userName
+    );
+  }
+
   renderedCallback() {
     this.userId = this.contactIdFromState;
+    this.userName = this.userNameFromState;
   }
 
   handlePaginatorChange(event) {

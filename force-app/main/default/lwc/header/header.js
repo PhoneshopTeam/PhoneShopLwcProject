@@ -138,7 +138,7 @@ export default class Header extends NavigationMixin(LightningElement) {
                     componentName: "c__FromHomePageToPersonalOffice"
                 },
                 state: {
-                    // c__userName: this.userName,
+                    c__userName: this.userName,
                     c__userId: this.userId
                 }
             })

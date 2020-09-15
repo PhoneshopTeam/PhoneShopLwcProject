@@ -17,10 +17,6 @@ import {
     loadStyle
 } from 'lightning/platformResourceLoader';
 
-// Import message service features required for publishing and the message channel
-//import { publish, MessageContext } from 'lightning/messageService';
-//import USER_NAME_CHANNEL from '@salesforce/messageChannel/UserName__c';
-
 export default class HomePage extends NavigationMixin(LightningElement) {
     // @api
     contactId;
@@ -48,12 +44,6 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this.userId = this.userIdFromState;
         console.log(this.userName)
         console.log(this.userId)
-
-        /*const payload = { recordName: this.userName };
-        console.log('payload+++++++++++'+this.payload);
-        console.log('userName+++++++++++'+this.userName);
-        publish(this.messageContext, USER_NAME_CHANNEL, payload);*/
-
         
         //     Promise.all([
         //         loadScript(this, PAYPAL_SCR + '/paypal.js')
@@ -98,7 +88,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         }
     }
 
-    navigateToCatalog() {
+   /* navigateToCatalog() {
         this[NavigationMixin.Navigate]({
             type: "standard__component",
             attributes: {
@@ -171,10 +161,5 @@ export default class HomePage extends NavigationMixin(LightningElement) {
             },
             true
         );
-    }
-
-    /*@wire(MessageContext)
-    messageContext;*/
-
-
+    }*/
 }

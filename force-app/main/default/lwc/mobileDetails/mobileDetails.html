@@ -1,5 +1,7 @@
 <template>
-  contactId: {contactId}
+  <c-header user-id={userId} user-name={userName}></c-header>
+
+  contactId: {userId} userName: {userName}
   <template if:true={wiredRecord.data}>
     <lightning-tabset>
       <lightning-tab label="Details" value="details">
