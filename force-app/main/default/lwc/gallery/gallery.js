@@ -2,7 +2,7 @@ import { LightningElement, api, wire } from 'lwc';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    contactId = '0032w00000I6h0uAAB';
+    contactId ;//= '0032w00000I6h0uAAB';
 
     @wire(CurrentPageReference)
     currentPageReference;
