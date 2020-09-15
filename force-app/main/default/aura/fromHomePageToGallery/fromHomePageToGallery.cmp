@@ -1,6 +1,4 @@
-<aura:component
-  description="FromHomePageToGallery"
-  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
->
+<aura:component description="FromHomePageToGallery"
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId">
   <c:gallery userId="{userId}" />
 </aura:component>

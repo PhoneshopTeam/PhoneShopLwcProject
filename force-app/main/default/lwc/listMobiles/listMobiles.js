@@ -9,15 +9,17 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track totalRecords;
     @track pageSize = 8;
 
-    @api contactId;
+    @api userId;
     mobiles;
+
     @api selectedMobileId;
     @api searchKey = '';
     @api selectedBrand = '';
     @api selectedBySort = '';
+    @api maxPrice = 0;
     isLoading = true;
 
-    @wire(getMobilesList, { offset: '$offset', pageSize: '$pageSize', mobileBrand: '$selectedBrand', bySort: '$selectedBySort', searchKey: '$searchKey' })
+    @wire(getMobilesList, { offset: '$offset', pageSize: '$pageSize', mobileBrand: '$selectedBrand', bySort: '$selectedBySort', searchKey: '$searchKey', maxPrice: '$maxPrice' })
     wiredBoats(result) {
         this.mobiles = result;
     }
@@ -49,6 +51,15 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.notifyLoading(this.isLoading);
     }
 
+    @api
+    inputMaxPrice(maxPrice) {
+        this.isLoading = true;
+        this.notifyLoading(this.isLoading);
+        this.maxPrice = maxPrice;
+        this.isLoading = false;
+        this.notifyLoading(this.isLoading);
+    }
+
     notifyLoading(isLoading) {
         isLoading ? this.dispatchEvent(new CustomEvent('loading')) : this.dispatchEvent(new CustomEvent('doneloading'));
     }
@@ -62,7 +73,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
             },
             state: {
                 c__mobileId: event.detail.selectedMobileId,
-                c__contactId: this.contactId
+                c__userId: this.userId
             }
         });
     }

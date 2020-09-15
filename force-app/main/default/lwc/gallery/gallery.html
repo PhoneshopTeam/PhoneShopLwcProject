@@ -1,5 +1,5 @@
 <template>
-    <c-header user-id={contactId}></c-header>
+    <c-header user-id={userId}></c-header>
     <lightning-layout multiple-rows>
         <lightning-layout-item size="12">
             <lightning-card title="Gallery">
@@ -15,7 +15,7 @@
                 <lightning-spinner alternative-text="Loading" variant="brand">
                 </lightning-spinner>
             </template>
-            <c-list-mobiles contact-id={contactId} onloading={handleLoading} ondoneloading={handleDoneLoading}>
+            <c-list-mobiles user-id={userId} onloading={handleLoading} ondoneloading={handleDoneLoading}>
             </c-list-mobiles>
         </lightning-layout-item>
     </lightning-layout>

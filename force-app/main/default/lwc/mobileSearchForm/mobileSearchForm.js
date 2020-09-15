@@ -57,7 +57,12 @@ export default class MobileSearchForm extends LightningElement {
     }
 
     handleMaxPriceChange(event) {
-        this.maxPrice = event.detail.value;
+        const maxPrice = event.detail.value;
+        if (maxPrice) {
+            this.maxPrice = maxPrice;
+        } else {
+            this.maxPrice = 0;
+        }
         const priceEvent = new CustomEvent('maxprice', {
             detail: {
                 maxPrice: this.maxPrice

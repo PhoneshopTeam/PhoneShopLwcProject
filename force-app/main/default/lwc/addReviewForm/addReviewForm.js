@@ -4,7 +4,7 @@ const TOAST_TITLE = "Review Created!";
 const TOAST_SUCCESS_VARIANT = "success";
 export default class AddReviewForm extends LightningElement {
     @api mobileId;
-    @api contactId;
+    @api userId;
     @track reviewId;
     rating;
 
@@ -25,7 +25,7 @@ export default class AddReviewForm extends LightningElement {
         const fields = event.detail.fields;
         fields.Product__c = this.mobileId;
         fields.Rating__c = this.rating;
-        fields.Contact__c = this.contactId;
+        fields.Contact__c = this.userId;
         this.template.querySelector('lightning-record-edit-form').submit(fields);
     }
 

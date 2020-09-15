@@ -2,12 +2,13 @@ import { LightningElement, api, wire } from 'lwc';
 import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    contactId ;//= '0032w00000I6h0uAAB';
+    userId = '0032w00000I6h0sAAB';
+    userName;
 
     @wire(CurrentPageReference)
     currentPageReference;
 
-    get contactIdFromState() {
+    /*get userIdFromState() {
         return (
             this.currentPageReference && this.currentPageReference.state.c__userId
         );
@@ -19,9 +20,9 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-        this.userId = this.contactIdFromState;
+        this.userId = this.userIdFromState;
         this.userName = this.userNameFromState;
-    }
+    }*/
     handleLoading() {
         this.isLoading = true;
     }
@@ -47,6 +48,6 @@ export default class Gallery extends NavigationMixin(LightningElement) {
 
     handleMaxPrice(event) {
         const maxPrice = event.detail.maxPrice;
-        this.template.querySelector('c-list-mobiles').inputSearch(maxPrice);
+        this.template.querySelector('c-list-mobiles').inputMaxPrice(maxPrice);
     }
 }

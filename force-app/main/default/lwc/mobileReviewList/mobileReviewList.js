@@ -50,12 +50,12 @@ export default class MobileReviewList extends NavigationMixin(LightningElement) 
 	}
 
 	navigateToRecord(event) {
-		const contactId = event.target.dataset.recordId;
+		const userId = event.target.dataset.recordId;
 
 		this[NavigationMixin.Navigate]({
 			type: 'standard__recordPage',
 			attributes: {
-				recordId: contactId,
+				recordId: userId,
 				actionName: 'view'
 			},
 		});
