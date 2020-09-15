@@ -1,7 +1,5 @@
 <template>
   <c-header user-id={userId} user-name={userName}></c-header>
-
-  contactId: {userId} userName: {userName}
   <template if:true={wiredRecord.data}>
     <lightning-tabset>
       <lightning-tab label="Details" value="details">
@@ -33,32 +31,36 @@
           </lightning-input>
           <p>Number of Items: {quantity}</p>
         </lightning-card>
-        <lightning-button
-          class="slds-m-top_small"
-          variant="neutral"
-          type="submit"
-          label="Add to basket"
-          onclick={handleProductToBasket}
-        ></lightning-button>
-        <lightning-button
-          class="slds-m-top_small"
-          variant="neutral"
-          type="submit"
-          label="Buy quickly"
-          onclick={handleProductToOrder}
-        ></lightning-button>
+        <template if:true={userId}>
+          <lightning-button
+            class="slds-m-top_small"
+            variant="neutral"
+            type="submit"
+            label="Add to basket"
+            onclick={handleProductToBasket}
+          ></lightning-button>
+          <lightning-button
+            class="slds-m-top_small"
+            variant="neutral"
+            type="submit"
+            label="Buy quickly"
+            onclick={handleProductToOrder}
+          ></lightning-button>
+        </template>
       </lightning-tab>
-      <lightning-tab label="Reviews" value="reviews">
+      <lightning-tab label={reviewsLabel} value="reviews">
         <c-mobile-review-list record-id={mobileId}></c-mobile-review-list>
       </lightning-tab>
-      <lightning-tab label="Add review" value="add-review">
-        <c-add-review-form
-          record-id={mobileId}
-          contact-id={contactId}
-          oncreatereview={handleReviewCreated}
-        >
-        </c-add-review-form>
-      </lightning-tab>
+      <template if:true={userId}>
+        <lightning-tab label="Add review" value="add-review">
+          <c-add-review-form
+            record-id={mobileId}
+            user-id={userId}
+            oncreatereview={handleReviewCreated}
+          >
+          </c-add-review-form>
+        </lightning-tab>
+      </template>
     </lightning-tabset>
   </template>
 </template>

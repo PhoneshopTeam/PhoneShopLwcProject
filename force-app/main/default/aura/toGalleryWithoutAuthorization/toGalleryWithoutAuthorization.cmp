@@ -1,6 +1,4 @@
-<aura:component
-  description="ToGalleryWithoutAuthorization"
-  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
->
+<aura:component description="ToGalleryWithoutAuthorization"
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId">
   <c:gallery />
 </aura:component>

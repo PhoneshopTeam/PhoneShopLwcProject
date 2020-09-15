@@ -18,8 +18,12 @@ export default class Header extends NavigationMixin(LightningElement) {
         console.log('renderedCallback header');
         console.log('this.userId  = ' + this.userId);
 
+<<<<<<< HEAD
         this.authLabel = this.userId ? "Sign out" : "Sign in"
 
+=======
+        this.authLabel = this.userId ? "Sign out" : "Sign in";
+>>>>>>> Veronika
         console.log('this.authLabel = ' + this.authLabel);
     }
 
@@ -37,7 +41,6 @@ export default class Header extends NavigationMixin(LightningElement) {
                 }
             })
         } else {
-
             this[NavigationMixin.Navigate]({
                 type: "standard__component",
                 attributes: {

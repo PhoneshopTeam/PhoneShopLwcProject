@@ -1,20 +1,14 @@
-import {
-    LightningElement,
-    wire
-} from 'lwc';
-import {
-    CurrentPageReference,
-    NavigationMixin
-} from 'lightning/navigation';
+import { LightningElement, api, wire } from 'lwc';
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    userId;
+    userId = '0032w00000I6h0sAAB';
     userName;
 
     @wire(CurrentPageReference)
     currentPageReference;
 
-    get contactIdFromState() {
+    /*get userIdFromState() {
         return (
             this.currentPageReference && this.currentPageReference.state.c__userId
         );
@@ -26,9 +20,9 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-        this.userId = this.contactIdFromState;
+        this.userId = this.userIdFromState;
         this.userName = this.userNameFromState;
-    }
+    }*/
     handleLoading() {
         this.isLoading = true;
     }
@@ -43,8 +37,17 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     }
 
     sortMobiles(event) {
-        window.console.log('2');
         const selectedBySort = event.detail.selectedBySort;
         this.template.querySelector('c-list-mobiles').sortMobiles(selectedBySort);
+    }
+
+    handleChangeKey(event) {
+        const searchKey = event.detail.searchKey;
+        this.template.querySelector('c-list-mobiles').inputSearch(searchKey);
+    }
+
+    handleMaxPrice(event) {
+        const maxPrice = event.detail.maxPrice;
+        this.template.querySelector('c-list-mobiles').inputMaxPrice(maxPrice);
     }
 }
