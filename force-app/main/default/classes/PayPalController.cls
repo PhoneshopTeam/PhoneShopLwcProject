@@ -13,7 +13,11 @@ public static HttpResponse  processPayments(Custom_Order__c order){
     req.setHeader('Content-Type', 'application/json;charset=UTF-8');
     req.setEndpoint('https://api.sandbox.paypal.com/v2/checkout/orders');
     req.setMethod('POST');
-    req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""+order.Total_Amount__c+"\"}}]}');
+    Decimal amount = order.Total_Amount__c;
+    system.debug(amount);
+    req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\"' + amount + '\"}}]}');
+    // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""amount"\"}}]}');
+    // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""+order.Total_Amount__c+"\"}}]}');
     Http h = new Http();
     HttpResponse res = h.send(req);
     system.debug(res);
