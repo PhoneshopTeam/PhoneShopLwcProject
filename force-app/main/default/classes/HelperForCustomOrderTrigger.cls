@@ -13,7 +13,7 @@ public with sharing class HelperForCustomOrderTrigger {
           WHERE Id = :o.Id
         ];
 
-        if (o.Type_of_payment__c != null) {
+        if (o.Type_of_payment__c != null && order.Status__c == null) {
           if (order.Delivery_date__c != null) {
             order.Status__c = order.Type_of_payment__c != 'by card online'
               ? 'Awaiting payment; Awaiting delivery'
@@ -24,6 +24,11 @@ public with sharing class HelperForCustomOrderTrigger {
               : 'Without delivery';
           }
           ordersToUpdate.add(order);
+        } else {
+          if (o.Type_of_payment__c == 'by card online') {
+            order.Status__c = order.Status__c + '; Paid';
+            ordersToUpdate.add(order);
+          }
         }
       }
       update ordersToUpdate;

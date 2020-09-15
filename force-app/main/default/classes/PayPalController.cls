@@ -31,10 +31,12 @@ public with sharing class PayPalController {
     // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""+order.Total_Amount__c+"\"}}]}');
     Http h = new Http();
     HttpResponse res = h.send(req);
-    res.getStatus();
-    //res.status???????
+
+    if (res.getStatus() == '200') {
+      update order;
+    }
     system.debug(res);
-    system.debug(res.getStatus());
+    // system.debug(res.getStatus());
     return res;
   }
 }
