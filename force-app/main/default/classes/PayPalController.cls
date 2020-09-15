@@ -33,7 +33,8 @@ public with sharing class PayPalController {
     HttpResponse res = h.send(req);
 
     if (res.getStatus() == '200') {
-      update order;
+      system.debug(order);
+      // update order;
     }
     system.debug(res);
     // system.debug(res.getStatus());

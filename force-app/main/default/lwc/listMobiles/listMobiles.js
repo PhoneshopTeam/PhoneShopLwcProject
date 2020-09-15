@@ -1,9 +1,17 @@
-import { LightningElement, api, wire, track } from 'lwc';
+import {
+    LightningElement,
+    api,
+    wire,
+    track
+} from 'lwc';
 import getMobilesList from '@salesforce/apex/MobileDataService.getMobilesList';
 import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
 import totalRecords from '@salesforce/apex/MobileDataService.totalRecords';
-import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
+import {
+    CurrentPageReference,
+    NavigationMixin
+} from 'lightning/navigation';
 export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track offset = 0;
     @track totalRecords;
@@ -19,7 +27,14 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @api maxPrice = 0;
     isLoading = true;
 
-    @wire(getMobilesList, { offset: '$offset', pageSize: '$pageSize', mobileBrand: '$selectedBrand', bySort: '$selectedBySort', searchKey: '$searchKey', maxPrice: '$maxPrice' })
+    @wire(getMobilesList, {
+        offset: '$offset',
+        pageSize: '$pageSize',
+        mobileBrand: '$selectedBrand',
+        bySort: '$selectedBySort',
+        searchKey: '$searchKey',
+        maxPrice: '$maxPrice'
+    })
     wiredBoats(result) {
         this.mobiles = result;
     }

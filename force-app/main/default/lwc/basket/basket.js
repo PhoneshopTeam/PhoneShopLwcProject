@@ -59,12 +59,6 @@ export default class Basket extends NavigationMixin(LightningElement) {
     );
   }
 
-  get userNameFromState() {
-    return (
-        this.currentPageReference && this.currentPageReference.state.c__userName
-    );
-  }
-
   renderedCallback() {
     this.userId = this.contactIdFromState;
     this.userName = this.userNameFromState;
@@ -125,7 +119,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
               },
               state: {
                 c__orderId: this.orderId,
-                c__contactId: this.userId,
+                c__userId: this.userId,
                 c__userName: this.userName
               }
             })

@@ -1,14 +1,21 @@
-import { LightningElement, api, wire } from 'lwc';
-import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
+import {
+    LightningElement,
+    api,
+    wire
+} from 'lwc';
+import {
+    CurrentPageReference,
+    NavigationMixin
+} from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    userId = '0032w00000I6h0sAAB';
+    userId;
     userName;
 
     @wire(CurrentPageReference)
     currentPageReference;
 
-    /*get userIdFromState() {
+    get userIdFromState() {
         return (
             this.currentPageReference && this.currentPageReference.state.c__userId
         );
@@ -22,7 +29,8 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     renderedCallback() {
         this.userId = this.userIdFromState;
         this.userName = this.userNameFromState;
-    }*/
+    }
+
     handleLoading() {
         this.isLoading = true;
     }
