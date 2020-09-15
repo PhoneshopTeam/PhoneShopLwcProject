@@ -83,12 +83,12 @@ export default class HomePage extends NavigationMixin(LightningElement) {
     }
 
     handleChange(event) {
-            if (event.target.label === 'Enter message') {
-                this.inputTextMessage = event.target.value;
-            }
+        if (event.target.label === 'Enter message') {
+            this.inputTextMessage = event.target.value;
         }
+    }
 
-        /* navigateToCatalog() {
+    /* navigateToCatalog() {
         this[NavigationMixin.Navigate]({
             type: "standard__component",
             attributes: {
@@ -174,6 +174,4 @@ export default class HomePage extends NavigationMixin(LightningElement) {
             true
         );
     }*/
-        >>>
-        >>> > Vadim
 }
