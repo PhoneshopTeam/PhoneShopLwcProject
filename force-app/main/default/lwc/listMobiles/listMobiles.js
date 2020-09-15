@@ -22,6 +22,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track pageSize = 8;
 
     @api contactId;
+    @api userName;
     mobiles;
     @api selectedMobileId;
     @api selectedBrand = '';
@@ -73,7 +74,9 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
             },
             state: {
                 c__mobileId: event.detail.selectedMobileId,
-                c__contactId: this.contactId
+                c__contactId: this.contactId,
+                c__userName: this.userName
+
             }
         });
     }

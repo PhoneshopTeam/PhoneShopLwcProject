@@ -9,6 +9,7 @@ import {
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
     userId;
+    userName;
 
     @wire(CurrentPageReference)
     currentPageReference;
@@ -19,9 +20,17 @@ export default class Gallery extends NavigationMixin(LightningElement) {
         );
     }
 
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
+        );
+    }
+
     renderedCallback() {
         this.userId = this.contactIdFromState;
+        this.userName = this.userNameFromState;
     }
+
     handleLoading() {
         this.isLoading = true;
     }
