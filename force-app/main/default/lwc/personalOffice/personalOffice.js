@@ -123,7 +123,7 @@ const COLS3 = [{
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   userId;
-  userName;
+  userName
   orderId;
   caseId;
   error;
@@ -164,7 +164,6 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
     data
   }) {
     if (data) {
-      console.log('data.length = ' + JSON.stringify(data.length));
       let recs = [];
       for (let i = 0; i < data.length; i++) {
         let opp = {};
@@ -173,7 +172,6 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
         recs.push(opp);
       }
       this.opps = recs;
-      console.log('this.opps = ' + JSON.stringify(this.opps));
       this.showTable = true;
     } else {
       this.error = error;
@@ -182,26 +180,25 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   @wire(getCases, {
     contactId: "$userId"
-  }) wiredCases({
-    data,
-    error
-  }) {
-    if (data) {
-      console.log('data.length = ' + JSON.stringify(data.length));
+  }) wiredCases(result) {
+    this.resultOfCases = result;
+    if (result.data) {
+      console.log('data.length = ' + JSON.stringify(result.data.length));
       let recs2 = [];
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < result.data.length; i++) {
         let opp2 = {};
         opp2.rowNumber = '' + (i + 1);
-        opp2 = Object.assign(opp2, data[i]);
+        opp2 = Object.assign(opp2, result.data[i]);
         recs2.push(opp2);
       }
       this.cases = recs2;
-      console.log('this.cases = ' + JSON.stringify(this.cases));
-      if (data.length > 0) {
+      console.log(' this.resultOfCases = ' + JSON.stringify(this.resultOfCases));
+      console.log(' this.cases = ' + JSON.stringify(this.cases));
+      if (result.data.length > 0) {
         this.showCaseTable = true;
       }
     } else {
-      this.error = error;
+      this.error = result.error;
     }
   }
 
@@ -268,7 +265,15 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   refreshCases() {
     // return refreshApex(this.resultOfCases);
     console.log('refreshCases');
-    return refreshApex(this.wiredCases);
+
+    refreshApex(this.resultOfCases);
+    // refreshApex(this.cases);
+    console.log(' this.cases = ' + JSON.stringify(this.cases));
+    if (this.isHideCases) {
+      this.handleViewCases();
+    }
+    // this.template.querySelector('c-paginator-for-table.next').setRecordsToDisplay();
+    this.template.querySelectorAll('c-paginator-for-table.[data-id="newCase"]').setRecordsToDisplay();
   }
 
   handleSave(event) {
