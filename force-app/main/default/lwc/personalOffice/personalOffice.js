@@ -273,7 +273,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       this.handleViewCases();
     }
     // this.template.querySelector('c-paginator-for-table.next').setRecordsToDisplay();
-    this.template.querySelectorAll('c-paginator-for-table.[data-id="newCase"]').setRecordsToDisplay();
+    // this.template.querySelector('c-paginator-for-table.[data-id="newCase"]').setRecordsToDisplay();
   }
 
   handleSave(event) {
