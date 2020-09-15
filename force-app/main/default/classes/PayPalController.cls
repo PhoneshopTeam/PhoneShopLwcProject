@@ -20,9 +20,15 @@ public with sharing class PayPalController {
     req.setHeader('Content-Type', 'application/json;charset=UTF-8');
     req.setEndpoint('https://api.sandbox.paypal.com/v2/checkout/orders');
     req.setMethod('POST');
+    Decimal amount = order.Total_Amount__c;
+    system.debug(amount);
     req.setBody(
-      '{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""+order.Total_Amount__c+"\"}}]}'
+      '{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\"' +
+      amount +
+      '\"}}]}'
     );
+    // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""amount"\"}}]}');
+    // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""+order.Total_Amount__c+"\"}}]}');
     Http h = new Http();
     HttpResponse res = h.send(req);
     res.getStatus();
