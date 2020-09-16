@@ -10,6 +10,7 @@ public with sharing class ChatController {
             System.debug(e.getMessage());
             return null;
         }
+        system.debug('messageList'+ messageList);
         return messageList;
     }
 
