@@ -2,5 +2,5 @@
   description="FromHomePageToGallery"
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:gallery userId="{userId}" userName="{userName}"/>
+  <c:gallery userId="{userId}" userName="{userName}" />
 </aura:component>

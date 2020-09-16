@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
    <types>
-<<<<<<< HEAD
-      <members>Mobile_Details</members>
-      <name>CustomTab</name>
-=======
       <members>Account</members>
       <members>Product2</members>
       <members>Case</members>
@@ -12,7 +8,6 @@
       <members>Custom_Order__c</members>
       <members>DeliveryAdress__c</members>
       <name>CustomObject</name>
->>>>>>> Margarita
    </types>
    <types>
       <members>*</members>

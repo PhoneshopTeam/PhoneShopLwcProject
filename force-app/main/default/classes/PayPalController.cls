@@ -29,37 +29,24 @@ public static HttpRequest generateRequest(List<SObject> objlst) {
     String requestBody =  generateMsgBody(objlst, user, pass, sign);
     req.setEndpoint(url);
     req.setMethod('POST');
-    req.setHeader('Content-length', requestBody.length().format());
-    req.setBody(requestBody); 
-    req.setHeader('Host','api-aa.' + purl);
-    req.setTimeout(60000);
+    Decimal amount = order.Total_Amount__c;
+    system.debug(amount);
+    req.setBody(
+      '{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\"' +
+      amount +
+      '\"}}]}'
+    );
+    // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""amount"\"}}]}');
+    // req.setBody('{\"intent\":\"CAPTURE\",\"purchase_units\":[{\"amount\":{\"currency_code\":\"USD\",\"value\":\""+order.Total_Amount__c+"\"}}]}');
+    Http h = new Http();
+    HttpResponse res = h.send(req);
+    system.debug(res);
 
-    return req;
-}
-public static String generateMsgBody(List<SObject> objlst, String user, String pass, String sign)
-{
-    String soapRequestBody;
-        soapRequestBody  = '<soap:Envelope xmlns:soap=\'http://schemas.xmlsoap.org/soap/envelope/\' xmlns:xsi=\'http://www.w3.org/2001/XMLSchema-instance\' xmlns:xsd=\'http://www.w3.org/2001/XMLSchema\'>';
-        soapRequestBody += '<soap:Header><RequesterCredentials xmlns="urn:ebay:api:PayPalAPI"><Credentials xmlns="urn:ebay:apis:eBLBaseComponents">';
-        soapRequestBody += '<Username>' + user + '</Username><ebl:Password xmlns:ebl="urn:ebay:apis:eBLBaseComponents">' + pass + '</ebl:Password><Signature>' + sign + '</Signature>';
-        soapRequestBody += '</Credentials></RequesterCredentials></soap:Header>';
-        soapRequestBody += '<soap:Body>';
-        soapRequestBody += '<MassPayReq xmlns="urn:ebay:api:PayPalAPI">';
-        soapRequestBody += '<MassPayRequest xmlns="urn:ebay:apis:eBLBaseComponents">';
-        soapRequestBody += '<Version xmlns="urn:ebay:apis:eBLBaseComponents">84.00</Version>';
-        soapRequestBody += '<EmailSubject xsi:type="xs:string">Payment from Greenlight</EmailSubject>';
-        soapRequestBody += '<ReceiverType recieverinfocode="EmailAddress"/>';
-
-        for(SObject paymentObj: objlst)
-        {
-            soapRequestBody += '<MassPayItem xsi:type="ebl:MassPayItemType">';
-            soapRequestBody += '<UniqueId>' + paymentObj.Id + '</UniqueId>';
-            soapRequestBody += '</MassPayItem>';
-
-        }
-        soapRequestBody += '</MassPayRequest></MassPayReq>';
-        soapRequestBody += '</soap:Body></soap:Envelope>';
-       
-        return soapRequestBody;
+    if (res.getStatus() == 'Created') {
+      update order;
+    }
+    system.debug(order);
+    return res;
+  }
 }
 }
