@@ -15,16 +15,43 @@ public with sharing class HelperForCustomOrderTrigger {
 
         if (o.Type_of_payment__c != null) {
           if (order.Delivery_date__c != null) {
-            order.Status__c = order.Type_of_payment__c != 'by card online'
-              ? 'Awaiting payment; Awaiting delivery'
-              : 'Awaiting delivery';
+            if (
+              order.Status__c != null &&
+              order.Type_of_payment__c == 'by card online'
+            ) {
+              order.Status__c = 'Awaiting delivery; Paid';
+            } else {
+              order.Status__c = order.Type_of_payment__c != 'by card online'
+                ? 'Awaiting payment; Awaiting delivery'
+                : 'Awaiting delivery';
+            }
           } else {
-            order.Status__c = order.Type_of_payment__c != 'by card online'
-              ? 'Awaiting payment; Without delivery'
-              : 'Without delivery';
+            if (
+              order.Status__c != null &&
+              order.Type_of_payment__c == 'by card online'
+            ) {
+              order.Status__c = 'Without delivery; Paid';
+            } else {
+              order.Status__c = order.Type_of_payment__c != 'by card online'
+                ? 'Awaiting payment; Without delivery'
+                : 'Without delivery';
+            }
           }
           ordersToUpdate.add(order);
         }
+
+        // if (o.Type_of_payment__c != null) {
+        //   if (order.Delivery_date__c != null) {
+        //     order.Status__c = order.Type_of_payment__c != 'by card online'
+        //       ? 'Awaiting payment; Awaiting delivery'
+        //       : 'Awaiting delivery';
+        //   } else {
+        //     order.Status__c = order.Type_of_payment__c != 'by card online'
+        //       ? 'Awaiting payment; Without delivery'
+        //       : 'Without delivery';
+        //   }
+        //   ordersToUpdate.add(order);
+        // }
       }
       update ordersToUpdate;
     } catch (Exception e) {
