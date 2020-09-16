@@ -8,7 +8,7 @@ import {
 
 export default class AddNewAddress extends LightningElement {
 
-    @api contactId;
+    @api userId;
     isHideAddresses = false;
     labelNewAddressButton = "Add new address";
 
@@ -23,7 +23,7 @@ export default class AddNewAddress extends LightningElement {
         console.log('handleSubmit');
         event.preventDefault();
         const fields = event.detail.fields;
-        fields.Contact__c = this.contactId;
+        fields.Contact__c = this.userId;
         this.template.querySelector('[data-id="address"]').submit(fields);
     }
 

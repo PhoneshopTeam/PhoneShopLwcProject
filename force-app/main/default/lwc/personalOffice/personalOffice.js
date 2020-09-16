@@ -220,13 +220,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       this.currentPageReference && this.currentPageReference.state.c__userName
     );
   }
-
-  get userNameFromState() {
-    return (
-      this.currentPageReference && this.currentPageReference.state.c__userName
-    );
-  }
-
+  
   renderedCallback() {
     this.userId = this.contactIdFromState;
     this.userName = this.userNameFromState;

@@ -26,12 +26,6 @@ export default class Gallery extends NavigationMixin(LightningElement) {
         );
     }
 
-    get userNameFromState() {
-        return (
-            this.currentPageReference && this.currentPageReference.state.c__userName
-        );
-    }
-
     renderedCallback() {
         this.userId = this.userIdFromState;
         this.userName = this.userNameFromState;

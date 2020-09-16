@@ -2,7 +2,7 @@ import { LightningElement, wire, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import getProductList from '@salesforce/apex/BasketController.getProductList';
+//import getProductList from '@salesforce/apex/BasketController.getProductList';
 //import getProductIds from '@salesforce/apex/BasketController.getProductIds';
 import saveOrder from '@salesforce/apex/BasketController.saveOrder';
 import getBasketList from '@salesforce/apex/BasketController.getBasketList';

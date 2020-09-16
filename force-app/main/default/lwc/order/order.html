@@ -22,21 +22,23 @@
 
     <lightning-card title="New order" icon-name="custom:custom28">
       <div class="slds-var-p-left_xx-large slds-var-p-right_xx-large">
-        <lightning-record-form
-          record-id={orderId}
-          object-api-name="Custom_Order__c"
-          fields={fieldsOfOrder}
-          columns="1"
-          mode="readonly"
-        >
-        </lightning-record-form>
-
-        <c-show-positions-in-order
-          order-id={orderId}
-        ></c-show-positions-in-order>
-
+        <div class="order-info width slds-m-left_x-large">
+          <lightning-record-form
+            record-id={orderId}
+            object-api-name="Custom_Order__c"
+            fields={fieldsOfOrder}
+            columns="1"
+            mode="readonly"
+          >
+          </lightning-record-form>
+        </div>
+        <div class="border slds-m-bottom_medium">
+          <c-show-positions-in-order
+            order-id={orderId}
+          ></c-show-positions-in-order>
+        </div>
         <lightning-card title="Recipient" icon-name="standard:avatar">
-          <div class="recipient">
+          <div class="recipient width slds-m-left_x-large">
             <lightning-record-form
               record-id={userId}
               object-api-name="Contact"
@@ -50,8 +52,8 @@
 
         <lightning-input
           data-id="deliveryCheckbox"
-          label="delivery"
-          class="slds-p-left_medium"
+          label="Delivery"
+          class="slds-p-left_medium slds-text-title_bold"
           type="checkbox"
           onchange={handleChange}
         >
@@ -79,7 +81,7 @@
 
             <div class="slds-m-top_small">
               <c-add-new-address
-                contact-id={userId}
+                user-id={userId}
                 onrefresh={refresh}
               ></c-add-new-address>
             </div>
@@ -103,10 +105,10 @@
           label="Description"
           value={description}
           onchange={handleChange}
-          class="description"
+          class="description width slds-text-title_bold slds-p-left_medium"
         ></lightning-input>
 
-        <div class="slds-button-group slds-m-top_small" role="group">
+        <div class="slds-button-group slds-m-top_small slds-p-left_medium" role="group">
           <lightning-button
             variant="destructive-text"
             type="submit"

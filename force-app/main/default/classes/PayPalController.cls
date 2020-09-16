@@ -1,33 +1,24 @@
 public with sharing class PayPalController {
-@AuraEnabled(Cacheable=true)
-public static void  createNewPayments(String contId, String orderId){
-    String jsonobj;
-    List<sObject>objlst;
-    Contact cont = [SELECT Id, Name, Email, MailingAddress FROM Contact WHERE Id = :contId LIMIT 1];
-    jsonobj=json.serializePretty(cont);
-   Custom_Order__c order = [SELECT Id, Quantity__c, Status__c, Unit_Price__c,Type_of_payment__c FROM Custom_Order__c LIMIT 1];
-   jsonobj=jsonobj+','+json.serializePretty(order);
-   objlst=new list<sObject >();
-   objlst=(list<sObject>)json.deserialize(jsonobj,list<sObject >.class);
-   processPayments(objlst);
-  
-}
-public static void processPayments(List<SObject> objlst){
-    Http http = new Http();
-    HttpResponse response = new HttpResponse();
-    HttpRequest request = generateRequest(objlst);
-    response = http.send(request);
-    String rawResponse = response.getBody();
-}
-public static HttpRequest generateRequest(List<SObject> objlst) {
-    String purl = 'sandbox.paypal.com';
-    String user = 'phoneshoplwc@gmail.com';
-    String pass = 'Q1w2e3r4t5y6';
-    String sign = 'AYhigAozNLfbM9tmIH-ngqtxCFKu5nSgO3WWZ6gaKXUxz1uMjsEM5Whxj329wdGurff7hEU9FVA_UOpH';
+  @AuraEnabled(Cacheable=true)
+  public static void createNewPayments(String contId, String orderId) {
+    //  Custom_Order__c order = [SELECT Total_Amount__c, Status__c FROM Custom_Order__c WHERE Id = :'a032w000007KPf3AAG' LIMIT 1];
+    Custom_Order__c order = [
+      SELECT Total_Amount__c, Status__c
+      FROM Custom_Order__c
+      WHERE Id = :orderId
+      LIMIT 1
+    ];
+    processPayments(order);
+  }
+
+  public static HttpResponse processPayments(Custom_Order__c order) {
     HttpRequest req = new HttpRequest();
-    String url = 'https://api-3t.' + purl + '/2.0';
-    String requestBody =  generateMsgBody(objlst, user, pass, sign);
-    req.setEndpoint(url);
+    req.setHeader(
+      'Authorization',
+      'Basic QVRTM3pERHlpRFZSZ1hIU09iXzJPVWZhR3VhOUNheFZRQU5BRzdYM1FOR1ZkRnVvamNlTjBnRG5QeVc5U1lfOUxWdFBxanNBYXJHOUNFVno6RUlHY3dKTGdFT2k3V1gzUjd0OGhIOU1HeGtyTjI0ZnU3azM3bks3NVhsa0xNWktFcmxMQmdtTXg0eFFDYWpYbXJuZTdrLTJFVE9nXzdOSlY='
+    );
+    req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+    req.setEndpoint('https://api.sandbox.paypal.com/v2/checkout/orders');
     req.setMethod('POST');
     Decimal amount = order.Total_Amount__c;
     system.debug(amount);
@@ -48,5 +39,4 @@ public static HttpRequest generateRequest(List<SObject> objlst) {
     system.debug(order);
     return res;
   }
-}
 }
