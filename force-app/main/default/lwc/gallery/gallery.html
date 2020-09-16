@@ -7,6 +7,8 @@
           <c-mobile-search-form
             onsearchbrand={searchMobiles}
             onsort={sortMobiles}
+            onchangekey={handleChangeKey}
+            onmaxprice={handleMaxPrice}
           >
           </c-mobile-search-form>
         </p>
@@ -19,7 +21,6 @@
       </template>
       <c-list-mobiles
         user-id={userId}
-        user-name={userName}
         onloading={handleLoading}
         ondoneloading={handleDoneLoading}
       >

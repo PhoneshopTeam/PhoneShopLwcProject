@@ -8,9 +8,6 @@ import {
 import {
     NavigationMixin
 } from 'lightning/navigation';
-import {
-    ShowToastEvent
-} from 'lightning/platformShowToastEvent';
 
 export default class Header extends NavigationMixin(LightningElement) {
     @api userId;
@@ -20,25 +17,9 @@ export default class Header extends NavigationMixin(LightningElement) {
     renderedCallback() {
         console.log('renderedCallback header');
         console.log('this.userId  = ' + this.userId);
- 
+
         this.authLabel = this.userId ? "Sign out" : "Sign in"
 
-        /*  
-        const promises = this.userId;  
-        Promise.all(this.userId)
-        .then(
-            this.authLabel = this.userId ? "Sign out" : "Sign in"
-        ).catch(error => {
-            console.log('***********error************ ' +error);
-            //
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error updating record',
-                    message: error.body.message,
-                    variant: 'error'
-                })
-            );
-        });*/
         console.log('this.authLabel = ' + this.authLabel);
     }
 
@@ -51,12 +32,11 @@ export default class Header extends NavigationMixin(LightningElement) {
                     componentName: "c__FromRegistrationToHome"
                 },
                 state: {
-                    c__userName: this.userName,
-                    c__userId: this.userId
+                    c__userId: this.userId,
+                    c__userName: this.userName
                 }
             })
         } else {
-
             this[NavigationMixin.Navigate]({
                 type: "standard__component",
                 attributes: {
@@ -75,8 +55,8 @@ export default class Header extends NavigationMixin(LightningElement) {
                     componentName: "c__FromHomePageToGallery"
                 },
                 state: {
-                    c__userName: this.userName,
-                    c__userId: this.userId
+                    c__userId: this.userId,
+                    c__userName: this.userName
                 }
             })
         } else {
@@ -99,8 +79,8 @@ export default class Header extends NavigationMixin(LightningElement) {
                     componentName: "c__FromHomePageToAboutCompany"
                 },
                 state: {
-                    c__userName: this.userName,
-                    c__userId: this.userId
+                    c__userId: this.userId,
+                    c__userName: this.userName
                 }
             })
         } else {
@@ -123,8 +103,8 @@ export default class Header extends NavigationMixin(LightningElement) {
                     componentName: "c__FromHomePageToBasket"
                 },
                 state: {
-                    c__userName: this.userName,
-                    c__userId: this.userId
+                    c__userId: this.userId,
+                    c__userName: this.userName
                 }
             })
         }
@@ -138,8 +118,8 @@ export default class Header extends NavigationMixin(LightningElement) {
                     componentName: "c__FromHomePageToPersonalOffice"
                 },
                 state: {
-                    c__userName: this.userName,
-                    c__userId: this.userId
+                    c__userId: this.userId,
+                    c__userName: this.userName
                 }
             })
         }

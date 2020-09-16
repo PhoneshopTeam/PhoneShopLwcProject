@@ -2,7 +2,6 @@ import {
     LightningElement,
     wire
 } from 'lwc';
-// import getMobilesInOrder from "@salesforce/apex/MobileDataService.getMobilesInOrder";
 import getDeliveryAdress from "@salesforce/apex/ContactController.getDeliveryAdress";
 import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById";
 import formOrder from "@salesforce/apex/CustomOrderController.formOrder";
@@ -29,7 +28,7 @@ import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount_
 
 export default class Order extends NavigationMixin(LightningElement) {
 
-    contactId;
+    userId;
     orderId;
 
     selectedAddressId;
@@ -55,10 +54,10 @@ export default class Order extends NavigationMixin(LightningElement) {
     }
     get contactIdFromState() {
         return (
-            this.currentPageReference && this.currentPageReference.state.c__contactId
+            this.currentPageReference && this.currentPageReference.state.c__userId
         );
     }
-    
+
     get userNameFromState() {
         return (
             this.currentPageReference && this.currentPageReference.state.c__userName
@@ -67,7 +66,7 @@ export default class Order extends NavigationMixin(LightningElement) {
 
     renderedCallback() {
         this.orderId = this.orderIdFromState;
-        this.contactId = this.contactIdFromState;
+        this.userId = this.contactIdFromState;
         this.userName = this.userNameFromState;
     }
 
@@ -75,7 +74,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     typeOfPaymentOptions;
 
     @wire(getDeliveryAdress, {
-        contactId: "$contactId"
+        contactId: "$userId"
     }) deliveryAddresses;
 
     @wire(getOrdersById, {
@@ -175,7 +174,7 @@ export default class Order extends NavigationMixin(LightningElement) {
                     componentName: "c__FromHomePageToGallery"
                 },
                 state: {
-                    c__userId: this.contactId
+                    c__userId: this.userId
                 }
             })
         }).catch(error => {

@@ -124,16 +124,17 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   userId;
   userName;
+
   orderId;
   caseId;
   error;
   opps;
   cases;
   resultOfCases;
-  
+
   recordsToDisplay = []; //Records to be displayed on the page
   rowNumberOffset; //Row number
-  // orders;
+
   recordsToDisplay2 = []; //Records to be displayed on the page
   rowNumberOffset2; //Row number
 
@@ -156,9 +157,6 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   draftValues = [];
 
-  // @wire(getOrders, {
-  //   contactId: "$contactId"
-  // }) orders;
   @wire(getOrders, {
     contactId: "$userId"
   })
@@ -167,17 +165,14 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
     data
   }) {
     if (data) {
-      console.log('data.length = ' + JSON.stringify(data.length));
       let recs = [];
       for (let i = 0; i < data.length; i++) {
         let opp = {};
         opp.rowNumber = '' + (i + 1);
-        // opp.oppLink = '/' + data[i].Id;
         opp = Object.assign(opp, data[i]);
         recs.push(opp);
       }
       this.opps = recs;
-      console.log('this.opps = ' + JSON.stringify(this.opps));
       this.showTable = true;
     } else {
       this.error = error;
@@ -186,28 +181,25 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   @wire(getCases, {
     contactId: "$userId"
-  }) wiredCases({
-    data,
-    error
-  }) {
-    // this.resultOfCases = result;
-    if (data) {
-      console.log('data.length = ' + JSON.stringify(data.length));
+  }) wiredCases(result) {
+    this.resultOfCases = result;
+    if (result.data) {
+      console.log('data.length = ' + JSON.stringify(result.data.length));
       let recs2 = [];
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < result.data.length; i++) {
         let opp2 = {};
         opp2.rowNumber = '' + (i + 1);
-        // opp.oppLink = '/' + data[i].Id;
-        opp2 = Object.assign(opp2, data[i]);
+        opp2 = Object.assign(opp2, result.data[i]);
         recs2.push(opp2);
       }
       this.cases = recs2;
-      console.log('this.cases = ' + JSON.stringify(this.cases));
-      if (data.length > 0) {
+      console.log(' this.resultOfCases = ' + JSON.stringify(this.resultOfCases));
+      console.log(' this.cases = ' + JSON.stringify(this.cases));
+      if (result.data.length > 0) {
         this.showCaseTable = true;
       }
     } else {
-      this.error = error;
+      this.error = result.error;
     }
   }
 
@@ -218,10 +210,14 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   @wire(CurrentPageReference)
   currentPageReference;
 
-
   get contactIdFromState() {
     return (
       this.currentPageReference && this.currentPageReference.state.c__userId
+    );
+  }
+  get userNameFromState() {
+    return (
+      this.currentPageReference && this.currentPageReference.state.c__userName
     );
   }
 
@@ -276,7 +272,15 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   refreshCases() {
     // return refreshApex(this.resultOfCases);
     console.log('refreshCases');
-    return refreshApex(this.wiredCases);
+
+    refreshApex(this.resultOfCases);
+    // refreshApex(this.cases);
+    console.log(' this.cases = ' + JSON.stringify(this.cases));
+    if (this.isHideCases) {
+      this.handleViewCases();
+    }
+    // this.template.querySelector('c-paginator-for-table.next').setRecordsToDisplay();
+    // this.template.querySelector('c-paginator-for-table.[data-id="newCase"]').setRecordsToDisplay();
   }
 
   handleSave(event) {

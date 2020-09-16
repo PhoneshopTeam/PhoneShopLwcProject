@@ -1,5 +1,6 @@
 import {
     LightningElement,
+    api,
     wire
 } from 'lwc';
 import {
@@ -14,9 +15,14 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     currentPageReference;
 
-    get contactIdFromState() {
+    get userIdFromState() {
         return (
             this.currentPageReference && this.currentPageReference.state.c__userId
+        );
+    }
+    get userNameFromState() {
+        return (
+            this.currentPageReference && this.currentPageReference.state.c__userName
         );
     }
 
@@ -27,7 +33,7 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
-        this.userId = this.contactIdFromState;
+        this.userId = this.userIdFromState;
         this.userName = this.userNameFromState;
     }
 
@@ -45,8 +51,17 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     }
 
     sortMobiles(event) {
-        window.console.log('2');
         const selectedBySort = event.detail.selectedBySort;
         this.template.querySelector('c-list-mobiles').sortMobiles(selectedBySort);
+    }
+
+    handleChangeKey(event) {
+        const searchKey = event.detail.searchKey;
+        this.template.querySelector('c-list-mobiles').inputSearch(searchKey);
+    }
+
+    handleMaxPrice(event) {
+        const maxPrice = event.detail.maxPrice;
+        this.template.querySelector('c-list-mobiles').inputMaxPrice(maxPrice);
     }
 }

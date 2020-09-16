@@ -1,22 +1,21 @@
 <template>
   <lightning-card>
-    <div class="inside ">
+    <div class="inside">
       <div class="slds-m-left_small">
-          For check: 
-          userId inside header: {userId}; 
-          userName inside header: {userName}!
+        For check: userId inside header: {userId}; userName inside header:
+        {userName}!
       </div>
     </div>
-    
-    <div class="headerButton slds-m-top_medium slds-m-bottom_x-small">
-      <div class="slds-p-around_medium lgc-bg-inverse ">
 
+    <div class="headerButton slds-m-top_medium slds-m-bottom_x-small">
+      <div class="slds-p-around_medium lgc-bg-inverse">
         <lightning-button-group>
-          <lightning-button 
-            label="Home" 
-            class="button" 
+          <lightning-button
+            label="Home"
+            class="button"
             variant="inverse"
-            onclick={navigateToHome}>
+            onclick={navigateToHome}
+          >
           </lightning-button>
 
           <lightning-button
@@ -27,15 +26,15 @@
           >
           </lightning-button>
 
-          <lightning-button 
-            label="About" 
-            class="button" 
+          <lightning-button
+            label="About"
+            class="button"
             variant="inverse"
-            onclick={navigateToAbout}>
+            onclick={navigateToAbout}
+          >
           </lightning-button>
 
           <template if:true={userId}>
-
             <lightning-button
               label="Basket"
               class="button"
@@ -51,11 +50,10 @@
               onclick={navigateToPersonalOffice}
             >
             </lightning-button>
-
           </template>
         </lightning-button-group>
 
-        <div class="slds-float--right"  >
+        <div class="slds-float--right">
           <lightning-button
             label={authLabel}
             class="button"
@@ -63,40 +61,12 @@
           >
           </lightning-button>
         </div>
-
       </div>
     </div>
-
     <template if:true={userName}>
       <div class="user-name slds-text-heading_medium slds-p-around_medium">
         Hello, {userName}!
       </div>
     </template>
-
-    <!-- <lightning-button label="Registration"
-                            class="button"
-                            onclick={navigateToRegistration}>
-          </lightning-button> -->
-
-    <!-- <div class="headerButton">
-      <lightning-button
-        label="Catalog"
-        class="button"
-        onclick={navigateToCatalog}
-      >
-      </lightning-button>
-      <lightning-button label="About" class="button" onclick={navigateToAbout}>
-      </lightning-button>
-      <lightning-button label="Bascet" class="button" onclick={navigateToBascet}>
-      </lightning-button>
-      <lightning-button
-        label="Personal Office"
-        class="button"
-        onclick={navigateToPersonalOffice}
-      >
-      </lightning-button>
-      <lightning-button label="Logout" class="button" onclick={logout}>
-      </lightning-button>
-    </div> -->
   </lightning-card>
 </template>

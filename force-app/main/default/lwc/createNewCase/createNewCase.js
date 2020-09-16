@@ -9,13 +9,13 @@ import {
 export default class CreateNewCase extends LightningElement {
 
     @api orderId;
-    @api contactId;
+    @api userId;
 
     handleSubmit(event) {
         console.log('handleSubmit');
         event.preventDefault();
         const fields = event.detail.fields;
-        fields.ContactId = this.contactId;
+        fields.ContactId = this.userId;
         fields.Custom_OrderId__c = this.orderId;
         fields.CreatedDate = new Date();
         this.template.querySelector('[data-id="newCase"]').submit(fields);

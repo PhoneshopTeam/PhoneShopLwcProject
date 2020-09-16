@@ -31,16 +31,16 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
             true
         );
     }
-    navigateToRegistrationUser() {
-        this[NavigationMixin.Navigate]({
-                type: 'standard__webPage',
-                attributes: {
-                    url: ''
-                }
-            },
-            true
-        );
-    }
+    // navigateToRegistrationUser() {
+    //     this[NavigationMixin.Navigate]({
+    //             type: 'standard__webPage',
+    //             attributes: {
+    //                 url: ''
+    //             }
+    //         },
+    //         true
+    //     );
+    // }
     handleChange(event) {
         if (event.target.label === 'Login') {
             this.loginInput = event.target.value;

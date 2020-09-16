@@ -44,7 +44,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         this.userId = this.userIdFromState;
         console.log(this.userName)
         console.log(this.userId)
-        
+
         //     Promise.all([
         //         loadScript(this, PAYPAL_SCR + '/paypal.js')
         //       ])
@@ -88,7 +88,7 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         }
     }
 
-   /* navigateToCatalog() {
+    /* navigateToCatalog() {
         this[NavigationMixin.Navigate]({
             type: "standard__component",
             attributes: {
@@ -108,50 +108,62 @@ export default class HomePage extends NavigationMixin(LightningElement) {
         // );
     }
 
-    navigateToAbout() {
-        this[NavigationMixin.Navigate]({
-                type: 'standard__webPage',
-                attributes: {
-                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/about_Company'
-                }
-            },
-            true
-        );
-    }
+    // navigateToAbout() {
+    //     this[NavigationMixin.Navigate]({
+    //             type: 'standard__webPage',
+    //             attributes: {
+    //                 url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/about_Company'
+    //             }
+    //         },
+    //         true
+    //     );
+    // }
 
-    navigateToBascet() {
-        this[NavigationMixin.Navigate]({
-            type: "standard__component",
-            attributes: {
-                componentName: "c__FromHomePageToBasket"
-            },
-            state: {
-                c__userId: this.userId
-            }
-        })
-        // this[NavigationMixin.Navigate]({
-        //         type: 'standard__webPage',
-        //         attributes: {
-        //             url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/basket'
-        //         }
-        //     },
-        //     true
-        // );
-    }
+    // navigateToBascet() {
+    //     this[NavigationMixin.Navigate]({
+    //         type: "standard__component",
+    //         attributes: {
+    //             componentName: "c__FromHomePageToBasket"
+    //         },
+    //         state: {
+    //             c__userId: this.userId
+    //         }
+    //     })
+    // this[NavigationMixin.Navigate]({
+    //         type: 'standard__webPage',
+    //         attributes: {
+    //             url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/basket'
+    //         }
+    //     },
+    //     true
+    // );
+    // }
 
-    navigateToPersonalOffice() {
-        this[NavigationMixin.Navigate]({
-            type: "standard__component",
-            attributes: {
-                componentName: "c__FromHomePageToPersonalOffice"
-            },
-            state: {
-                // c__userName: this.userName,
-                c__userId: this.userId
-            }
-        })
-    }
+    // navigateToPersonalOffice() {
+    //     this[NavigationMixin.Navigate]({
+    //         type: "standard__component",
+    //         attributes: {
+    //             componentName: "c__FromHomePageToPersonalOffice"
+    //         },
+    //         state: {
+    //             // c__userName: this.userName,
+    //             c__userId: this.userId
+    //         }
+    //     })
+    // }
 
+<<<<<<< HEAD
+    // logout() {
+    //     this[NavigationMixin.Navigate]({
+    //             type: 'standard__webPage',
+    //             attributes: {
+    //                 url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/home_Page_For_Guest'
+    //             }
+    //         },
+    //         true
+    //     );
+    // }
+=======
     logout() {
         this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',

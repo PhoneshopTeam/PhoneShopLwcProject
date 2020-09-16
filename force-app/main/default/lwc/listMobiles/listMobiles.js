@@ -9,31 +9,31 @@ import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
 import totalRecords from '@salesforce/apex/MobileDataService.totalRecords';
 import {
-    refreshApex
-} from '@salesforce/apex';
-import {
     CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
-
 export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track offset = 0;
     @track totalRecords;
     @track pageSize = 8;
 
-    @api contactId;
-    @api userName;
+    @api userId;
     mobiles;
+
     @api selectedMobileId;
+    @api searchKey = '';
     @api selectedBrand = '';
     @api selectedBySort = '';
+    @api maxPrice = 0;
     isLoading = true;
 
     @wire(getMobilesList, {
         offset: '$offset',
         pageSize: '$pageSize',
         mobileBrand: '$selectedBrand',
-        bySort: '$selectedBySort'
+        bySort: '$selectedBySort',
+        searchKey: '$searchKey',
+        maxPrice: '$maxPrice'
     })
     wiredBoats(result) {
         this.mobiles = result;
@@ -57,8 +57,22 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.notifyLoading(this.isLoading);
     }
 
-    refreshMobiles() {
-        return refreshApex(this.mobiles);
+    @api
+    inputSearch(searchKey) {
+        this.isLoading = true;
+        this.notifyLoading(this.isLoading);
+        this.searchKey = searchKey;
+        this.isLoading = false;
+        this.notifyLoading(this.isLoading);
+    }
+
+    @api
+    inputMaxPrice(maxPrice) {
+        this.isLoading = true;
+        this.notifyLoading(this.isLoading);
+        this.maxPrice = maxPrice;
+        this.isLoading = false;
+        this.notifyLoading(this.isLoading);
     }
 
     notifyLoading(isLoading) {
@@ -66,7 +80,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     openMobileDetailPage(event) {
-        this.refreshMobiles();
+        window.console.log('2');
         this[NavigationMixin.Navigate]({
             type: 'standard__component',
             attributes: {
@@ -74,9 +88,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
             },
             state: {
                 c__mobileId: event.detail.selectedMobileId,
-                c__contactId: this.contactId,
-                c__userName: this.userName
-
+                c__userId: this.userId
             }
         });
     }

@@ -36,6 +36,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
 
   //@api
   userId;
+  userName;
   //  = '0032w00000INmlwAAD';
   userName;
   @track hasRendered = true;
@@ -52,10 +53,9 @@ export default class Basket extends NavigationMixin(LightningElement) {
       this.currentPageReference && this.currentPageReference.state.c__userId
     );
   }
-
   get userNameFromState() {
     return (
-        this.currentPageReference && this.currentPageReference.state.c__userName
+      this.currentPageReference && this.currentPageReference.state.c__userName
     );
   }
 
@@ -119,7 +119,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
               },
               state: {
                 c__orderId: this.orderId,
-                c__contactId: this.userId,
+                c__userId: this.userId,
                 c__userName: this.userName
               }
             })

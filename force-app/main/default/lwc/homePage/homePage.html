@@ -19,24 +19,28 @@
     <lightning-button label="Logout" class="button" onclick={logout}>
     </lightning-button>
   </div> -->
+
   <c-header user-id={userId} user-name={userName}> </c-header>
 
   <lightning-card>
     <div class="container">
-      <div class="inside ">
+      <div class="inside">
         <div class="slds-m-left_small slds-text-color_weak">
-            For check: 
-            userId inside component: {userId}; 
-            userName inside component: {userName}!
+          For check: userId inside component: {userId}; userName inside
+          component: {userName}!
         </div>
       </div>
       <!--h1>Hello, {userName}! userId: {userId}</h1-->
       <div class="">
         <div class="slds-size_3-of-4 slds-align_absolute-center">
-          <div class="slds-box slds-box_x-small slds-text-align_center carousel">
-            <p>For a more detailed description, click on the photo_ 
-            <lightning-icon icon-name="utility:button_choice" size="small">
-            </lightning-icon></p>
+          <div
+            class="slds-box slds-box_x-small slds-text-align_center carousel"
+          >
+            <p>
+              For a more detailed description, click on the photo_
+              <lightning-icon icon-name="utility:button_choice" size="small">
+              </lightning-icon>
+            </p>
             <lightning-carousel>
               <lightning-carousel-image
                 src="https://gizchina.it/wp-content/uploads/2020/06/Xiaomi-mi-10-pro.jpg"
@@ -77,7 +81,7 @@
             variant="brand"
             onclick={openShat}
             slot="actions"
-            icon-name="utility:chat" 
+            icon-name="utility:chat"
             icon-position="right"
             size="large"
           >
@@ -93,7 +97,9 @@
               aria-describedby="modal-content-id-1"
               class="slds-modal slds-fade-in-open"
             >
-              <div class="slds-modal__container slds-float_right slds-p-around_medium">
+              <div
+                class="slds-modal__container slds-float_right slds-p-around_medium"
+              >
                 <header class="slds-modal__header">
                   <button
                     class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
@@ -131,8 +137,8 @@
       </div>
       <div class="bottomTitle slds-p-around_medium">
         <strong> GLAD TO SEE AND ALWAYS WAITING FOR YOU!</strong>
-      </div>  
-      <div  class="slds-float_right slds-p-around_medium">
+      </div>
+      <div class="slds-float_right slds-p-around_medium">
         © 2020
         <a href="https://issoft.by/"> ISsoft Solutions.</a>
         Все права защищены.

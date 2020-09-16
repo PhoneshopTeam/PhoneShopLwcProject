@@ -1,19 +1,22 @@
 <template>
-  <c-header user-id={userId}  user-name={userName}></c-header>
-  
+  <c-header user-id={userId} user-name={userName}></c-header>
   <lightning-card title="Personal office" icon-name="standard:avatar">
     <div class="slds-var-p-around_medium">
       <div class="person">
-        <lightning-record-edit-form record-id={userId} object-api-name="Contact">
+        <lightning-record-edit-form
+          record-id={userId}
+          object-api-name="Contact"
+        >
           <lightning-messages> </lightning-messages>
-          <lightning-input-field field-name="FirstName"> </lightning-input-field>
+          <lightning-input-field field-name="FirstName">
+          </lightning-input-field>
           <lightning-input-field field-name="LastName"> </lightning-input-field>
           <lightning-input-field field-name="Phone"> </lightning-input-field>
           <lightning-input-field field-name="Email"> </lightning-input-field>
           <lightning-output-field field-name="Personal_discont__c">
           </lightning-output-field>
           <lightning-button
-            class="slds-m-top_medium slds-m-bottom_medium"
+            class="slds-m-top_small"
             variant="brand"
             type="submit"
             name="update"
@@ -75,6 +78,8 @@
         <lightning-card title="Cases" icon-name="standard:case">
           <template if:true={showCaseTable}>
             <c-paginator-for-table
+              class="next"
+              data-id="cases"
               records={cases}
               total-records={cases.length}
               show-search-box="true"
@@ -92,28 +97,16 @@
             >
             </lightning-datatable>
           </template>
-          <!-- <template if:true={cases.data}>
-            <lightning-datatable
-              key-field="Id"
-              data={cases.data}
-              columns={columnsForCases}
-              hide-checkbox-column="false"
-              onrowaction={navigateToCaseRecord}
-            >
-            </lightning-datatable>
-          </template>
-          <template if:true={cases.error}></template> -->
         </lightning-card>
       </template>
       <template if:true={isHideAddresses}>
         <lightning-card title="My addresses" icon-name="standard:home">
-          <div  class="slds-m-around_small">
-              <c-add-new-address
-            contact-id={contactId}
-            onrefresh={refreshAddresses}
-          ></c-add-new-address>
+          <div class="slds-m-around_small">
+            <c-add-new-address
+              user-id={userId}
+              onrefresh={refreshAddresses}
+            ></c-add-new-address>
           </div>
-        
           <template if:true={addresses.data}>
             <lightning-datatable
               key-field="Id"
@@ -140,7 +133,7 @@
       <div class="slds-theme_default">
         <template if:true={isCaseModalOpen}>
           <c-create-new-case
-            contact-id={contactId}
+            user-id={userId}
             order-id={orderId}
             onclose={closeCaseModal}
             onrefresh={refreshCases}

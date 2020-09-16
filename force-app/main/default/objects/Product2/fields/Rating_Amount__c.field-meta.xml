@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Rating__c</fullName>
+    <fullName>Rating_Amount__c</fullName>
+    <defaultValue>0</defaultValue>
     <externalId>false</externalId>
-    <formula>IF(Reviews_Count__c=0, 0, Rating_Amount__c/ Reviews_Count__c)</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Rating</label>
+    <label>Rating Amount</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>1</scale>
+    <scale>0</scale>
     <trackHistory>false</trackHistory>
     <type>Number</type>
     <unique>false</unique>
