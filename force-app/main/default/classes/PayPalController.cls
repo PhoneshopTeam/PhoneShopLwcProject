@@ -32,7 +32,7 @@ public with sharing class PayPalController {
     Http h = new Http();
     HttpResponse res = h.send(req);
     system.debug(res);
-
+    system.debug(order);
     if (res.getStatus() == 'Created') {
       update order;
     }

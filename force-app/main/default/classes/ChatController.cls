@@ -1,6 +1,5 @@
 public with sharing class ChatController {
-  @AuraEnabled
-  //   (cacheable=true)
+  @AuraEnabled(cacheable=true)
   public static List<Chat_Message__c> getTodayMessages() {
     List<Chat_Message__c> messageList;
     try {
@@ -19,7 +18,7 @@ public with sharing class ChatController {
       System.debug(e.getMessage());
       return null;
     }
-    system.debug(messageList);
+    system.debug('messageList' + messageList);
     return messageList;
   }
 
