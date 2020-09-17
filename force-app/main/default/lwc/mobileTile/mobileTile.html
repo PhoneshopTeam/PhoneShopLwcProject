@@ -7,18 +7,19 @@
                     {mobile.Name}
                 </h1>
                 <div class='slds-text-body_small'>
-                    Price:
+                    Price: 
                     <lightning-formatted-number value={mobile.Price__c} format-style='currency' currency-code="USD"
                         maximum-fraction-digits='2'>
                     </lightning-formatted-number>
                 </div>
                 <div class='slds-text-body_small'>
-                    {mobile.Description}
+                    Operating System:{mobile.Operating_System__c}
                 </div>
                 <div class='slds-text-body_small'>
-                    {mobile.Brand__c}
+                    Brand:{mobile.Brand__c}
                 </div>
                 <div>
+                    Rating:
                     <lightning-formatted-number value={mobile.Rating__c} format-style="decimal"
                         minimum-significant-digits="2">
                     </lightning-formatted-number>

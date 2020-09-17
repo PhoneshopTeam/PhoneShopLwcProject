@@ -1,17 +1,30 @@
 public with sharing class MobileDataService{
 	@AuraEnabled(cacheable = true)
-	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, String mobileBrand, String bySort, String searchKey, Integer maxPrice){
-		String query = '';
-		if (mobileBrand.equals('')){
-			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c FROM Product2';
-		} else{
-			query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c FROM Product2 WHERE Brand__c = :mobileBrand';
+	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, List<String> selectedBrand, String bySort, String searchKey, Integer maxPrice, List<String> selectedOs){
+		String query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c, Operating_System__c FROM Product2';
+		if (selectedBrand.size() > 0){
+			query += ' WHERE Brand__c IN :selectedBrand';
 		}
 		if (!searchKey.equals('')){
-			query += ' WHERE Name LIKE \'%' + searchKey + '%\'';
+			if (query.contains('WHERE')){
+				query += ' AND Name LIKE \'%' + searchKey + '%\'';
+			} else{
+				query += ' WHERE Name LIKE \'%' + searchKey + '%\'';
+			}
 		}
 		if (maxPrice != 0){
-			query += ' WHERE Price__c<= :maxPrice';
+			if (query.contains('WHERE')){
+				query += ' AND Price__c<= :maxPrice';
+			} else{
+				query += ' WHERE Price__c<= :maxPrice';
+			}
+		}
+		if (selectedOs.size() > 0){
+			if (query.contains('WHERE')){
+				query += ' AND Operating_System__c IN :selectedOs';
+			} else{
+				query += ' WHERE Operating_System__c IN :selectedOs';
+			}
 		}
 		if (bySort.equals('priceDesc')){
 			query += ' ORDER BY Price__c DESC';
@@ -38,17 +51,9 @@ public with sharing class MobileDataService{
 	}
 
 	@AuraEnabled
-	public static Integer totalRecords(String mobileBrand){
-		if (mobileBrand.equals('')){
-			System.debug(mobileBrand);
-			return [SELECT COUNT()
-			        FROM Product2 ];
-		} else{
-			System.debug(mobileBrand);
-			return [SELECT COUNT()
-			        FROM Product2 
-			        WHERE Brand__c = :mobileBrand];
-		}
+	public static Integer totalRecords(){
+		return [SELECT COUNT()
+		        FROM Product2 ];
 	}
 
 	@AuraEnabled(cacheable = true)
@@ -83,7 +88,7 @@ public with sharing class MobileDataService{
 	}
 
 	@AuraEnabled(cacheable = true)
-	public static List<FatchValueWrapper> getMobileBrands(sObject objInfo, string picklistFieldApi){
+	public static List<FatchValueWrapper> getMobilesPicklist(sObject objInfo, string picklistFieldApi){
 		Schema.DescribeSObjectResult objDescribe = objInfo.getSObjectType().getDescribe();
 		map<String, Schema.SObjectField> fieldMap = objDescribe.fields.getMap();
 		list<Schema.PicklistEntry> values = fieldMap.get(picklistFieldApi).getDescribe().getPickListValues();

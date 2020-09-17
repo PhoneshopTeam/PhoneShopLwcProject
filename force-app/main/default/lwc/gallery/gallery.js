@@ -50,4 +50,9 @@ export default class Gallery extends NavigationMixin(LightningElement) {
         const maxPrice = event.detail.maxPrice;
         this.template.querySelector('c-list-mobiles').inputMaxPrice(maxPrice);
     }
+
+    handleChangeOS(event) {
+        const selectedOS = event.detail.selectedOS;
+        this.template.querySelector('c-list-mobiles').inputOS(selectedOS);
+    }
 }

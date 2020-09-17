@@ -11,7 +11,8 @@ import MOBILE_PICTURE_FIELD from '@salesforce/schema/Product2.Picture__c';
 import MOBILE_TOTAL_QUANTITY_FIELD from '@salesforce/schema/Product2.Total_Quantity__c';
 import MOBILE_PRICE_FIELD from '@salesforce/schema/Product2.Price__c';
 import MOBILE_REVIEWS_COUNT from '@salesforce/schema/Product2.Reviews_Count__c';
-const MOBILE_FIELDS = [MOBILE_ID_FIELD, MOBILE_NAME_FIELD, MOBILE_PICTURE_FIELD, MOBILE_TOTAL_QUANTITY_FIELD, MOBILE_PRICE_FIELD, MOBILE_REVIEWS_COUNT];
+import MOBILE_RATING_FIELD from '@salesforce/schema/Product2.Rating__c';
+const MOBILE_FIELDS = [MOBILE_ID_FIELD, MOBILE_NAME_FIELD, MOBILE_PICTURE_FIELD, MOBILE_TOTAL_QUANTITY_FIELD, MOBILE_PRICE_FIELD, MOBILE_REVIEWS_COUNT, MOBILE_RATING_FIELD];
 
 
 import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
@@ -34,6 +35,12 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	mobileId;
 	quantity = 1;
 	orderId;
+
+	get refresh(){
+		this.renderedCallback();
+		refreshApex(this.wiredRecord);
+		return true;
+	}
 
 	@wire(getRecord, { recordId: '$mobileId', fields: MOBILE_FIELDS })
 	wiredRecord;
@@ -87,6 +94,10 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		return 'Reviews(' + this.reviewsCount + ')';
 	}
 
+	get mobileRating() {
+		return getFieldValue(this.wiredRecord.data, MOBILE_RATING_FIELD);
+	}
+
 	navigateToRecordViewPage() {
 		this[NavigationMixin.Navigate]({
 			type: 'standard__recordPage',
@@ -100,12 +111,15 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 
 	handleReviewCreated(event) {
 		const reviewId = event.detail.reviewId;
-		updateRating({ mobileId: this.mobileId, reviewId: reviewId }).then(() => {
-			window.console.log('good');
-		});
+		updateRating({ mobileId: this.mobileId, reviewId: reviewId })
+			.then(() => {
+				refreshApex(this.wiredRecord);
+			})
+			.catch(error => {
+				window.console.log(error);
+			});
 		this.template.querySelector('lightning-tabset').activeTabValue = REVIEWS_TAB;
 		this.template.querySelector('c-mobile-review-list').refresh();
-		refreshApex(this.wiredRecord);
 	}
 
 	handleQuantityChange(event) {
@@ -146,7 +160,6 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.userId;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
-		//fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
 		const recordInput = {
 			apiName: ORDER_OBJECT.objectApiName,
@@ -163,16 +176,12 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 				fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 				fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 				fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
-				//fields[BASKET_TOTALPRICE_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 				const recordInput = {
 					apiName: BASKET_OBJECT.objectApiName,
 					fields
 				}
-				window.console.log('a');
 				createRecord(recordInput)
 					.then(basket => {
-						window.console.log('b');
-						window.console.log(basket.id);
 						this.dispatchEvent(new ShowToastEvent({
 							title: 'Success!',
 							message: 'Order ' + this.orderId + ' Created Successfully!',
