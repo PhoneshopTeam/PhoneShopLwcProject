@@ -22,20 +22,17 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
 
     @api selectedMobileId;
     @api searchKey = '';
-    @api selectedBrand = '';
     @api selectedBySort = '';
     @api maxPrice = 0;
+    @api selectedBrand = [];
+    @api selectedOs = [];
     isLoading = true;
 
     @wire(getMobilesList, {
-        offset: '$offset',
-        pageSize: '$pageSize',
-        mobileBrand: '$selectedBrand',
-        bySort: '$selectedBySort',
-        searchKey: '$searchKey',
-        maxPrice: '$maxPrice'
+        offset: '$offset', pageSize: '$pageSize', selectedBrand: '$selectedBrand', bySort: '$selectedBySort',
+        searchKey: '$searchKey', maxPrice: '$maxPrice', selectedOs: '$selectedOs'
     })
-    wiredBoats(result) {
+    wiredMobiles(result) {
         this.mobiles = result;
     }
 
@@ -75,6 +72,15 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.notifyLoading(this.isLoading);
     }
 
+    @api
+    inputOS(selectedOs) {
+        this.isLoading = true;
+        this.notifyLoading(this.isLoading);
+        this.selectedOs = selectedOs;
+        this.isLoading = false;
+        this.notifyLoading(this.isLoading);
+    }
+
     notifyLoading(isLoading) {
         isLoading ? this.dispatchEvent(new CustomEvent('loading')) : this.dispatchEvent(new CustomEvent('doneloading'));
     }
@@ -94,9 +100,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     }
 
     connectedCallback() {
-        totalRecords({
-            mobileBrand: this.selectedBrand
-        }).then(result => {
+        totalRecords().then(result => {
             this.totalRecords = result;
         });
     }
@@ -139,6 +143,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.template.querySelector('c-paginator').changeView('trueprevious');
         this.template.querySelector('c-paginator').changeView('falsenext');
     }
+
     lastpagehandler() {
         this.offset = this.totalRecords - (this.totalRecords) % (this.pageSize);
         this.template.querySelector('c-paginator').changeView('falseprevious');

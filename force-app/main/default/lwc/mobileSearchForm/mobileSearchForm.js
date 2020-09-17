@@ -1,13 +1,15 @@
 import { LightningElement, wire, track } from 'lwc';
-import getMobileBrands from '@salesforce/apex/MobileDataService.getMobileBrands';
+import getMobilesPicklist from '@salesforce/apex/MobileDataService.getMobilesPicklist';
 
 export default class MobileSearchForm extends LightningElement {
-    @track selectedBrand = '';
     @track selectedBySort = '';
     @track searchKey = '';
-    @track maxPrice = 0;
+    @track maxPrice;
+    @track selectedBrand = [];
+    @track selectedOS = [];
 
-    @track searchOptions;
+    @track brandOptions;
+    @track osOptions;
     @track sortingOptions = [
         { value: 'priceDesc', label: 'Descending price' },
         { value: 'priceAsc', label: 'Ascending price' },
@@ -15,29 +17,48 @@ export default class MobileSearchForm extends LightningElement {
         { value: '', label: 'choose...' }
     ];
 
+
     @track error = undefined;
 
-    @wire(getMobileBrands, {
+    @wire(getMobilesPicklist, {
         objInfo: { 'sobjectType': 'Product2' },
         picklistFieldApi: 'Brand__c'
     })
     mobileBrands({ error, data }) {
         if (data) {
-            this.searchOptions = data.map(type => {
+            this.brandOptions = data.map(type => {
                 return {
                     label: type.slabel,
                     value: type.svalue
                 };
             });
-            this.searchOptions.unshift({ label: 'All Brands', value: '' });
         } else if (error) {
             this.searchOptions = undefined;
             this.error = error;
         }
     }
 
-    handleSearchOptionChange(event) {
+    @wire(getMobilesPicklist, {
+        objInfo: { 'sobjectType': 'Product2' },
+        picklistFieldApi: 'Operating_System__c'
+    })
+    mobileOS({ error, data }) {
+        if (data) {
+            this.osOptions = data.map(type => {
+                return {
+                    label: type.slabel,
+                    value: type.svalue
+                };
+            });
+        } else if (error) {
+            this.osOptions = undefined;
+            this.error = error;
+        }
+    }
+
+    handleBrandChange(event) {
         this.selectedBrand = event.detail.value;
+        event.preventDefault();
         const searchBrandEvent = new CustomEvent('searchbrand', {
             detail: {
                 selectedBrand: this.selectedBrand
@@ -80,5 +101,16 @@ export default class MobileSearchForm extends LightningElement {
             }
         });
         this.dispatchEvent(searchEvent);
+    }
+
+    handleOSChange(event) {
+        this.selectedOS = event.target.value;
+        event.preventDefault();
+        const selectOSEvent = new CustomEvent('changeos', {
+            detail: {
+                selectedOS: this.selectedOS
+            }
+        });
+        this.dispatchEvent(selectOSEvent);
     }
 }
