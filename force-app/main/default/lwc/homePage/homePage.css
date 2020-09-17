@@ -1,7 +1,7 @@
-.container{
+/*.container{
  
     height:1300px; 
-}
+}*/
 .popupBlock{
    margin:30px;
     align-items: flex-end; 
@@ -11,4 +11,21 @@
 .buttonClose{
     width: 20px;
     height: 30px;
+}
+.inside {
+    background-color: rgb(185, 180, 180);
+    height: 20px;
+}
+/*.carousel {
+    height:600px;
+}*/
+.image {
+    object-fit: contain;
+    
+}
+.workingInfo{
+    background-color: rgb(231, 130, 130);
+}
+.chat {
+    background-color: rgb(255, 255, 255);
 }

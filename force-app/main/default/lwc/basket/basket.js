@@ -38,6 +38,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
   userId;
   userName;
   //  = '0032w00000INmlwAAD';
+  userName;
   @track hasRendered = true;
   orderId; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
   disabledCondition = false;
@@ -118,7 +119,8 @@ export default class Basket extends NavigationMixin(LightningElement) {
               },
               state: {
                 c__orderId: this.orderId,
-                c__contactId: this.userId
+                c__userId: this.userId,
+                c__userName: this.userName
               }
             })
 

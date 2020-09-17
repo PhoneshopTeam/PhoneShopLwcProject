@@ -1,8 +1,23 @@
-import { LightningElement, wire, api } from 'lwc';
-import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
-import { getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
-import { refreshApex } from '@salesforce/apex';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import {
+	LightningElement,
+	wire,
+	api
+} from 'lwc';
+import {
+	CurrentPageReference,
+	NavigationMixin
+} from 'lightning/navigation';
+import {
+	getRecord,
+	getFieldValue,
+	createRecord
+} from 'lightning/uiRecordApi';
+import {
+	refreshApex
+} from '@salesforce/apex';
+import {
+	ShowToastEvent
+} from 'lightning/platformShowToastEvent';
 import updateRating from '@salesforce/apex/MobileDataService.updateRating';
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
@@ -31,12 +46,14 @@ import BASKET_UNITPRICE_FIELD from '@salesforce/schema/Basket__c.UnitPrice__c';
 const REVIEWS_TAB = 'reviews';
 
 export default class MobileDetais extends NavigationMixin(LightningElement) {
+
 	userId;
 	mobileId;
 	quantity = 1;
 	orderId;
+	userName;
 
-	get refresh(){
+	get refresh() {
 		this.renderedCallback();
 		refreshApex(this.wiredRecord);
 		return true;
@@ -46,9 +63,9 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	wiredRecord;
 
 	get detailsTabIconName() {
-		return this.wiredRecord && this.wiredRecord.data
-			? 'utility:call'
-			: null;
+		return this.wiredRecord && this.wiredRecord.data ?
+			'utility:call' :
+			null;
 	}
 
 	@wire(CurrentPageReference)
@@ -65,8 +82,15 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		);
 	}
 
+	get userNameFromState() {
+		return (
+			this.currentPageReference && this.currentPageReference.state.c__userName
+		);
+	}
+
 	renderedCallback() {
 		this.mobileId = this.mobileIdFromState;
+		this.userName = this.userNameFromState;
 		this.userId = this.userIdFromState;
 	}
 
@@ -130,7 +154,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		const fields = {};
 		fields[BASKET_PRODUCTID_FIELD.fieldApiName] = this.mobileId;
 		fields[BASKET_CONTACTID_FIELD.fieldApiName] = this.userId;
-		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a022w00000Eol5lAAB';//////////////////////////////
+		fields[BASKET_ORDERID_FIELD.fieldApiName] = 'a002w000009kMa5AAE'; //////////////////////////////
 		fields[BASKET_STATUS_FIELD.fieldApiName] = true;
 		fields[BASKET_QUANTITY_FIELD.fieldApiName] = this.quantity;
 		fields[BASKET_UNITPRICE_FIELD.fieldApiName] = this.mobilePrice;
@@ -195,6 +219,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 							state: {
 								c__orderId: this.orderId,
 								c__userId: this.userId
+
 							}
 						})
 					})

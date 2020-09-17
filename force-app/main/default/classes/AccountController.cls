@@ -9,7 +9,6 @@ public with sharing class AccountController {
         Working_hours__c,
         Email__c,
         Phone,
-        BillingAddress,
         BillingStreet,
         BillingCity
       FROM Account

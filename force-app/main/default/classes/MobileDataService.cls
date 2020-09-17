@@ -42,13 +42,23 @@ public with sharing class MobileDataService{
 		}
 	}
 
-	@AuraEnabled
-	public static List<Mobile_Review__c> getAllReviews(Id mobileId){
-		return [SELECT Id, Name, Comment__c, Rating__c, LastModifiedDate, CreatedDate, Contact__c, Contact__r.Name
-		        FROM Mobile_Review__c 
-		        WHERE Product__c = :mobileId
-		        ORDER BY CreatedDate DESC];
-	}
+  @AuraEnabled
+  public static List<Mobile_Review__c> getAllReviews(Id mobileId) {
+    return [
+      SELECT
+        Id,
+        Name,
+        Comment__c,
+        Rating__c,
+        LastModifiedDate,
+        CreatedDate,
+        Contact__c,
+        Contact__r.Name
+      FROM Mobile_Review__c
+      WHERE Product__c = :mobileId
+      ORDER BY CreatedDate DESC
+    ];
+  }
 
 	@AuraEnabled
 	public static Integer totalRecords(){
@@ -56,36 +66,40 @@ public with sharing class MobileDataService{
 		        FROM Product2 ];
 	}
 
-	@AuraEnabled(cacheable = true)
-	public static Integer getNext(Integer offset, Integer pageSize){
-		offset += pageSize;
-		return offset;
-	}
+  @AuraEnabled(cacheable=true)
+  public static Integer getNext(Integer offset, Integer pageSize) {
+    offset += pageSize;
+    return offset;
+  }
 
-	@AuraEnabled(cacheable = true)
-	public static Integer getPrevious(Integer offset, Integer pageSize){
-		offset -= pageSize;
-		return offset;
-	}
+  @AuraEnabled(cacheable=true)
+  public static Integer getPrevious(Integer offset, Integer pageSize) {
+    offset -= pageSize;
+    return offset;
+  }
 
-	@AuraEnabled
-	public static void updateRating(Id mobileId, Id reviewId){
-		Product2 product = [SELECT Id, Rating__c, Reviews_Count__c, Rating_Amount__c
-		                    FROM Product2 
-		                    WHERE Id = :mobileId];
-		Double mobileRating = product.Rating__c;
-		Double reviewsCount = product.Reviews_Count__c;
-		Double ratingAmount = product.Rating_Amount__c;
-		Mobile_Review__c review = [SELECT Id, Rating__c
-		                           FROM Mobile_Review__c 
-		                           WHERE Id = :reviewId];
-		Double reviewRating = review.Rating__c;
-		++reviewsCount;
-		ratingAmount += reviewRating;
-		product.Reviews_Count__c = reviewsCount;
-		product.Rating_Amount__c = ratingAmount;
-		update product;
-	}
+  @AuraEnabled
+  public static void updateRating(Id mobileId, Id reviewId) {
+    Product2 product = [
+      SELECT Id, Rating__c, Reviews_Count__c, Rating_Amount__c
+      FROM Product2
+      WHERE Id = :mobileId
+    ];
+    Double mobileRating = product.Rating__c;
+    Double reviewsCount = product.Reviews_Count__c;
+    Double ratingAmount = product.Rating_Amount__c;
+    Mobile_Review__c review = [
+      SELECT Id, Rating__c
+      FROM Mobile_Review__c
+      WHERE Id = :reviewId
+    ];
+    Double reviewRating = review.Rating__c;
+    ++reviewsCount;
+    ratingAmount += reviewRating;
+    product.Reviews_Count__c = reviewsCount;
+    product.Rating_Amount__c = ratingAmount;
+    update product;
+  }
 
 	@AuraEnabled(cacheable = true)
 	public static List<FatchValueWrapper> getMobilesPicklist(sObject objInfo, string picklistFieldApi){
@@ -102,18 +116,27 @@ public with sharing class MobileDataService{
 		return objWrapper;
 	}
 
-	public with sharing class FatchValueWrapper{
-		@auraEnabled
-		public string slabel{ get; set; }
+  public with sharing class FatchValueWrapper {
+    @auraEnabled
+    public string slabel { get; set; }
 
-		@auraEnabled
-		public string svalue{ get; set; }
-	}
+    @auraEnabled
+    public string svalue { get; set; }
+  }
 
-	@AuraEnabled(cacheable = true)
-	public static List<Basket__c> getBasketsInOrder(String orderId){
-		return [SELECT Id, UnitPrice__c, Quantity__c, TotalPrice__c, ProductId__r.Id, ProductId__r.Picture__c, ProductId__r.Name
-		        FROM Basket__c 
-		        WHERE CustomOrderId__c = :orderId];
-	}
+  @AuraEnabled(cacheable=true)
+  public static List<Basket__c> getBasketsInOrder(String orderId) {
+    return [
+      SELECT
+        Id,
+        UnitPrice__c,
+        Quantity__c,
+        TotalPrice__c,
+        ProductId__r.Id,
+        ProductId__r.Picture__c,
+        ProductId__r.Name
+      FROM Basket__c
+      WHERE CustomOrderId__c = :orderId
+    ];
+  }
 }

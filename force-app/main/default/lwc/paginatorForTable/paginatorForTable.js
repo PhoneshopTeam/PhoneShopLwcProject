@@ -56,6 +56,7 @@ export default class PaginatorForTable extends LightningElement {
         this.setRecordsToDisplay();
     }
     setRecordsToDisplay() {
+        console.log('setRecordsToDisplay');
         this.recordsToDisplay = [];
         if (!this.pageSize)
             this.pageSize = this.totalRecords;

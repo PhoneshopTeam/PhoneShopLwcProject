@@ -1,5 +1,6 @@
 <template>
-	<c-header user-id={userId}></c-header>
+	<c-header user-id={userId} user-name={userName}></c-header>
+	mobile details userId = {userId} mobileId = {mobileId}>
 	<template if:true={refresh}>
 		<template if:true={wiredRecord.data}>
 			<lightning-tabset>

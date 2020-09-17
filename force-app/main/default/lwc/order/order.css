@@ -1,0 +1,15 @@
+.inside {
+    background-color: rgb(185, 180, 180);
+    height: 20px;
+}
+.user-name {
+    background-color: rgb(235, 83, 83);
+    vertical-align: middle;
+}
+.order {
+    margin: auto;
+}
+.delivery {
+    width: 50%;
+    margin: auto;
+}

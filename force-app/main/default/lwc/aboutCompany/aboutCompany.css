@@ -1,7 +1,13 @@
-  .custom-box {
+.custom-box {
       background-color: #c9cac09d;
   }
 
   .slds-box {
-      background-color: #e4bb7d9d;
+    background-color: rgb(233, 204, 204);
+  }
+  .box {
+    background-color: rgb(235, 83, 83);
+  }
+  h1 {
+    color: rgb(16, 59, 124);
   }

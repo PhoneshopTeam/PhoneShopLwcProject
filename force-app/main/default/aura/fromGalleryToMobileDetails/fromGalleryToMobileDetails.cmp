@@ -1,4 +1,10 @@
-<aura:component description="FromGalleryToMobileDetails"
-  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId">
-  <c:mobileDetails mobileId="{mobileId}" userId="{userId}" />
+<aura:component
+  description="FromGalleryToMobileDetails"
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <c:mobileDetails
+    mobileId="{mobileId}"
+    userId="{userId}"
+    userName="{userName}"
+  />
 </aura:component>
