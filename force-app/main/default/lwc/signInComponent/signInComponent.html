@@ -36,6 +36,7 @@
               <lightning-tabset>
                 <lightning-tab
                   label="Authorization"
+                  value="authorization"
                 >
                 <div class="slds-m-around_xx-large ">
                   <c-authorization-page></c-authorization-page>
@@ -45,7 +46,7 @@
                   label="Registration"
                 >
                 <div class="slds-m-around_xx-large">
-                  <c-registration-page></c-registration-page>
+                  <c-registration-page onlogin={handleLoginClick}></c-registration-page>
                 </div>
                 </lightning-tab>
               </lightning-tabset>
@@ -59,7 +60,7 @@
                 Footer
               </h2>
             </footer!-->
-            
+
           </div>
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
