@@ -24,7 +24,7 @@ import getBasketList from '@salesforce/apex/BasketController.getBasketList';
 
 import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
-//import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
+import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
 //import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
@@ -34,11 +34,9 @@ const READ_ONLY_CLASS = "lgc-bg";
 
 export default class Basket extends NavigationMixin(LightningElement) {
 
-  //@api
   userId;
   userName;
-  //  = '0032w00000INmlwAAD';
-  userName;
+
   @track hasRendered = true;
   orderId; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
   disabledCondition = false;
@@ -86,7 +84,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
 
     const fields = {};
     fields[ORDER_NAME_FIELD.fieldApiName] = 'Order_' + this.userId + '_' + this.now;
-    //fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
+    fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
     fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
     //fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
