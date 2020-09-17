@@ -19,8 +19,8 @@ import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import PHONE_FIELD from '@salesforce/schema/Contact.Phone';
 import LOGIN_FIELD from '@salesforce/schema/Contact.Login__c';
 import PASSWORD_FIELD from '@salesforce/schema/Contact.Password__c';
-import STREET_FIELD from '@salesforce/schema/Contact.MailingStreet';
-import CITY_FIELD from '@salesforce/schema/Contact.MailingCity';
+//import STREET_FIELD from '@salesforce/schema/Contact.MailingStreet';
+//import CITY_FIELD from '@salesforce/schema/Contact.MailingCity';
 
 export default class RegistrationPage extends NavigationMixin(LightningElement) {
     firstNameValue;
@@ -30,8 +30,8 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
     loginValue;
     passwordValue;
     checkBoxFieldValue = false;
-    streetValue;
-    cityValue;
+    //streetValue;
+    //cityValue;
 
     userId;
     userName;
@@ -55,12 +55,12 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
         if (event.target.name === 'Password') {
             this.passwordValue = event.target.value;
         }
-        if (event.target.name === 'Street') {
+        /*if (event.target.name === 'Street') {
             this.streetValue = event.target.value;
         }
         if (event.target.name === 'City') {
             this.cityValue = event.target.value;
-        }
+        }*/
     }
 
     handleCheckBoxChange(event) {
@@ -74,8 +74,8 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
         fields[F_NAME_FIELD.fieldApiName] = this.firstNameValue;
         fields[EMAIL_FIELD.fieldApiName] = this.emailValue;
         fields[PHONE_FIELD.fieldApiName] = this.phoneValue;
-        fields[STREET_FIELD.fieldApiName] = this.streetValue;
-        fields[CITY_FIELD.fieldApiName] = this.cityValue;
+        //fields[STREET_FIELD.fieldApiName] = this.streetValue;
+        //fields[CITY_FIELD.fieldApiName] = this.cityValue;
         fields[LOGIN_FIELD.fieldApiName] = this.loginValue;
         fields[PASSWORD_FIELD.fieldApiName] = this.passwordValue;
 
