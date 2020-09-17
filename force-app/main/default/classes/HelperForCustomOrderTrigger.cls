@@ -16,7 +16,7 @@ public with sharing class HelperForCustomOrderTrigger {
         if (o.Type_of_payment__c != null) {
           if (order.Delivery_date__c != null) {
             if (
-              order.Status__c != null &&
+              order.Status__c != 'Draft' &&
               order.Type_of_payment__c == 'by card online'
             ) {
               order.Status__c = 'Awaiting delivery; Paid';
@@ -27,7 +27,7 @@ public with sharing class HelperForCustomOrderTrigger {
             }
           } else {
             if (
-              order.Status__c != null &&
+              order.Status__c != 'Draft' &&
               order.Type_of_payment__c == 'by card online'
             ) {
               order.Status__c = 'Without delivery; Paid';

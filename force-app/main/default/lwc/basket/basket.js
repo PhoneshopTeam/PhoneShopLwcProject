@@ -84,7 +84,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
 
     const fields = {};
     fields[ORDER_NAME_FIELD.fieldApiName] = 'Order_' + this.userId + '_' + this.now;
-    fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.contactId;
+    fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.userId;
     fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
     //fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 

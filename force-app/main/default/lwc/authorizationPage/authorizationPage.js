@@ -25,7 +25,7 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
         this[NavigationMixin.Navigate]({
                 type: 'standard__webPage',
                 attributes: {
-                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/Fogot_Password_Page'
+                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/fogot'
                 }
             },
             true
