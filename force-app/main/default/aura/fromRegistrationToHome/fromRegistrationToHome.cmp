@@ -1,5 +1,6 @@
 <aura:component
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:homePage userId="{userId}" userName="{userName}"/>
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+  <c:homePage userId="{userId}" userName="{userName}" />
 </aura:component>

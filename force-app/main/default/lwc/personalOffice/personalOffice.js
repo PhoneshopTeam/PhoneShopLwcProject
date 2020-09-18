@@ -47,7 +47,7 @@ const COLS = [{
   },
   {
     label: "Total Cost",
-    fieldName: "Total_Amount__c",
+    fieldName: "Total_Amount_With_Discount__c",
     type: "currency",
     hideDefaultActions: true
   },
@@ -128,9 +128,10 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   orderId;
   caseId;
   error;
-  opps;
+  orders;
   cases;
   resultOfCases;
+  resultOfOrders;
 
   recordsToDisplay = []; //Records to be displayed on the page
   rowNumberOffset; //Row number
@@ -160,22 +161,24 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   @wire(getOrders, {
     contactId: "$userId"
   })
-  wiredOrders({
-    error,
-    data
-  }) {
-    if (data) {
+  wiredOrders(result) {
+    this.resultOfOrders = result;
+    if (result.data) {
       let recs = [];
-      for (let i = 0; i < data.length; i++) {
+      for (let i = 0; i < result.data.length; i++) {
         let opp = {};
         opp.rowNumber = '' + (i + 1);
-        opp = Object.assign(opp, data[i]);
+        opp = Object.assign(opp, result.data[i]);
         recs.push(opp);
       }
-      this.opps = recs;
-      this.showTable = true;
+      this.orders = recs;
+      console.log(' this.orders = ' + JSON.stringify(this.orders));
+      if (result.data.length > 0) {
+        this.showTable = true;
+      }
     } else {
-      this.error = error;
+      this.error = result.error;
+      console.log('this.error  = ' + JSON.stringify(this.error));
     }
   }
 
@@ -220,7 +223,7 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       this.currentPageReference && this.currentPageReference.state.c__userName
     );
   }
-  
+
   renderedCallback() {
     this.userId = this.contactIdFromState;
     this.userName = this.userNameFromState;
@@ -264,17 +267,13 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   refreshCases() {
-    // return refreshApex(this.resultOfCases);
     console.log('refreshCases');
 
     refreshApex(this.resultOfCases);
-    // refreshApex(this.cases);
     console.log(' this.cases = ' + JSON.stringify(this.cases));
     if (this.isHideCases) {
       this.handleViewCases();
     }
-    // this.template.querySelector('c-paginator-for-table.next').setRecordsToDisplay();
-    // this.template.querySelector('c-paginator-for-table.[data-id="newCase"]').setRecordsToDisplay();
   }
 
   handleSave(event) {

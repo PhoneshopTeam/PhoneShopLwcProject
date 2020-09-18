@@ -19,6 +19,7 @@ import {
 	ShowToastEvent
 } from 'lightning/platformShowToastEvent';
 import updateRating from '@salesforce/apex/MobileDataService.updateRating';
+import getContacts from "@salesforce/apex/ContactController.getContacts";
 
 import MOBILE_ID_FIELD from '@salesforce/schema/Product2.Id';
 import MOBILE_NAME_FIELD from '@salesforce/schema/Product2.Name';
@@ -34,6 +35,7 @@ import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
+import ORDER_DISCOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Discount__c';
 
 import BASKET_OBJECT from '@salesforce/schema/Basket__c';
 import BASKET_PRODUCTID_FIELD from '@salesforce/schema/Basket__c.ProductId__c';
@@ -48,6 +50,8 @@ const REVIEWS_TAB = 'reviews';
 export default class MobileDetais extends NavigationMixin(LightningElement) {
 
 	userId;
+	discount;
+	error;
 	mobileId;
 	quantity = 1;
 	orderId;
@@ -59,7 +63,29 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		return true;
 	}
 
-	@wire(getRecord, { recordId: '$mobileId', fields: MOBILE_FIELDS })
+	@wire(getContacts, {
+		contactId: '$userId'
+	})
+	wiredContacts({
+		data,
+		error
+	}) {
+		if (data) {
+			data.forEach(item => {
+				this.discount = item.Personal_discont__c
+			});
+			this.error = undefined;
+		}
+		if (error) {
+			this.error = error;
+			this.orders = undefined;
+		}
+	}
+
+	@wire(getRecord, {
+		recordId: '$mobileId',
+		fields: MOBILE_FIELDS
+	})
 	wiredRecord;
 
 	get detailsTabIconName() {
@@ -135,7 +161,10 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 
 	handleReviewCreated(event) {
 		const reviewId = event.detail.reviewId;
-		updateRating({ mobileId: this.mobileId, reviewId: reviewId })
+		updateRating({
+				mobileId: this.mobileId,
+				reviewId: reviewId
+			})
 			.then(() => {
 				refreshApex(this.wiredRecord);
 			})
@@ -184,6 +213,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.userId;
 		fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
+		fields[ORDER_DISCOUNT_FIELD.fieldApiName] = this.discount;
 
 		const recordInput = {
 			apiName: ORDER_OBJECT.objectApiName,
@@ -218,7 +248,8 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 							},
 							state: {
 								c__orderId: this.orderId,
-								c__userId: this.userId
+								c__userId: this.userId,
+								c__userName: this.userName
 
 							}
 						})

@@ -10,14 +10,10 @@ public with sharing class CustomOrderController {
         Delivery_address__c,
         Type_of_payment__c,
         Description__c,
-        Total_Amount__c
+        Total_Amount_With_Discount__c
       FROM Custom_Order__c
-      WHERE ContactId__c = :contactId
+      WHERE ContactId__c = :contactId AND Status__c != 'Draft'
     ];
-
-    if (orders.isEmpty()) {
-      throw new AuraHandledException('Forced error');
-    }
 
     return orders;
   }
@@ -34,10 +30,6 @@ public with sharing class CustomOrderController {
       FROM Custom_Order__c
       WHERE Id = :orderId
     ];
-
-    // if (orders.isEmpty()) {
-    //   throw new AuraHandledException('Forced error');
-    // }
 
     return orders;
   }
@@ -72,17 +64,6 @@ public with sharing class CustomOrderController {
 
     Savepoint sp = Database.setSavepoint();
     try {
-      // if (isHideDeliveryDate) {
-      //   List<DeliveryAdress__c> addresses = ContactController.getDeliveryAdressById(
-      //     id
-      //   );
-
-      //   for (DeliveryAdress__c a : addresses) {
-      //     a.Custom_OrderId__c = orderId;
-      //   }
-      //   update addresses;
-      // }
-
       List<Custom_Order__c> orders = getOrdersById(orderId);
 
       for (Custom_Order__c o : orders) {
@@ -133,9 +114,6 @@ public with sharing class CustomOrderController {
       LIMIT 1
     ];
 
-    // if (deliveryAdress.isEmpty()) {
-    //   throw new AuraHandledException('Forced error');
-    // }
     return deliveryAdress;
   }
 }

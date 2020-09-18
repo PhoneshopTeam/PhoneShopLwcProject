@@ -2,5 +2,6 @@
   description="FromMobileDetailsToNewOrder"
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:order orderId="{orderId}" userId="{userId}" />
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+  <c:order orderId="{orderId}" userId="{userId}" userName="{userName}" />
 </aura:component>

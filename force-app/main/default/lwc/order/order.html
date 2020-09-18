@@ -108,7 +108,10 @@
           class="description width slds-text-title_bold slds-p-left_medium"
         ></lightning-input>
 
-        <div class="slds-button-group slds-m-top_small slds-p-left_medium" role="group">
+        <div
+          class="slds-button-group slds-m-top_small slds-p-left_medium"
+          role="group"
+        >
           <lightning-button
             variant="destructive-text"
             type="submit"
@@ -131,7 +134,10 @@
   </div>
   <div class="slds-theme_default">
     <template if:true={isCongratulationModalOpen}>
-      <c-congratulation-page contact-id={userId}></c-congratulation-page>
+      <c-congratulation-page
+        user-id={userId}
+        user-name={userName}
+      ></c-congratulation-page>
     </template>
   </div>
 </template>

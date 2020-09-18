@@ -55,8 +55,8 @@
         <lightning-card title="Orders" icon-name="standard:orders">
           <template if:true={showTable}>
             <c-paginator-for-table
-              records={opps}
-              total-records={opps.length}
+              records={orders}
+              total-records={orders.length}
               show-search-box="true"
               onpaginatorchange={handlePaginatorChange}
             >

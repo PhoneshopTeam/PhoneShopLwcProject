@@ -2,5 +2,5 @@
   description="FromOrderToGallery"
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
-  <c:gallery contactId="{contactId}" />
+  <c:gallery userId="{userId}" userName="{userName}" />
 </aura:component>

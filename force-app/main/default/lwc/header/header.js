@@ -1,8 +1,6 @@
 import {
     LightningElement,
-    api,
-    track,
-    wire
+    api
 } from 'lwc';
 
 import {
@@ -24,74 +22,45 @@ export default class Header extends NavigationMixin(LightningElement) {
     }
 
     navigateToHome() {
-        if (this.userId) {
-            console.log('navigateToHome header');
-            this[NavigationMixin.Navigate]({
-                type: "standard__component",
-                attributes: {
-                    componentName: "c__FromRegistrationToHome"
-                },
-                state: {
-                    c__userId: this.userId,
-                    c__userName: this.userName
-                }
-            })
-        } else {
-            this[NavigationMixin.Navigate]({
-                type: "standard__component",
-                attributes: {
-                    componentName: "c__ToHomePageWithoutAuthorization"
-                }
-            })
-        }
+        console.log('navigateToHome header');
+        this[NavigationMixin.Navigate]({
+            type: "standard__component",
+            attributes: {
+                componentName: "c__FromRegistrationToHome"
+            },
+            state: {
+                c__userId: this.userId,
+                c__userName: this.userName
+            }
+        })
     }
 
     navigateToCatalog() {
         console.log('navigateToCatalog header');
-        if (this.userId) {
-            this[NavigationMixin.Navigate]({
-                type: "standard__component",
-                attributes: {
-                    componentName: "c__FromHomePageToGallery"
-                },
-                state: {
-                    c__userId: this.userId,
-                    c__userName: this.userName
-                }
-            })
-        } else {
-            this[NavigationMixin.Navigate]({
-                type: "standard__component",
-                attributes: {
-                    componentName: "c__ToGalleryWithoutAuthorization"
-                }
-            })
-        }
-
+        this[NavigationMixin.Navigate]({
+            type: "standard__component",
+            attributes: {
+                componentName: "c__FromHomePageToGallery"
+            },
+            state: {
+                c__userId: this.userId,
+                c__userName: this.userName
+            }
+        })
     }
 
     navigateToAbout() {
         console.log('navigateToAbout header');
-        if (this.userId) {
-            this[NavigationMixin.Navigate]({
-                type: "standard__component",
-                attributes: {
-                    componentName: "c__FromHomePageToAboutCompany"
-                },
-                state: {
-                    c__userId: this.userId,
-                    c__userName: this.userName
-                }
-            })
-        } else {
-            this[NavigationMixin.Navigate]({
-                type: "standard__component",
-                attributes: {
-                    componentName: "c__ToAboutCompanyWithoutAuthorization"
-                }
-            })
-        }
-
+        this[NavigationMixin.Navigate]({
+            type: "standard__component",
+            attributes: {
+                componentName: "c__FromHomePageToAboutCompany"
+            },
+            state: {
+                c__userId: this.userId,
+                c__userName: this.userName
+            }
+        })
     }
 
     navigateToBascet() {
@@ -131,7 +100,7 @@ export default class Header extends NavigationMixin(LightningElement) {
             this[NavigationMixin.Navigate]({
                 type: "standard__component",
                 attributes: {
-                    componentName: "c__ToHomePageWithoutAuthorization"
+                    componentName: "c__FromRegistrationToHome"
                 }
             })
         } else {

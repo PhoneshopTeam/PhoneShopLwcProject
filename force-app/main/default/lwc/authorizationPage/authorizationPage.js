@@ -1,12 +1,10 @@
 import {
     LightningElement,
     track,
-    api,
-    wire
+    api
 } from 'lwc';
 import getAutorization from '@salesforce/apex/AutorizationPageController.getAutorization';
 import {
-    CurrentPageReference,
     NavigationMixin
 } from 'lightning/navigation';
 import {
@@ -22,25 +20,9 @@ export default class AuthorizationPage extends NavigationMixin(LightningElement)
     @api userName;
 
     navigateToForgotPassword() {
-        this[NavigationMixin.Navigate]({
-                type: 'standard__webPage',
-                attributes: {
-                    url: 'https://margophoneshop-dev-ed.lightning.force.com/lightning/n/fogot'
-                }
-            },
-            true
-        );
+        this.dispatchEvent(new CustomEvent('show', {}));
     }
-    // navigateToRegistrationUser() {
-    //     this[NavigationMixin.Navigate]({
-    //             type: 'standard__webPage',
-    //             attributes: {
-    //                 url: ''
-    //             }
-    //         },
-    //         true
-    //     );
-    // }
+
     handleChange(event) {
         if (event.target.label === 'Login') {
             this.loginInput = event.target.value;

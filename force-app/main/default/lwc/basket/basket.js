@@ -21,11 +21,13 @@ import {
 } from 'lightning/platformShowToastEvent';
 import saveOrder from '@salesforce/apex/BasketController.saveOrder';
 import getBasketList from '@salesforce/apex/BasketController.getBasketList';
+import getContacts from "@salesforce/apex/ContactController.getContacts";
 
 import ORDER_OBJECT from '@salesforce/schema/Custom_Order__c';
 import ORDER_NAME_FIELD from '@salesforce/schema/Custom_Order__c.Name';
 import ORDER_CONTACTID_FIELD from '@salesforce/schema/Custom_Order__c.ContactId__c';
 import ORDER_STATUS_FIELD from '@salesforce/schema/Custom_Order__c.Status__c';
+import ORDER_DISCOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Discount__c';
 //import ORDER_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
 
 const DELETE_TEXT = "You have removed this item from your basket"
@@ -36,6 +38,8 @@ export default class Basket extends NavigationMixin(LightningElement) {
 
   userId;
   userName;
+  discount;
+  error;
 
   @track hasRendered = true;
   orderId; // = 'a012w00000NmDdVAAV';   //Name = 'DraftOrder'
@@ -45,6 +49,25 @@ export default class Basket extends NavigationMixin(LightningElement) {
 
   @wire(CurrentPageReference)
   currentPageReference;
+
+  @wire(getContacts, {
+    contactId: '$userId'
+  })
+  wiredContacts({
+    data,
+    error
+  }) {
+    if (data) {
+      data.forEach(item => {
+        this.discount = item.Personal_discont__c
+      });
+      this.error = undefined;
+    }
+    if (error) {
+      this.error = error;
+      this.orders = undefined;
+    }
+  }
 
   get contactIdFromState() {
     return (
@@ -86,6 +109,7 @@ export default class Basket extends NavigationMixin(LightningElement) {
     fields[ORDER_NAME_FIELD.fieldApiName] = 'Order_' + this.userId + '_' + this.now;
     fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.userId;
     fields[ORDER_STATUS_FIELD.fieldApiName] = 'Draft';
+    fields[ORDER_DISCOUNT_FIELD.fieldApiName] = this.discount;
     //fields[ORDER_AMOUNT_FIELD.fieldApiName] = this.quantity * this.mobilePrice;
 
     const recordInput = {

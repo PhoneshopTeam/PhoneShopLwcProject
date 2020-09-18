@@ -24,7 +24,8 @@ import LAST_NAME_FIELD from '@salesforce/schema/Contact.LastName';
 import PHONE_FIELD from '@salesforce/schema/Contact.Phone';
 import EMAIL_FIELD from '@salesforce/schema/Contact.Email';
 import ORDER_NUMBER_FIELD from '@salesforce/schema/Custom_Order__c.Order_Number__c';
-import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+// import TOTAL_AMOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount__c';
+import TOTAL_AMOUNT_WITH_DISCOUNT_FIELD from '@salesforce/schema/Custom_Order__c.Total_Amount_With_Discount__c';
 
 export default class Order extends NavigationMixin(LightningElement) {
 
@@ -42,7 +43,8 @@ export default class Order extends NavigationMixin(LightningElement) {
     userName;
 
     fields = [FIRST_NAME_FIELD, LAST_NAME_FIELD, PHONE_FIELD, EMAIL_FIELD];
-    fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
+    // fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_FIELD];
+    fieldsOfOrder = [ORDER_NUMBER_FIELD, TOTAL_AMOUNT_WITH_DISCOUNT_FIELD];
 
     @wire(CurrentPageReference)
     currentPageReference;
@@ -65,6 +67,7 @@ export default class Order extends NavigationMixin(LightningElement) {
     }
 
     renderedCallback() {
+        console.log(' renderedCallback order');
         this.orderId = this.orderIdFromState;
         this.userId = this.contactIdFromState;
         this.userName = this.userNameFromState;

@@ -7,9 +7,6 @@ public with sharing class ContactController {
       WHERE Id = :contactId
     ];
 
-    if (contacts.isEmpty()) {
-      throw new AuraHandledException('Forced error');
-    }
     return contacts;
   }
 
@@ -28,9 +25,6 @@ public with sharing class ContactController {
       WHERE Contact__c = :contactId
     ];
 
-    // if (deliveryAdress.isEmpty()) {
-    //   throw new AuraHandledException('Forced error');
-    // }
     return deliveryAdress;
   }
 
@@ -51,9 +45,6 @@ public with sharing class ContactController {
       LIMIT 1
     ];
 
-    if (deliveryAdress.isEmpty()) {
-      throw new AuraHandledException('Forced error');
-    }
     return deliveryAdress;
   }
 }

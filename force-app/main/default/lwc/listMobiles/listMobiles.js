@@ -18,6 +18,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track pageSize = 8;
 
     @api userId;
+    @api userName;
     mobiles;
 
     @api selectedMobileId;
@@ -29,8 +30,13 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     isLoading = true;
 
     @wire(getMobilesList, {
-        offset: '$offset', pageSize: '$pageSize', selectedBrand: '$selectedBrand', bySort: '$selectedBySort',
-        searchKey: '$searchKey', maxPrice: '$maxPrice', selectedOs: '$selectedOs'
+        offset: '$offset',
+        pageSize: '$pageSize',
+        selectedBrand: '$selectedBrand',
+        bySort: '$selectedBySort',
+        searchKey: '$searchKey',
+        maxPrice: '$maxPrice',
+        selectedOs: '$selectedOs'
     })
     wiredMobiles(result) {
         this.mobiles = result;
@@ -94,7 +100,8 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
             },
             state: {
                 c__mobileId: event.detail.selectedMobileId,
-                c__userId: this.userId
+                c__userId: this.userId,
+                c__userName: this.userName
             }
         });
     }

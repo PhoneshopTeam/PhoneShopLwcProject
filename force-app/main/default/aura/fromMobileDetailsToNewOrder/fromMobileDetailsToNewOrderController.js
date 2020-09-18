@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-unused-expressions
 ({
-    myAction : function(component, event, helper) {
-
+    reInit: function (component, event, helper) {
+        $A.get('e.force:refreshView').fire();
     }
 })

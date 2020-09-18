@@ -1,6 +1,0 @@
-<aura:component
-  description="ToHomePageWithoutAuthorization"
-  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
->
-  <c:homePage />
-</aura:component>
