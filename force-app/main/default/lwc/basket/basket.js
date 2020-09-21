@@ -47,6 +47,12 @@ export default class Basket extends NavigationMixin(LightningElement) {
   baskets;
   now = new Date().toJSON().slice(0, 10);
 
+  get refresh() {
+    this.renderedCallback();
+    refreshApex(this.wiredBaskets);
+    return true;
+  }
+
   @wire(CurrentPageReference)
   currentPageReference;
 

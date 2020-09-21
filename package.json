@@ -20,7 +20,7 @@
     "@salesforce/eslint-config-lwc": "^0.7.0",
     "@salesforce/eslint-plugin-aura": "^1.4.0",
     "@salesforce/sfdx-lwc-jest": "^0.7.1",
-    "eslint": "^7.1.0",
+    "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "prettier": "2.1.1",
     "prettier-plugin-apex": "1.6.0"
@@ -39,7 +39,9 @@
     ]
   },
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "canvas-confetti": "^1.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PhoneshopTeam/PhoneShopLwcProject.git"
