@@ -29,6 +29,7 @@ export default class ItemBasket extends LightningElement {
     quantityClass;
     readOnly = false;
     disabled = false;
+    isOpenModal = false;
 
     get totalPrice() {
         return this.price * this.quantityItem;
@@ -159,36 +160,46 @@ export default class ItemBasket extends LightningElement {
     }
 
     handleDeleteClick() {
-        deleteBasket({
-                basketId: this.basketId
-            })
-            .then(result => {
-
-                console.log('result checkbox true-------------' + result);
-
-                const deleteClick = new CustomEvent('delete');
-                console.log(' deleteClick block ------------------ deleteClick block');
-                this.dispatchEvent(deleteClick);
-
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'Successful ' + this.basketId + ' basket deletion',
-                        variant: 'success',
-                    }),
-                );
-            })
-            .catch(error => {
-                window.console.log(error);
-                this.error = JSON.stringify(error);
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error basket deletion',
-                        message: error.body.message,
-                        variant: 'error',
-                    }),
-                );
-            });
+        this.isOpenModal = true;
+        console.log(' isOpenModal deleteClick button ------------------ deleteClick button');
     }
 
+    handleNoClick() {
+        this.isOpenModal = false;
+    }
+
+    handleYesClick() {
+        deleteBasket({
+            basketId: this.basketId              
+        })
+        .then(result => {
+
+            console.log('result checkbox true-------------');
+
+            const del = new CustomEvent('delete');
+            console.log(' itemBasket deleteClick block ------------------ deleteClick block');
+            this.dispatchEvent(del);
+
+            //this.isOpenModal = false;
+
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Successful ' + this.basketId + ' basket deletion',
+                    variant: 'success',
+                }),
+            );
+        })
+        .catch(error => {
+            window.console.log(error);
+            this.error = JSON.stringify(error);
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error basket deletion',
+                    message: error.body.message,
+                    variant: 'error',
+                }),
+            );
+        });      
+    }
 }

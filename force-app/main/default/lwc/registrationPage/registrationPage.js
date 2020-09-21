@@ -126,12 +126,8 @@ export default class RegistrationPage extends NavigationMixin(LightningElement) 
 
     handleLoginClick() {
         // Navigate to the Login page
-        this[NavigationMixin.Navigate]({
-            type: 'standard__component',
-            attributes: {
-                componentName: "c__FromRegistrationToLogin"
-            },
-        });
+        const toLoginTab = new CustomEvent('login');
+        this.dispatchEvent(toLoginTab);
     }
 
 

@@ -5,6 +5,8 @@ import {
     NavigationMixin
 } from 'lightning/navigation';
 
+const LOGIN_TAB = 'authorization';
+
 export default class SignInComponent extends NavigationMixin(LightningElement) {
 
     isModalOpen = false;
@@ -28,6 +30,10 @@ export default class SignInComponent extends NavigationMixin(LightningElement) {
                 componentName: "c__FromRegistrationToHome"
             }
         })
+    }
+
+    handleLoginClick() {
+        this.template.querySelector('lightning-tabset').activeTabValue = LOGIN_TAB;
     }
 
 }
