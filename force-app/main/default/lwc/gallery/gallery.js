@@ -9,13 +9,13 @@ import {
 } from 'lightning/navigation';
 export default class Gallery extends NavigationMixin(LightningElement) {
     isLoading = false;
-    userId;
-    userName;
+    userId = '0032w00000I6h0sAAB';
+    userName = 'Andyyyyy';
 
     @wire(CurrentPageReference)
     currentPageReference;
 
-    get userIdFromState() {
+    /*get userIdFromState() {
         return (
             this.currentPageReference && this.currentPageReference.state.c__userId
         );
@@ -29,7 +29,7 @@ export default class Gallery extends NavigationMixin(LightningElement) {
     renderedCallback() {
         this.userId = this.userIdFromState;
         this.userName = this.userNameFromState;
-    }
+    }*/
 
     handleLoading() {
         this.isLoading = true;
