@@ -1,46 +1,54 @@
-public with sharing class MobileDataService{
-	@AuraEnabled(cacheable = true)
-	public static List<Product2> getMobilesList(Integer offset, Integer pageSize, List<String> selectedBrand, String bySort, String searchKey, Integer maxPrice, List<String> selectedOs){
-		String query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c, Operating_System__c FROM Product2';
-		if (selectedBrand.size() > 0){
-			query += ' WHERE Brand__c IN :selectedBrand';
-		}
-		if (!searchKey.equals('')){
-			if (query.contains('WHERE')){
-				query += ' AND Name LIKE \'%' + searchKey + '%\'';
-			} else{
-				query += ' WHERE Name LIKE \'%' + searchKey + '%\'';
-			}
-		}
-		if (maxPrice != 0){
-			if (query.contains('WHERE')){
-				query += ' AND Price__c<= :maxPrice';
-			} else{
-				query += ' WHERE Price__c<= :maxPrice';
-			}
-		}
-		if (selectedOs.size() > 0){
-			if (query.contains('WHERE')){
-				query += ' AND Operating_System__c IN :selectedOs';
-			} else{
-				query += ' WHERE Operating_System__c IN :selectedOs';
-			}
-		}
-		if (bySort.equals('priceDesc')){
-			query += ' ORDER BY Price__c DESC';
-		} else if (bySort.equals('priceAsc')){
-			query += ' ORDER BY Price__c ASC';
-		} else if (bySort.equals('rating')){
-			query += ' ORDER BY Rating__c DESC';
-		}
-		query += ' LIMIT :pageSize OFFSET :offset';
-		try{
-			return Database.query(query);
-		} catch (DMLException e){
-			System.debug(e.getMessage());
-			return new List<Product2>();
-		}
-	}
+public with sharing class MobileDataService {
+  @AuraEnabled(cacheable=true)
+  public static List<Product2> getMobilesList(
+    Integer offset,
+    Integer pageSize,
+    List<String> selectedBrand,
+    String bySort,
+    String searchKey,
+    Integer maxPrice,
+    List<String> selectedOs
+  ) {
+    String query = 'SELECT Name, Description, Picture__c, Price__c, Brand__c, Rating__c, Reviews_Count__c, Operating_System__c FROM Product2';
+    if (selectedBrand.size() > 0) {
+      query += ' WHERE Brand__c IN :selectedBrand';
+    }
+    if (!searchKey.equals('')) {
+      if (query.contains('WHERE')) {
+        query += ' AND Name LIKE \'%' + searchKey + '%\'';
+      } else {
+        query += ' WHERE Name LIKE \'%' + searchKey + '%\'';
+      }
+    }
+    if (maxPrice != 0) {
+      if (query.contains('WHERE')) {
+        query += ' AND Price__c<= :maxPrice';
+      } else {
+        query += ' WHERE Price__c<= :maxPrice';
+      }
+    }
+    if (selectedOs.size() > 0) {
+      if (query.contains('WHERE')) {
+        query += ' AND Operating_System__c IN :selectedOs';
+      } else {
+        query += ' WHERE Operating_System__c IN :selectedOs';
+      }
+    }
+    if (bySort.equals('priceDesc')) {
+      query += ' ORDER BY Price__c DESC';
+    } else if (bySort.equals('priceAsc')) {
+      query += ' ORDER BY Price__c ASC';
+    } else if (bySort.equals('rating')) {
+      query += ' ORDER BY Rating__c DESC';
+    }
+    query += ' LIMIT :pageSize OFFSET :offset';
+    try {
+      return Database.query(query);
+    } catch (DMLException e) {
+      System.debug(e.getMessage());
+      return new List<Product2>();
+    }
+  }
 
   @AuraEnabled
   public static List<Mobile_Review__c> getAllReviews(Id mobileId) {
@@ -60,11 +68,10 @@ public with sharing class MobileDataService{
     ];
   }
 
-	@AuraEnabled
-	public static Integer totalRecords(){
-		return [SELECT COUNT()
-		        FROM Product2 ];
-	}
+  @AuraEnabled
+  public static Integer totalRecords() {
+    return [SELECT COUNT() FROM Product2];
+  }
 
   @AuraEnabled(cacheable=true)
   public static Integer getNext(Integer offset, Integer pageSize) {
@@ -101,20 +108,26 @@ public with sharing class MobileDataService{
     update product;
   }
 
-	@AuraEnabled(cacheable = true)
-	public static List<FatchValueWrapper> getMobilesPicklist(sObject objInfo, string picklistFieldApi){
-		Schema.DescribeSObjectResult objDescribe = objInfo.getSObjectType().getDescribe();
-		map<String, Schema.SObjectField> fieldMap = objDescribe.fields.getMap();
-		list<Schema.PicklistEntry> values = fieldMap.get(picklistFieldApi).getDescribe().getPickListValues();
-		list<FatchValueWrapper> objWrapper = new list<FatchValueWrapper>();
-		for (Schema.PicklistEntry a : values){
-			FatchValueWrapper oFatchValueWrapper = new FatchValueWrapper();
-			oFatchValueWrapper.slabel = a.getLabel();
-			oFatchValueWrapper.svalue = a.getValue();
-			objWrapper.add(oFatchValueWrapper);
-		}
-		return objWrapper;
-	}
+  @AuraEnabled(cacheable=true)
+  public static List<FatchValueWrapper> getMobilesPicklist(
+    sObject objInfo,
+    string picklistFieldApi
+  ) {
+    Schema.DescribeSObjectResult objDescribe = objInfo.getSObjectType()
+      .getDescribe();
+    map<String, Schema.SObjectField> fieldMap = objDescribe.fields.getMap();
+    list<Schema.PicklistEntry> values = fieldMap.get(picklistFieldApi)
+      .getDescribe()
+      .getPickListValues();
+    list<FatchValueWrapper> objWrapper = new List<FatchValueWrapper>();
+    for (Schema.PicklistEntry a : values) {
+      FatchValueWrapper oFatchValueWrapper = new FatchValueWrapper();
+      oFatchValueWrapper.slabel = a.getLabel();
+      oFatchValueWrapper.svalue = a.getValue();
+      objWrapper.add(oFatchValueWrapper);
+    }
+    return objWrapper;
+  }
 
   public with sharing class FatchValueWrapper {
     @auraEnabled
@@ -138,5 +151,28 @@ public with sharing class MobileDataService{
       FROM Basket__c
       WHERE CustomOrderId__c = :orderId
     ];
+  }
+
+  @AuraEnabled
+  public static void updateTotalQuantity(Id orderId) {
+    List<Basket__c> baskets = [
+      SELECT ProductId__c
+      FROM Basket__c
+      WHERE CustomOrderId__c = :orderId
+    ];
+    List<Id> productIds = new List<Id>();
+    for (Basket__c basket : baskets) {
+      productIds.add(basket.ProductId__c);
+    }
+    List<Product2> productsForUpdate = new List<Product2>();
+    for (Product2 product : [
+      SELECT Total_Quantity__c
+      FROM Product2
+      WHERE Id IN :productIds
+    ]) {
+      product.Total_Quantity__c = product.Total_Quantity__c - 1;
+      productsForUpdate.add(product);
+    }
+    update productsForUpdate;
   }
 }

@@ -230,7 +230,13 @@ export default class Order extends NavigationMixin(LightningElement) {
                     }
                 });
             } else {
-                this.isCongratulationModalOpen = true;
+                updateTotalQuantity({ orderId: this.orderId })
+                    .then(() => {
+                        this.isCongratulationModalOpen = true;
+                    })
+                    .catch(error => {
+                        window.console.log(error);
+                    });
             }
         }).catch(error => {
             this.dispatchEvent(
