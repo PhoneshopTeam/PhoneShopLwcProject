@@ -4,6 +4,9 @@ import {
     wire,
     track
 } from 'lwc';
+import {
+    refreshApex
+} from '@salesforce/apex';
 import getMobilesList from '@salesforce/apex/MobileDataService.getMobilesList';
 import getNext from '@salesforce/apex/MobileDataService.getNext';
 import getPrevious from '@salesforce/apex/MobileDataService.getPrevious';
@@ -18,7 +21,6 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track pageSize = 8;
 
     @api userId;
-    mobiles;
 
     @api selectedMobileId;
     @api searchKey = '';
@@ -31,9 +33,12 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @wire(getMobilesList, {
         offset: '$offset', pageSize: '$pageSize', selectedBrand: '$selectedBrand', bySort: '$selectedBySort',
         searchKey: '$searchKey', maxPrice: '$maxPrice', selectedOs: '$selectedOs'
-    })
-    wiredMobiles(result) {
-        this.mobiles = result;
+    }) mobiles;
+
+    get refresh() {
+        console.log('svss');
+        refreshApex(this.mobiles);
+        return true;
     }
 
     @api
