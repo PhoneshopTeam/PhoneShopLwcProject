@@ -17,7 +17,6 @@ export default class MobileSearchForm extends LightningElement {
         { value: '', label: 'choose...' }
     ];
 
-
     @track error = undefined;
 
     @wire(getMobilesPicklist, {
@@ -59,7 +58,7 @@ export default class MobileSearchForm extends LightningElement {
     handleBrandChange(event) {
         this.selectedBrand = event.detail.value;
         event.preventDefault();
-        const searchBrandEvent = new CustomEvent('searchbrand', {
+        const searchBrandEvent = new CustomEvent('changebrand', {
             detail: {
                 selectedBrand: this.selectedBrand
             }
