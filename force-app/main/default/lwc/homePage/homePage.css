@@ -1,31 +1,30 @@
 /*.container{
- 
-    height:1300px; 
+
+    height:1300px;
 }*/
-.popupBlock{
-   margin:30px;
-    align-items: flex-end; 
-    width:200px;
-    height: 300px;
+.popupBlock {
+  margin: 30px;
+  align-items: flex-end;
+  width: 200px;
+  height: 300px;
 }
-.buttonClose{
-    width: 20px;
-    height: 30px;
+.buttonClose {
+  width: 20px;
+  height: 30px;
 }
 .inside {
-    background-color: rgb(185, 180, 180);
-    height: 20px;
+  background-color: rgb(185, 180, 180);
+  height: 20px;
 }
 /*.carousel {
     height:600px;
 }*/
 .image {
-    object-fit: contain;
-    
+  object-fit: contain;
 }
-.workingInfo{
-    background-color: rgb(231, 130, 130);
+.workingInfo {
+  background-color: RGB(157, 155, 155);
 }
 .chat {
-    background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
 }

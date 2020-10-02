@@ -1,11 +1,11 @@
 .item-basket {
-    background-color: rgb(248, 163, 157);
+  background-color: rgb(185, 180, 180);
 }
 .inside {
-    background-color: rgb(247, 162, 162);
-    height: 20px;
+  background-color: rgb(185, 180, 180);
+  height: 20px;
 }
 .user-name {
-    background-color: rgb(241, 224, 176);
-    height: 20px;
+  background-color: rgb(241, 224, 176);
+  height: 20px;
 }

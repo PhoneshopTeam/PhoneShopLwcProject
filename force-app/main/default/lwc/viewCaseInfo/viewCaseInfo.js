@@ -14,6 +14,7 @@ import STATUS_FIELD from '@salesforce/schema/Case.Status';
 export default class ViewCaseInfo extends LightningElement {
 
     @api caseId;
+    // caseId = "5002w000008SYQlAAO";
     orderId;
     error;
     orderNumber;

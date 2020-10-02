@@ -2,5 +2,5 @@
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
   <!-- <c:personalOffice contactId="{userId}" /> -->
-  <c:personalOffice userId="{userId}" userName="{userName}"/>
+  <c:personalOffice userId="{userId}" userName="{userName}" />
 </aura:component>

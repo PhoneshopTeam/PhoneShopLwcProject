@@ -1,3 +1,5 @@
-<aura:component implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId">
-    <c:order orderId="{orderId}" userId="{userId}"  userName="{userName}"/>
+<aura:component
+  implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
+>
+  <c:order orderId="{orderId}" userId="{userId}" userName="{userName}" />
 </aura:component>

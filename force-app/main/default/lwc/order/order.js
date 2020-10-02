@@ -7,6 +7,8 @@ import getOrdersById from "@salesforce/apex/CustomOrderController.getOrdersById"
 import formOrder from "@salesforce/apex/CustomOrderController.formOrder";
 import deleteOrder from "@salesforce/apex/CustomOrderController.deleteOrder";
 import getTypesOfPaymentOptions from "@salesforce/apex/CustomOrderController.getTypesOfPaymentOptions";
+import updateTotalQuantity from "@salesforce/apex/MobileDataService.updateTotalQuantity";
+
 
 import {
     ShowToastEvent
@@ -230,7 +232,9 @@ export default class Order extends NavigationMixin(LightningElement) {
                     }
                 });
             } else {
-                updateTotalQuantity({ orderId: this.orderId })
+                updateTotalQuantity({
+                        orderId: this.orderId
+                    })
                     .then(() => {
                         this.isCongratulationModalOpen = true;
                     })

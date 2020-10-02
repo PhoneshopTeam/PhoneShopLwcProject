@@ -10,3 +10,15 @@ package.xml
 
 # LWC Jest
 **/__tests__/**
+
+# classes
+**/classes/TestControllerForLWCTests
+
+# LWC
+**/lwc/wireApex
+**/lwc/wireCPR
+**/lwc/wireLDS
+**/lwc/otherComponents
+
+# LWC tests
+*/test

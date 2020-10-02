@@ -2,5 +2,6 @@
   description="FromOrderToPersonalOffice"
   implements="lightning:isUrlAddressable,force:lightningQuickAction,force:hasRecordId"
 >
+  <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
   <c:personalOffice userId="{userId}" userName="{userName}" />
 </aura:component>

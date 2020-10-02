@@ -1,46 +1,40 @@
-import {
-  LightningElement,
-  wire
-} from "lwc";
+import { LightningElement, wire } from "lwc";
 import getOrders from "@salesforce/apex/CustomOrderController.getOrders";
 import getCases from "@salesforce/apex/CaseController.getCases";
 import getDeliveryAdress from "@salesforce/apex/ContactController.getDeliveryAdress";
-import {
-  updateRecord
-} from 'lightning/uiRecordApi';
-import {
-  deleteRecord
-} from 'lightning/uiRecordApi';
-import {
-  refreshApex
-} from '@salesforce/apex';
-import {
-  ShowToastEvent
-} from 'lightning/platformShowToastEvent';
-import {
-  CurrentPageReference,
-  NavigationMixin
-} from 'lightning/navigation';
+import { updateRecord } from "lightning/uiRecordApi";
+import { deleteRecord } from "lightning/uiRecordApi";
+import { refreshApex } from "@salesforce/apex";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { CurrentPageReference, NavigationMixin } from "lightning/navigation";
 
-const actions = [{
-  label: "View",
-  name: "view"
-}, {
-  label: "Add new case",
-  name: "new"
-}];
+const actions = [
+  {
+    label: "View",
+    name: "view"
+  },
+  {
+    label: "Add new case",
+    name: "new"
+  }
+];
 
-const actions2 = [{
-  label: "View",
-  name: "view"
-}];
+const actions2 = [
+  {
+    label: "View",
+    name: "view"
+  }
+];
 
-const actions3 = [{
-  label: "Delete",
-  name: "delete"
-}];
+const actions3 = [
+  {
+    label: "Delete",
+    name: "delete"
+  }
+];
 
-const COLS = [{
+const COLS = [
+  {
     label: "Order Number",
     fieldName: "Order_Number__c",
     hideDefaultActions: true
@@ -64,7 +58,8 @@ const COLS = [{
   }
 ];
 
-const COLS2 = [{
+const COLS2 = [
+  {
     label: "Case Number",
     fieldName: "CaseNumber",
     hideDefaultActions: true
@@ -82,7 +77,8 @@ const COLS2 = [{
   }
 ];
 
-const COLS3 = [{
+const COLS3 = [
+  {
     label: "Country",
     fieldName: "Country__c",
     hideDefaultActions: true,
@@ -121,7 +117,6 @@ const COLS3 = [{
 ];
 
 export default class PersonalOffice extends NavigationMixin(LightningElement) {
-
   userId;
   userName;
 
@@ -167,37 +162,40 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       let recs = [];
       for (let i = 0; i < result.data.length; i++) {
         let opp = {};
-        opp.rowNumber = '' + (i + 1);
+        opp.rowNumber = "" + (i + 1);
         opp = Object.assign(opp, result.data[i]);
         recs.push(opp);
       }
       this.orders = recs;
-      console.log(' this.orders = ' + JSON.stringify(this.orders));
+      console.log(" this.orders = " + JSON.stringify(this.orders));
       if (result.data.length > 0) {
         this.showTable = true;
       }
     } else {
       this.error = result.error;
-      console.log('this.error  = ' + JSON.stringify(this.error));
+      console.log("this.error  = " + JSON.stringify(this.error));
     }
   }
 
   @wire(getCases, {
     contactId: "$userId"
-  }) wiredCases(result) {
+  })
+  wiredCases(result) {
     this.resultOfCases = result;
     if (result.data) {
-      console.log('data.length = ' + JSON.stringify(result.data.length));
+      console.log("data.length = " + JSON.stringify(result.data.length));
       let recs2 = [];
       for (let i = 0; i < result.data.length; i++) {
         let opp2 = {};
-        opp2.rowNumber = '' + (i + 1);
+        opp2.rowNumber = "" + (i + 1);
         opp2 = Object.assign(opp2, result.data[i]);
         recs2.push(opp2);
       }
       this.cases = recs2;
-      console.log(' this.resultOfCases = ' + JSON.stringify(this.resultOfCases));
-      console.log(' this.cases = ' + JSON.stringify(this.cases));
+      console.log(
+        " this.resultOfCases = " + JSON.stringify(this.resultOfCases)
+      );
+      console.log(" this.cases = " + JSON.stringify(this.cases));
       if (result.data.length > 0) {
         this.showCaseTable = true;
       }
@@ -208,10 +206,18 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
 
   @wire(getDeliveryAdress, {
     contactId: "$userId"
-  }) addresses;
+  })
+  addresses;
 
   @wire(CurrentPageReference)
   currentPageReference;
+
+  get refresh() {
+    this.renderedCallback();
+    refreshApex(this.resultOfOrders);
+    refreshApex(this.resultOfCases);
+    return true;
+  }
 
   get contactIdFromState() {
     return (
@@ -239,27 +245,25 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
     this.rowNumberOffset2 = this.recordsToDisplay2[0].rowNumber - 1;
   }
 
-
   handleViewOrders() {
     this.isHideOrders = this.isHideOrders ? false : true;
-    this.labelOfOrderButton = this.isHideOrders ?
-      "Hide all my orders" :
-      "Show all my orders";
+    this.labelOfOrderButton = this.isHideOrders
+      ? "Hide all my orders"
+      : "Show all my orders";
   }
 
   handleViewCases() {
     this.isHideCases = this.isHideCases ? false : true;
-    this.labelOfCaseButton = this.isHideCases ?
-      "Hide all my cases" :
-      "Show all my cases";
+    this.labelOfCaseButton = this.isHideCases
+      ? "Hide all my cases"
+      : "Show all my cases";
   }
 
   handleViewAddresses() {
-
     this.isHideAddresses = this.isHideAddresses ? false : true;
-    this.labelOfAddressesButton = this.isHideAddresses ?
-      "Hide my addresses" :
-      "Show my addresses";
+    this.labelOfAddressesButton = this.isHideAddresses
+      ? "Hide my addresses"
+      : "Show my addresses";
   }
 
   refreshAddresses() {
@@ -267,49 +271,52 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
   }
 
   refreshCases() {
-    console.log('refreshCases');
+    console.log("refreshCases");
 
     refreshApex(this.resultOfCases);
-    console.log(' this.cases = ' + JSON.stringify(this.cases));
+    console.log(" this.cases = " + JSON.stringify(this.cases));
     if (this.isHideCases) {
       this.handleViewCases();
     }
   }
 
   handleSave(event) {
-    console.log('handleSave');
-    const recordInputs = event.detail.draftValues.slice().map(draft => {
+    console.log("handleSave");
+    const recordInputs = event.detail.draftValues.slice().map((draft) => {
       const fields = Object.assign({}, draft);
       return {
         fields
       };
     });
-    const promises = recordInputs.map(recordInput => updateRecord(recordInput));
+    const promises = recordInputs.map((recordInput) =>
+      updateRecord(recordInput)
+    );
 
-    Promise.all(promises).then(() => {
-      this.dispatchEvent(
-        new ShowToastEvent({
-          title: 'Success',
-          message: 'Address updated',
-          variant: 'success'
-        })
-      );
-      this.draftValues = [];
+    Promise.all(promises)
+      .then(() => {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: "Success",
+            message: "Address updated",
+            variant: "success"
+          })
+        );
+        this.draftValues = [];
 
-      return refreshApex(this.addresses);
-    }).catch(error => {
-      this.dispatchEvent(
-        new ShowToastEvent({
-          title: 'Error updating record',
-          message: error.body.message,
-          variant: 'error'
-        })
-      );
-    });
+        return refreshApex(this.addresses);
+      })
+      .catch((error) => {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: "Error updating record",
+            message: error.body.message,
+            variant: "error"
+          })
+        );
+      });
   }
 
   navigateToOrderRecord(event) {
-
     const actionName = event.detail.action.name;
     this.orderId = event.detail.row.Id;
 
@@ -337,23 +344,23 @@ export default class PersonalOffice extends NavigationMixin(LightningElement) {
       .then(() => {
         this.dispatchEvent(
           new ShowToastEvent({
-            title: 'Success',
-            message: 'Record deleted',
-            variant: 'success'
+            title: "Success",
+            message: "Record deleted",
+            variant: "success"
           })
         );
         return refreshApex(this.addresses);
       })
-      .catch(error => {
+      .catch((error) => {
         this.dispatchEvent(
           new ShowToastEvent({
-            title: 'Error deleting record',
+            title: "Error deleting record",
             message: error.body.message,
-            variant: 'error'
+            variant: "error"
           })
         );
       });
-    console.log('this.addresses' + JSON.stringify(this.addresses.data));
+    console.log("this.addresses" + JSON.stringify(this.addresses.data));
   }
 
   openOrderModal(event) {

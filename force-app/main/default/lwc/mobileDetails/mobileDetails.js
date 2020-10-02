@@ -209,6 +209,7 @@ export default class MobileDetais extends NavigationMixin(LightningElement) {
 	}
 
 	handleProductToOrder() {
+		console.log('this.discount =' + this.discount);
 		const fields = {};
 		fields[ORDER_NAME_FIELD.fieldApiName] = 'Order ' + this.mobileName;
 		fields[ORDER_CONTACTID_FIELD.fieldApiName] = this.userId;
