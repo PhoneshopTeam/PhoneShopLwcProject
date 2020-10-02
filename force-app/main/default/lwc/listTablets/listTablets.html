@@ -1,0 +1,21 @@
+<template>
+    <template if:true={refresh}>
+        <template if:true={tablets.data}>
+            <div class="slds-scrollable_y">
+                <lightning-card>
+                    <lightning-layout horizontal-align="center" multiple-rows="true">
+                        <template for:each={tablets.data} for:item='tablet'>
+                            <lightning-layout-item flexibility="auto" key={tablet.Id} padding="around-small" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <c-tablet-tile tablet={tablet} ontabletselect={openTabletDetailPage}>
+                                </c-tablet-tile>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-card>
+            </div>
+            <c-paginator onprevious={previousHandler2} onnext={nextHandler2} onselected={changeHandler2}
+                onfirstpage={firstpagehandler} onlastpage={lastpagehandler}></c-paginator>
+        </template>
+    </template>
+</template>

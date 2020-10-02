@@ -1,0 +1,21 @@
+<template>
+    <template if:true={refresh}>
+        <template if:true={bracelets.data}>
+            <div class="slds-scrollable_y">
+                <lightning-card>
+                    <lightning-layout horizontal-align="center" multiple-rows="true">
+                        <template for:each={bracelets.data} for:item='bracelet'>
+                            <lightning-layout-item flexibility="auto" key={bracelet.Id} padding="around-small" size="12"
+                                small-device-size="6" medium-device-size="4" large-device-size="3">
+                                <c-bracelet-tile bracelet={bracelet} onbraceletselect={openBraceletDetailPage}>
+                                </c-bracelet-tile>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-card>
+            </div>
+            <c-paginator onprevious={previousHandler2} onnext={nextHandler2} onselected={changeHandler2}
+                onfirstpage={firstpagehandler} onlastpage={lastpagehandler}></c-paginator>
+        </template>
+    </template>
+</template>

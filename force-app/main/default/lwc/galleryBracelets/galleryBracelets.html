@@ -1,0 +1,21 @@
+<template>
+    <lightning-card>
+        <lightning-layout vertical-align="stretch" multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="around-small" class="search-box">
+                <p class="slds-var-p-horizontal_small">
+                    <c-bracelet-search-form onsort={sortBracelets} onchangekey={handleChangeKey}
+                        onmaxprice={handleMaxPrice}>
+                    </c-bracelet-search-form>
+                </p>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="around-small" class="list-box">
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" variant="brand">
+                    </lightning-spinner>
+                </template>
+                <c-list-bracelets user-id={userId} onloading={handleLoading} ondoneloading={handleDoneLoading}>
+                </c-list-bracelets>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

@@ -1,6 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
-import getMobilesList from '@salesforce/apex/ProductDataService.getMobilesList';
+import getTabletsList from '@salesforce/apex/ProductDataService.getTabletsList';
 import getNext from '@salesforce/apex/ProductDataService.getNext';
 import getPrevious from '@salesforce/apex/ProductDataService.getPrevious';
 import totalRecords from '@salesforce/apex/ProductDataService.totalRecords';
@@ -11,40 +11,21 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     @track pageSize = 8;
 
     @api userId;
-    @api userName;
-    mobiles;
 
-    @track selectedMobileId;
+    @track selectedTabletId;
     @track selectedBySort = '';
     @track searchKey = '';
     @track maxPrice = 0;
-    @track selectedBrand = [];
-    @track selectedOs = [];
     isLoading = true;
 
-    @wire(getMobilesList, {
-
-        offset: '$offset',
-        pageSize: '$pageSize',
-        selectedBrand: '$selectedBrand',
-        bySort: '$selectedBySort',
-        searchKey: '$searchKey',
-        maxPrice: '$maxPrice',
-        selectedOs: '$selectedOs'
-    }) mobiles;
+    @wire(getTabletsList, {
+        offset: '$offset', pageSize: '$pageSize', bySort: '$selectedBySort',
+        searchKey: '$searchKey', maxPrice: '$maxPrice'
+    }) tablets;
 
     get refresh() {
-        refreshApex(this.mobiles);
+        refreshApex(this.tablets);
         return true;
-    }
-
-    @api
-    inputBrand(selectedBrand) {
-        this.isLoading = true;
-        this.notifyLoading(this.isLoading);
-        this.selectedBrand = selectedBrand;
-        this.isLoading = false;
-        this.notifyLoading(this.isLoading);
     }
 
     @api
@@ -74,45 +55,33 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
         this.notifyLoading(this.isLoading);
     }
 
-    @api
-    inputOS(selectedOs) {
-        this.isLoading = true;
-        this.notifyLoading(this.isLoading);
-        this.selectedOs = selectedOs;
-        this.isLoading = false;
-        this.notifyLoading(this.isLoading);
-    }
-
     notifyLoading(isLoading) {
         isLoading ? this.dispatchEvent(new CustomEvent('loading')) : this.dispatchEvent(new CustomEvent('doneloading'));
     }
 
-    openMobileDetailPage(event) {
+    openTabletDetailPage(event) {
         this[NavigationMixin.Navigate]({
             type: 'standard__component',
             attributes: {
                 componentName: "c__FromGalleryToMobileDetails"
             },
             state: {
-                c__mobileId: event.detail.selectedMobileId,
-                c__userId: this.userId,
-                c__userName: this.userName
+                c__mobileId: event.detail.selectedTabletId,
+                c__userId: this.userId
             }
         });
     }
 
     connectedCallback() {
-        totalRecords({ productType: 'mobile' })
-            .then(result => {
-                this.totalRecords = result;
-            });
+        totalRecords().then(result => {
+            this.totalRecords = result;
+        });
     }
 
     previousHandler2() {
         getPrevious({
             offset: this.offset,
-            pageSize: this.pageSize,
-            productType: 'mobile'
+            pageSize: this.pageSize
         }).then(result => {
             this.offset = result;
             if (this.offset === 0) {
@@ -126,8 +95,7 @@ export default class ListMobiles extends NavigationMixin(LightningElement) {
     nextHandler2() {
         getNext({
             offset: this.offset,
-            pageSize: this.pageSize,
-            productType: 'mobile'
+            pageSize: this.pageSize
         }).then(result => {
             this.offset = result;
             if (this.offset + 10 > this.totalRecords) {

@@ -1,0 +1,15 @@
+<template>
+    <lightning-layout horizontal-align="left" vertical-align="end">
+        <lightning-layout-item class="slds-align-middle" padding="horizontal-medium">
+            <lightning-combobox label="Sorting by " value={selectedBySort} placeholder="Sort by ..."
+                options={sortingOptions} onchange={handleSortingOptionChange} class="slds-align-middle">
+            </lightning-combobox>
+            <lightning-input label="Search Record" value={searchKey} type="search" onchange={handleChange}
+                placeholder="Search by name">
+            </lightning-input>
+            <lightning-input label="Enter the maximum price" value={maxPrice} type="number"
+                onchange={handleMaxPriceChange} placeholder="Maximum price...">
+            </lightning-input>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
